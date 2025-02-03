@@ -1,0 +1,10 @@
+using UnityEngine;
+
+namespace Phos.Predicate {
+    [CreateAssetMenu(fileName = "#SCRIPTNAME#", menuName = "Predicate/#SCRIPTNAME#")]
+	public class #SCRIPTNAME# : BasePredicate {
+		public override bool Evaluate() {
+            return false;
+        }
+	}
+}

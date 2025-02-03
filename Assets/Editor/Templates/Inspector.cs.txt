@@ -1,0 +1,10 @@
+using UnityEditor;
+
+namespace PhosEditor {
+    [CustomEditor(typeof("#SCRIPTNAME#"))]
+	public class #SCRIPTNAME# : Editor {
+		public override void OnInspectorGUI() {
+
+		}
+	}
+}
