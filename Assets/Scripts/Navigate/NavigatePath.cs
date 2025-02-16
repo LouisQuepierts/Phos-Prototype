@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 
 namespace Phos.Navigate {
     public class NavigatePath : IEnumerable<NavigateOperation> {
@@ -9,6 +10,7 @@ namespace Phos.Navigate {
         private List<NodePath> m_path;
         private List<NavigateOperation> m_moves;
 
+        private BaseNode m_last;
         private BaseNode m_current;
 
         private int index;
@@ -18,6 +20,7 @@ namespace Phos.Navigate {
             index = 0;
 
             m_moves = new();
+            m_last = src;
             m_current = src;
 
             if (src != null && dst != null) {
@@ -72,6 +75,10 @@ namespace Phos.Navigate {
             return m_moves.GetEnumerator();
         }
 
+        public void Setup(BaseNode last) {
+            m_last = last;
+        }
+
         public bool HasNext() {
             return index < m_moves.Count;
         }
@@ -82,23 +89,44 @@ namespace Phos.Navigate {
             if ((transform.position - m_moves[index].Target).sqrMagnitude < 0.01f) {
                 index++;
                 Debug.Log("Next");
+
+                m_last = m_current;
+                m_current = m_moves[index].Node;
             }
             return m_moves[index];
         }
 
         public void Move(Transform transform) {
             NavigateOperation operation = Next(transform);
-
+            BaseNode node = operation.Node;
+            Vector3 target = operation.Target;
             if (operation.IsTeleport) {
-                transform.position = operation.Target;
+                transform.position = target;
                 return;
             }
 
-            Vector3 delta = operation.Target - transform.position;
+            Vector3 delta = target - transform.position;
             float magnitude = delta.magnitude;
-            float length = Mathf.Min(magnitude, operation.Speed);
-            transform.position += delta * (length / magnitude);
-            
+            float progress = 0;
+
+            if (magnitude < 1e-6) {
+                transform.position = target;
+                progress = 1;
+            } else {
+                float length = Mathf.Min(magnitude, operation.Speed);
+                transform.position += delta * (length / magnitude);
+
+                float distance = Vector3.Distance(m_last.GetNodePoint(), target);
+                float remain = Vector3.Distance(transform.position, target);
+
+                progress = Mathf.Clamp(1 - remain / distance, 0f, 1f);
+            }
+
+            if (transform.up != node.transform.up) {
+                Vector3 up = Vector3.Slerp(m_last.transform.up, node.transform.up, progress);
+                Quaternion rotation = Quaternion.LookRotation(transform.forward, up);
+                transform.rotation = rotation;
+            }
         }
 
         public bool Arrive(Transform transform) {
@@ -113,6 +141,14 @@ namespace Phos.Navigate {
 
         public NavigateOperation Last() {
             return m_moves[^1];
+        }
+
+        public BaseNode LastNode() {
+            return m_last;
+        }
+
+        public BaseNode CurrentNode() {
+            return m_current;
         }
 
         public int Count => m_moves.Count;

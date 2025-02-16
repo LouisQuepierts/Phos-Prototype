@@ -11,7 +11,7 @@ namespace Phos.Navigate {
                     NavigateNode parent = GetComponentInParent<NavigateNode>();
 
                     if (parent == null) {
-                        throw new System.Exception("VirtualNode must be a child of VirtualNode");
+                        throw new System.Exception("VirtualNode must be a child of NavigateNode");
                     }
 
                     m_bound = parent;
@@ -29,6 +29,10 @@ namespace Phos.Navigate {
             if (Bound == null) return;
             Gizmos.color = Color.magenta;
             Gizmos.DrawSphere(GetNodePoint(), 0.1f);
+        }
+
+        public override BaseNode GetConnectedNode(Direction direction) {
+            return this.m_bound.GetConnectedNode(direction);
         }
 #endif
     }

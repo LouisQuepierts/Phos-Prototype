@@ -88,7 +88,7 @@ namespace PhosEditor {
 
             EditorGUILayout.Space(20);
             float offset = EditorGUILayout.FloatField("Offset", node.offset);
-            NavigateNode.Type type = (NavigateNode.Type)EditorGUILayout.EnumPopup("Type", node.type);
+            NodeType type = (NodeType)EditorGUILayout.EnumPopup("NodeType", node.type);
 
             if (offset != node.offset || type != node.type) {
                 node.offset = offset;

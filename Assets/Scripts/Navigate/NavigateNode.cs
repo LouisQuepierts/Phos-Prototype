@@ -21,12 +21,12 @@ namespace Phos.Navigate {
         }
 
 #if UNITY_EDITOR
-        public void Connect(NavigateNode other, Direction direction, bool neighbor = true) {
-            PathManager controller = PathManager.TryGetInstance();
-            if (controller == null) return;
+        //public void Connect(NavigateNode other, Direction direction, bool neighbor = true) {
+        //    PathManager controller = PathManager.TryGetInstance();
+        //    if (controller == null) return;
 
-            controller.Connect(this, other, direction, direction.Opposite(), neighbor);
-        }
+        //    controller.Connect(this, other, direction, direction.Opposite(), neighbor);
+        //}
 
         public bool TryConnect(NavigateNode other) {
             if (other == null || other == this) return false;
@@ -37,22 +37,23 @@ namespace Phos.Navigate {
             float dot = Vector3.Dot(transform.up, other.transform.up);
             if (dot < 0) return false;
 
-            foreach (Direction direction in Directions.Value) {
-                Direction oppsite = direction.Opposite();
-                Vector3 conA = this.GetConnectPoint(direction);
-                Vector3 conB = other.GetConnectPoint(oppsite);
+            foreach (Direction direction in AvailableDirections) {
+                foreach (var opposite in other.AvailableDirections) {
+                    Vector3 conA = this.GetConnectPoint(direction);
+                    Vector3 conB = other.GetConnectPoint(opposite);
 
-                if (Vector3.Distance(conA, conB) < 0.1f) {
-                    controller.Connect(this, other, direction, oppsite);
-                    return true;
-                }
+                    if (Vector3.Distance(conA, conB) < 0.1f) {
+                        controller.Connect(this, other, direction, opposite);
+                        return true;
+                    }
 
-                conA = Camera.main.WorldToScreenPoint(conA);
-                conB = Camera.main.WorldToScreenPoint(conB);
+                    conA = Camera.main.WorldToScreenPoint(conA);
+                    conB = Camera.main.WorldToScreenPoint(conB);
 
-                if (Vector2.Distance(conA, conB) < 0.1f) {
-                    controller.Connect(this, other, direction, oppsite, false);
-                    return true;
+                    if (Vector2.Distance(conA, conB) < 0.1f) {
+                        controller.Connect(this, other, direction, opposite, false);
+                        return true;
+                    }
                 }
             }
 
@@ -90,7 +91,7 @@ namespace Phos.Navigate {
 
             Gizmos.matrix = Matrix4x4.TRS(transform.position, transform.rotation, transform.localScale);
             Gizmos.color = Color.blue;
-            foreach (Direction direction in Directions.Value) {
+            foreach (Direction direction in AvailableDirections) {
                 Gizmos.DrawCube(GetLocalConnectPoint(direction, -0.1f), SCALE);
             }
 
@@ -112,6 +113,16 @@ namespace Phos.Navigate {
                 Gizmos.DrawLine(center, connect);
                 Gizmos.DrawLine(connect, other.GetConnectPoint(path.GetDirection(other)));
             }
+        }
+
+        public override BaseNode GetConnectedNode(Direction direction) {
+            foreach (var item in Paths) {
+                if (item.GetDirection(this) == direction) {
+                    return item.GetOther(this);
+                }
+            }
+
+            return null;
         }
 #endif
     }

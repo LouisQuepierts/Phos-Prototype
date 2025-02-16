@@ -7,6 +7,12 @@ namespace Phos {
         public NavigateNode current;
         public NavigateNode clicked;
 
+        //[Header("Runtime Node")]
+        //public BaseNode pathCurrent;
+        //public BaseNode pathLast;
+        //public float distance;
+        //public float pathProgress;
+
         private NavigatePath m_path = NavigatePath.Empty;
 
         private void Awake() {
@@ -47,6 +53,15 @@ namespace Phos {
                 }
 
                 m_path.Move(transform);
+
+                //pathCurrent = m_path.CurrentNode();
+                //pathLast = m_path.LastNode();
+
+                //if (pathCurrent != null && pathLast != null) {
+                //    distance = Vector3.Distance(pathCurrent.GetNodePoint(), pathLast.GetNodePoint());
+                //    float pDistance = Vector3.Distance(transform.position, pathLast.GetNodePoint());
+                //    pathProgress = Mathf.Clamp(1 - pDistance / distance, 0f, 1f);
+                //}
             }
         }
 
@@ -65,6 +80,16 @@ namespace Phos {
                     Gizmos.DrawCube(path.Target, Vector3.one * 0.2f);
                 }
             }
+
+            //if (pathCurrent != null) {
+            //    Gizmos.color = Color.red;
+            //    Gizmos.DrawCube(pathCurrent.transform.position, Vector3.one);
+            //}
+
+            //if (pathLast != null) {
+            //    Gizmos.color = Color.blue;
+            //    Gizmos.DrawCube(pathLast.transform.position, Vector3.one);
+            //}
         }
 
         private void HandleMouseInput() {
@@ -77,7 +102,16 @@ namespace Phos {
                     if (node != null && node != current && node != clicked && node.accessable) {
                         clicked = node;
                         PathManager controller = PathManager.TryGetInstance();
-                        controller.FindPath(current, clicked, out m_path);
+                        if (controller.FindPath(current, clicked, out m_path)) {
+                            if (Vector3.Distance(current.transform.position, transform.position) > 0.5f) {
+                                Debug.Log("Is Moving");
+                                Direction direction = current.GetSimilarDirection(transform.position);
+                                BaseNode other = current.GetConnectedNode(direction);
+                                if (other != null) {
+                                    m_path.Setup(other);
+                                }
+                            }
+                        }
                     }
                 }
             } else if (Input.GetMouseButtonDown(1)) {

@@ -10,9 +10,20 @@ namespace PhosEditor {
             get; set;
         }
 
-        private readonly static GameObject template = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Editor/Prefabs/Node.prefab");
+        public static bool SelectionChanged {
+            get {
+                if (selectionChanged) {
+                    selectionChanged = false;
+                    return true;
+                }
+                return false;
+            }
+        }
+
+        public readonly static GameObject NodeTemplate = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Editor/Prefabs/Node.prefab");
 
         private static bool enable = false;
+        private static bool selectionChanged = false;
         
         private readonly static Color colorHighlight = new(1f, 0f, 0f, .25f);
         private readonly static Color colorSelected = new(0f, 0f, 1f, 0.25f);
@@ -25,6 +36,11 @@ namespace PhosEditor {
 
         static LevelEditor() {
             SceneView.duringSceneGui += OnSceneGUI;
+            Selection.selectionChanged += OnSelectionChanged;
+        }
+
+        private static void OnSelectionChanged() {
+            selectionChanged = true;
         }
 
         public static void Toggle() {
@@ -254,7 +270,7 @@ namespace PhosEditor {
             position.y = Mathf.Round(position.y);
             position.z = Mathf.Round(position.z);
 
-            GameObject newObject = GameObject.Instantiate(template, target.transform.parent);
+            GameObject newObject = GameObject.Instantiate(NodeTemplate, target.transform.parent);
             newObject.transform.localPosition = position;
             newObject.transform.up = direction;
 
