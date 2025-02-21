@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Phos.Predicate {
-    [CreateAssetMenu(fileName = "TogglePredicate", menuName = "Predicate/TogglePredicate")]
-    public class TogglePredicate : BasePredicate {
+    [Serializable]
+    public class TogglePredicate : IPredicate {
         public bool value;
-        public override bool Evaluate() {
+        public bool Evaluate() {
             return value;
         }
     }

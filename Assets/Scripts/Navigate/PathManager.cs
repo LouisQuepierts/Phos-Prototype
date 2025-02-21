@@ -1,7 +1,4 @@
-using Phos.Navigate;
-using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Phos.Navigate {
@@ -135,7 +132,7 @@ namespace Phos.Navigate {
             Direction opposite,
             bool neighbor = true
         ) {
-            if (src.IsDestroyed() || dest.IsDestroyed()
+            if (!src.enabled || !dest.enabled 
                 || src == dest
                 || IsConnected(src, dest)) return;
 
@@ -151,7 +148,7 @@ namespace Phos.Navigate {
         }
 
         public bool IsConnected(NavigateNode src, NavigateNode dest) {
-            if (src.IsDestroyed() || dest.IsDestroyed() 
+            if (!src.enabled || !dest.enabled
                 || !m_nodePaths.ContainsKey(src) || !m_nodePaths.ContainsKey(dest)) return false;
 
             foreach (var path in src.Paths) {

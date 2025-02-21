@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 namespace Phos.Predicate {
-    public abstract class BasePredicate : ScriptableObject {
+    public interface IPredicate {
         public abstract bool Evaluate();
     }
 }

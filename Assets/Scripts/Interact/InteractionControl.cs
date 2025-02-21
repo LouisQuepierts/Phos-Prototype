@@ -65,21 +65,21 @@ namespace Phos.Interact {
         protected abstract void PerformDrag(Vector3 start, Vector3 current);
 
         /// <summary>
-        /// Align object to nearest segment
+        /// Align object to nearest _value
         /// </summary>
         /// <returns>Does align finished</returns>
         protected abstract bool PerformAlign();
 
         /// <summary>
-        /// Overshoot when align to a neart segment with long distance
+        /// Overshoot when align to a neart _value with long distance
         /// </summary>
         /// <returns>Does overshoot ended</returns>
         protected abstract bool PerformOvershoot();
 
         /// <summary>
-        /// Get segment value after moved, do not round
+        /// Get _value value after moved, do not round
         /// </summary>
-        /// <returns>segment count</returns>
+        /// <returns>_value count</returns>
         protected abstract float UpdateSegment();
 
         /// <summary>

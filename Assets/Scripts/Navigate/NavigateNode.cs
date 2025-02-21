@@ -1,5 +1,4 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Phos.Navigate {
@@ -7,13 +6,12 @@ namespace Phos.Navigate {
     public class NavigateNode : BaseNode {
         private static Vector3 SCALE = new(0.1f, 0.1f, 0.1f);
 
-        [DoNotSerialize]
         [HideInInspector]
         public PathManager.PathList Paths {
             get; set;
         } = new();
 
-        [DoNotSerialize]
+        [NonSerialized]
         public bool accessable = false;
 
         private void OnEnable() {

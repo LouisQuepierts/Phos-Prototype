@@ -1,6 +1,5 @@
 ﻿using Phos.Predicate;
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Phos.Navigate {
@@ -16,10 +15,10 @@ namespace Phos.Navigate {
         public bool neighbor;
 
         public VirtualNode router;
-        public BasePredicate predicate;
+        public PredicateHolder predicate;
 
 #if UNITY_EDITOR
-        [DoNotSerialize]
+        [NonSerialized]
         [HideInInspector]
         public bool foldout = false;
 #endif

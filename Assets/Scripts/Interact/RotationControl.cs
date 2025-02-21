@@ -1,9 +1,7 @@
-﻿using Unity.VisualScripting;
-using UnityEngine;
-using UnityEngine.UIElements;
+﻿using UnityEngine;
 
 namespace Phos.Interact {
-	public class RotationControl : InteractionControl {
+    public class RotationControl : InteractionControl {
         [Header("Rotation Properties")]
         public float segmentAngle = 90;
 

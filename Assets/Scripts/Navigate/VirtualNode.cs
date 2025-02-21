@@ -1,13 +1,12 @@
-﻿using Unity.VisualScripting;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Phos.Navigate {
-	public class VirtualNode : BaseNode {
+    public class VirtualNode : BaseNode {
         private NavigateNode m_bound;
 
         [HideInInspector]
         public NavigateNode Bound { get {
-                if (m_bound == null || m_bound.IsDestroyed()) {
+                if (m_bound == null || !m_bound.enabled) {
                     NavigateNode parent = GetComponentInParent<NavigateNode>();
 
                     if (parent == null) {

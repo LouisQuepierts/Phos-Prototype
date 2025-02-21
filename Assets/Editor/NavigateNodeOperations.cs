@@ -1,7 +1,5 @@
-﻿using Phos;
-using Phos.Navigate;
+﻿using Phos.Navigate;
 using System;
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 

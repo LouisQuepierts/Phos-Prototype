@@ -61,37 +61,45 @@
     <Analyzer Include="D:\Program Files\Unity\Hub\Editor\6000.0.33f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\DebugScript.cs" />
     <Compile Include="Assets\Scripts\Navigate\Behaviour\StairNodeBehaviour.cs" />
-    <Compile Include="Assets\Scripts\ReadonlyProperty.cs" />
-    <Compile Include="Assets\Scripts\Interact\DragHandle.cs" />
-    <Compile Include="Assets\Scripts\Structure\TranslationStructureControl.cs" />
-    <Compile Include="Assets\Scripts\SharedProperty.cs" />
-    <Compile Include="Assets\Scripts\Interact\TranslationControl.cs" />
-    <Compile Include="Assets\Scripts\PlayerController.cs" />
-    <Compile Include="Assets\Scripts\Navigate\VirtualNode.cs" />
-    <Compile Include="Assets\Scripts\Navigate\Behaviour\INodeBehaviour.cs" />
-    <Compile Include="Assets\Scripts\Structure\StructureControl.cs" />
-    <Compile Include="Assets\Scripts\Navigate\Behaviour\ClimbNodeBehaviour.cs" />
-    <Compile Include="Assets\Scripts\Navigate\NavigateOperation.cs" />
-    <Compile Include="Assets\Scripts\Navigate\NavigateNode.cs" />
-    <Compile Include="Assets\Scripts\Predicate\TogglePredicate.cs" />
-    <Compile Include="Assets\Scripts\Predicate\LogicPredicate.cs" />
-    <Compile Include="Assets\Scripts\Interact\RotationControl.cs" />
     <Compile Include="Assets\Scripts\Navigate\NavigatePath.cs" />
+    <Compile Include="Assets\Scripts\ReadonlyProperty.cs" />
     <Compile Include="Assets\Scripts\Navigate\Direction.cs" />
+    <Compile Include="Assets\Scripts\Interact\DragHandle.cs" />
     <Compile Include="Assets\Scripts\Navigate\PathManager.cs" />
+    <Compile Include="Assets\Scripts\Predicate\PredicateHolder.cs" />
+    <Compile Include="Assets\Scripts\Structure\TranslationStructureControl.cs" />
+    <Compile Include="Assets\Scripts\Predicate\StructurePredicate.cs" />
+    <Compile Include="Assets\Scripts\SharedProperty.cs" />
     <Compile Include="Assets\Scripts\MovableObject.cs" />
     <Compile Include="Assets\Scripts\Interact\Axis.cs" />
+    <Compile Include="Assets\Scripts\Interact\TranslationControl.cs" />
     <Compile Include="Assets\Scripts\Navigate\NodeType.cs" />
     <Compile Include="Assets\Scripts\Navigate\NodePath.cs" />
+    <Compile Include="Assets\Scripts\PlayerController.cs" />
+    <Compile Include="Assets\Scripts\Navigate\VirtualNode.cs" />
     <Compile Include="Assets\Scripts\Navigate\Behaviour\CurveNodeBehaviour.cs" />
     <Compile Include="Assets\Scripts\Navigate\BaseNode.cs" />
-    <Compile Include="Assets\Scripts\Predicate\Predicate.cs" />
+    <Compile Include="Assets\Scripts\Structure\AnimationStructure.cs" />
+    <Compile Include="Assets\Scripts\Navigate\Behaviour\INodeBehaviour.cs" />
+    <Compile Include="Assets\Scripts\Structure\StructureControl.cs" />
+    <Compile Include="Assets\Scripts\Utils\SingletonFactory.cs" />
+    <Compile Include="Assets\Scripts\Navigate\Behaviour\ClimbNodeBehaviour.cs" />
     <Compile Include="Assets\Scripts\Interact\InteractionControl.cs" />
+    <Compile Include="Assets\Scripts\Predicate\InteractionPredicate.cs" />
+    <Compile Include="Assets\Scripts\Navigate\NavigateOperation.cs" />
+    <Compile Include="Assets\Scripts\Predicate\IPredicate.cs" />
+    <Compile Include="Assets\Scripts\Navigate\NavigateNode.cs" />
     <Compile Include="Assets\Scripts\Structure\RotationStructureControl.cs" />
     <Compile Include="Assets\Scripts\Utils\StringUtils.cs" />
+    <Compile Include="Assets\Scripts\Predicate\TogglePredicate.cs" />
     <Compile Include="Assets\Scripts\Navigate\Behaviour\GroundNodeBehaviour.cs" />
+    <Compile Include="Assets\Scripts\Utils\InstanceFactory.cs" />
+    <Compile Include="Assets\Scripts\Predicate\LogicPredicate.cs" />
+    <Compile Include="Assets\Scripts\Utils\Factory.cs" />
     <Compile Include="Assets\Scripts\Event\EventBus.cs" />
+    <Compile Include="Assets\Scripts\Interact\RotationControl.cs" />
     <Compile Include="Assets\Scripts\Navigate\CurveHelper.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -565,10 +573,6 @@
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>Library\PackageCache\com.unity.ext.nunit\net40\unity-custom\nunit.framework.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.VisualScripting.Antlr3.Runtime">
-      <HintPath>Library\PackageCache\com.unity.visualscripting\Runtime\VisualScripting.Flow\Dependencies\NCalc\Unity.VisualScripting.Antlr3.Runtime.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Mono.Cecil">
@@ -1099,12 +1103,8 @@
       <HintPath>Library\ScriptAssemblies\Unity.AI.Navigation.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.VisualScripting.Shared.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.Shared.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.VisualScripting.Core.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.Core.Editor.dll</HintPath>
+    <Reference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary">
+      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.Multiplayer.Center.Common">
@@ -1113,14 +1113,6 @@
     </Reference>
     <Reference Include="Unity.AI.Navigation.Updater">
       <HintPath>Library\ScriptAssemblies\Unity.AI.Navigation.Updater.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary">
-      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.VisualScripting.Flow.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.Flow.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.RenderPipeline.Universal.ShaderLibrary">
@@ -1151,24 +1143,20 @@
       <HintPath>Library\ScriptAssemblies\Unity.Timeline.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.VisualScripting.State.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.State.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.AI.Navigation.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.AI.Navigation.Editor.dll</HintPath>
+    <Reference Include="Unity.RenderPipelines.Core.Editor.Shared">
+      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Core.Editor.Shared.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.Mathematics">
       <HintPath>Library\ScriptAssemblies\Unity.Mathematics.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
+    <Reference Include="Unity.AI.Navigation.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.AI.Navigation.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.VisualScripting.SettingsProvider.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.SettingsProvider.Editor.dll</HintPath>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.RenderPipelines.Core.Editor">
@@ -1179,24 +1167,16 @@
       <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Core.ShaderLibrary.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.RenderPipelines.Core.Editor.Shared">
-      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Core.Editor.Shared.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Unity.PlasticSCM.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.PlasticSCM.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.RenderPipelines.Universal.Runtime">
-      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.Multiplayer.Center.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Multiplayer.Center.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.VisualScripting.State">
-      <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.State.dll</HintPath>
+    <Reference Include="Unity.RenderPipelines.Universal.Runtime">
+      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.Mathematics.Editor">
@@ -1243,16 +1223,8 @@
       <HintPath>Library\ScriptAssemblies\Unity.Rendering.LightTransport.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.VisualScripting.Flow">
-      <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.Flow.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Unity.Rendering.LightTransport.Runtime">
       <HintPath>Library\ScriptAssemblies\Unity.Rendering.LightTransport.Runtime.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.VisualScripting.Core">
-      <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.Core.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.InputSystem">

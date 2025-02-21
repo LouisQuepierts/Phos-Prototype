@@ -2,14 +2,12 @@
 using UnityEngine;
 
 namespace Phos.Predicate {
-    [CreateAssetMenu(fileName = "LogicPredicate", menuName = "Predicate/LogicPredicate")]
-	public class LogicPredicate : BasePredicate {
-        [InspectorName("Operator")]
+    [Serializable]
+	public class LogicPredicate : IPredicate {
         public Operator opr;
+        public PredicateHolder[] predicates;
 
-        public BasePredicate[] predicates;
-
-        public override bool Evaluate() {
+        public bool Evaluate() {
             return opr switch {
                 Operator.AND => EvaluateAnd(),
                 Operator.OR => EvaluateOr(),
@@ -19,11 +17,11 @@ namespace Phos.Predicate {
         }
 
         private bool EvaluateOr() {
-            return predicates.Length == 0 || Array.Exists(predicates, predicate => predicate.Evaluate());
+            return predicates.Length == 0 || Array.Exists(predicates, predicate => predicate.instance.Evaluate());
         }
 
         private bool EvaluateAnd() {
-            return predicates.Length == 0 || Array.TrueForAll(predicates, predicate => predicate.Evaluate());
+            return predicates.Length == 0 || Array.TrueForAll(predicates, predicate => predicate.instance.Evaluate());
         }
     }
 
