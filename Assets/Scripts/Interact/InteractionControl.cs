@@ -1,10 +1,12 @@
-﻿using Phos.Structure;
+﻿using Phos.Callback;
+using Phos.Navigate;
+using Phos.Structure;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Phos.Interact {
-    public abstract partial class InteractionControl : MonoBehaviour {
+    public abstract partial class InteractionControl : CallbackProvider<StructureControl.CallbackContext> {
         [Header("Alignment Properties")]
         [Range(0.1f, 1f)]
         public float alignTime = 0.1f;
@@ -41,6 +43,12 @@ namespace Phos.Interact {
 
         public SharedProperty<float> m_segment = new(0f);
         public SharedProperty<float> m_highlight = new(0f);
+
+        public float Segment {
+            get {
+                return m_segment.Value;
+            }
+        }
 
         /// <summary>
         /// Get click point
@@ -95,6 +103,10 @@ namespace Phos.Interact {
             if (Raycast(ray, out float enter, true)) {
                 m_start = ray.GetPoint(enter);
             }
+
+            Post(new StructureControl.CallbackContext(
+                m_segment.Value, StructureControl.CallbackType.InteractBegin
+            ));
         }
 
         /// <summary>
@@ -120,6 +132,32 @@ namespace Phos.Interact {
             m_overshooting = ShouldOvershoot();
             m_pressed = false;
             m_aligning = true;
+            InteractFinished();
+        }
+
+        private void InteractFinished() {
+            foreach (var structure in structures) {
+                structure.InteractFinished();
+            }
+
+            Post(new StructureControl.CallbackContext(
+                m_segment.Value, StructureControl.CallbackType.InteractFinished
+            ));
+        }
+
+        private void AlignFinished() {
+            foreach (var structure in structures) {
+                structure.AlginFinished();
+            }
+
+            Post(new StructureControl.CallbackContext(
+                m_segment.Value, StructureControl.CallbackType.AlignFinished
+            ));
+
+            PathManager controller = PathManager.GetInstance();
+            PlayerController player = PlayerController.GetInstance();
+
+            controller.UpdateAccessable(player.current);
         }
 
         public void AddHandle(DragHandle handle) {
@@ -132,6 +170,7 @@ namespace Phos.Interact {
         }
 
         private void FixedUpdate() {
+            bool aligning = m_aligning;
             if (m_aligning) {
                 if (m_overshooting) {
                     if (overshootCeoficient > 0 && PerformOvershoot()) {
@@ -144,6 +183,10 @@ namespace Phos.Interact {
                 }
 
                 m_segment.Value = Mathf.Round(UpdateSegment() * 1000f) / 1000f;
+            }
+
+            if (m_aligning != aligning) {
+                AlignFinished();
             }
         }
 

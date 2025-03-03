@@ -6,14 +6,24 @@ using UnityEngine;
 using UnityEditorInternal;
 using System.IO;
 using Phos.Navigate;
+using static Codice.Client.Commands.WkTree.WorkspaceTreeNode;
+using Phos.Utils;
+using Phos.Predicate;
+using static Codice.Client.BaseCommands.Import.Commit;
+using Phos.Callback;
+using Phos.Structure;
 
 namespace PhosEditor {
     [CustomEditor(typeof(NavigateNode))]
     public class NavigateNodeInspector : Editor {
+        private static readonly Color gray = new Color(0.28f, 0.28f, 0.28f);
+
         private const float CAST_DISTANCE = 1f;
 
         private NavigateNode input;
         private ReorderableList list;
+
+        private PredicateType newPredicateType;
 
         private void OnDisable() {
             LevelEditor.HighlightPath = null;
@@ -87,6 +97,36 @@ namespace PhosEditor {
             NavigateNode node = (NavigateNode)target;
 
             EditorGUILayout.Space(20);
+
+            bool dirty = false;
+            //bool clicked = Event.current.type == EventType.MouseDown && Event.current.button == 0;
+            //bool hasClicked = false;
+
+            //EditorGUILayout.LabelField("Paths");
+            //EditorGUILayout.BeginVertical(GUI.skin.box);
+            //foreach (var path in node.Paths) {
+            //    Rect rect = EditorGUILayout.BeginVertical();
+            //    EditorGUI.DrawRect(rect, gray);
+            //    path.foldout = EditorGUILayout.Foldout(path.foldout, $"{path.nodeA.transform.position} - {path.nodeB.transform.position}", true);
+
+            //    if (path.foldout && DrawPathProperties(path)) {
+            //        dirty = true;
+            //    }
+
+            //    //EditorGUILayout.LabelField($"{path.nodeA.transform.position} - {path.nodeB.transform.position}");
+            //    EditorGUILayout.EndVertical();
+
+            //    if (clicked && !hasClicked) {
+            //        hasClicked = rect.Contains(Event.current.mousePosition);
+
+            //        if (hasClicked && LevelEditor.HighlightPath != path) {
+            //            LevelEditor.HighlightPath = path; 
+            //            SceneView.RepaintAll();
+            //        }
+            //    }
+            //}
+            //EditorGUILayout.EndVertical();
+
             float offset = EditorGUILayout.FloatField("Offset", node.offset);
             NodeType type = (NodeType)EditorGUILayout.EnumPopup("NodeType", node.type);
 
@@ -112,7 +152,96 @@ namespace PhosEditor {
             if (GUILayout.Button("Reset Connections")) {
                 (node).ResetConnection();
             }
+
+            if (dirty) {
+                EditorUtility.SetDirty(target);
+            }
         }
+
+        //private bool DrawPathProperties(NodePath path) {
+        //    bool changed = false;
+        //    var directionA = (Direction)EditorGUILayout.EnumPopup("Direction A", path.directionA);
+        //    var directionB = (Direction)EditorGUILayout.EnumPopup("Direction B", path.directionB);
+        //    var active = EditorGUILayout.Toggle("Active", path.active);
+        //    var neighbor = EditorGUILayout.Toggle("Neighbor", path.neighbor); VirtualNode router = null;
+
+        //    if (!neighbor) {
+        //        router = (VirtualNode)EditorGUILayout.ObjectField("VirtualNode", path.router, typeof(VirtualNode), true);
+        //    }
+
+        //    // Draw Predicates
+        //    EditorGUILayout.LabelField("Predicate");
+
+        //    EditorGUILayout.BeginHorizontal();
+        //    EditorGUILayout.Space(1);
+        //    EditorGUILayout.BeginVertical();
+        //    var predicate = path.predicate;
+        //    var logicalOperator = (LogicalOperator)EditorGUILayout.EnumPopup("Operator", predicate.@operator);
+
+        //    path.showPredicates = EditorGUILayout.Foldout(path.showPredicates, "Predicates");
+
+        //    if (path.showPredicates) {
+        //        Stack<int> erase = new Stack<int>(predicate.predicates.Count);
+        //        for (int i = 0; i < predicate.predicates.Count; i++) {
+        //            BasePredicate instance = predicate.predicates[i];
+
+        //            if (instance == null) {
+        //                erase.Push(i);
+        //            } else {
+        //                predicate.predicates[i] = (BasePredicate)EditorGUILayout.ObjectField("Instance", instance, typeof(BasePredicate), true);
+        //            }
+        //        }
+
+        //        while (erase.Count != 0) {
+        //            int i = erase.Pop();
+        //            predicate.predicates.RemoveAt(i);
+        //            changed = true;
+        //        }
+
+        //        EditorGUILayout.Space(5);
+        //        newPredicateType = (PredicateType)EditorGUILayout.EnumPopup("Type", newPredicateType);
+        //        if (GUILayout.Button("Create")) {
+        //            UnityEngine.Object target = serializedObject.targetObject;
+        //            if (target is MonoBehaviour @object) {
+        //                Type predicateType = PredicateHolder.GetPredicateType(newPredicateType);
+        //                GameObject predicateInstance = new GameObject(newPredicateType.ToString() + " Predicate");
+        //                BasePredicate i = (BasePredicate)predicateInstance.AddComponent(predicateType);
+        //                predicateInstance.transform.position = Vector3.zero;
+        //                predicateInstance.transform.parent = @object.gameObject.transform;
+        //                predicate.predicates.Add(i);
+        //                changed = true;
+        //            }
+        //            //property.objectReferenceValue = (Object)PredicateHolder.Factory.GetInstance(selected);
+        //        }
+        //    }
+
+        //    EditorGUILayout.Space(5);
+        //    EditorGUILayout.EndVertical();
+        //    EditorGUILayout.EndHorizontal();
+
+        //    var callback = (CallbackProvider<StructureControl.CallbackContext>)EditorGUILayout.ObjectField("Callback", path.callback, typeof(CallbackProvider<StructureControl.CallbackContext>), true);
+
+        //    EditorGUILayout.Space(5);
+
+        //    if (directionA != path.directionA
+        //        || directionB != path.directionB
+        //        || active != path.active
+        //        || neighbor != path.neighbor
+        //        || router != path.router
+        //        || callback != path.callback
+        //        || logicalOperator != path.predicate.@operator) {
+        //        path.directionA = directionA;
+        //        path.directionB = directionB;
+        //        path.active = active;
+        //        path.neighbor = neighbor;
+        //        path.router = router;
+        //        path.callback = callback;
+        //        path.predicate.@operator = logicalOperator;
+        //        changed = true;
+        //    }
+
+        //    return changed;
+        //}
 
         private static void ChainedRebuildConnections(NavigateNode target) {
             HashSet<NavigateNode> visited = new();

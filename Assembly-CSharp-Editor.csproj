@@ -62,7 +62,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Editor\LevelEditor.cs" />
-    <Compile Include="Assets\Editor\PropertyDrawers\PredicateHolderProeprtyDrawer.cs" />
     <Compile Include="Assets\Editor\LevelEditorWindow.cs" />
     <Compile Include="Assets\Editor\NavigateNodeOperations.cs" />
     <Compile Include="Assets\Editor\Inspectors\CurveHelperInspector.cs" />
@@ -71,6 +70,7 @@
     <Compile Include="Assets\Editor\Inspectors\MovableObjectInspector.cs" />
     <Compile Include="Assets\Editor\Inspectors\NavigateNodeInspector.cs" />
     <Compile Include="Assets\Editor\TemplateCreator.cs" />
+    <Compile Include="Assets\Editor\PropertyDrawers\BasePredicateProeprtyDrawer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Editor\Templates\ScriptableObject.cs.txt" />

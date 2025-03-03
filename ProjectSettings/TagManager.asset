@@ -13,10 +13,8 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - Top
-  - 
-  - 
+  - Player
+  - Trigger
   - 
   - 
   - 
@@ -25,8 +23,10 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
+  - RenderLayer1
+  - RenderLayer2
+  - RenderLayer3
+  - RenderLayer4
   - 
   - 
   - 

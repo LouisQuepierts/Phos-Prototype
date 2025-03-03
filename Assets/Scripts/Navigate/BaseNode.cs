@@ -106,7 +106,7 @@ namespace Phos.Navigate {
 
         public abstract BaseNode GetConnectedNode(Direction direction);
 
-        protected ReadOnlyArray<Direction> AvailableDirections {
+        public ReadOnlyArray<Direction> AvailableDirections {
             get { return this.type.GetNodeBehaviour().GetAvailableDirections(); }
         }
     }

@@ -3,6 +3,8 @@ using UnityEngine;
 
 namespace Phos {
     public class PlayerController : MonoBehaviour {
+        private static PlayerController instance;
+
         public NavigateNode current;
         public NavigateNode clicked;
 
@@ -14,7 +16,13 @@ namespace Phos {
 
         private NavigatePath m_path = NavigatePath.Empty;
 
+        public static PlayerController GetInstance() {
+            return instance;
+        }
+
         private void Awake() {
+            instance = this;
+
             Ray ray = new Ray(transform.position + transform.up, -transform.up);
 
             if (Physics.Raycast(ray, out RaycastHit hit, 4f)) {
@@ -89,6 +97,9 @@ namespace Phos {
             //    Gizmos.color = Color.blue;
             //    Gizmos.DrawCube(pathLast.transform.position, Vector3.one);
             //}
+
+            Gizmos.color = Color.red;
+            Gizmos.DrawRay(transform.position, transform.forward);
         }
 
         private void HandleMouseInput() {

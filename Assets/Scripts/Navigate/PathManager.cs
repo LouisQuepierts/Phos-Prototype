@@ -1,9 +1,11 @@
+using Phos.Callback;
+using Phos.Structure;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Phos.Navigate {
     [ExecuteInEditMode]
-    public class PathManager : MonoBehaviour {
+    public class PathManager : MonoBehaviour, ICallbackListener<object> {
         private static PathManager CurrentManager;
 
         public static PathManager TryGetInstance() {
@@ -66,6 +68,8 @@ namespace Phos.Navigate {
                     visited.Add(next);
                 }
             }
+
+            Debug.Log("Update Accessable");
         }
 
         public void Register(NavigateNode node) {
@@ -199,6 +203,10 @@ namespace Phos.Navigate {
 
         public Dictionary<NavigateNode, PathList>.KeyCollection GetRegisteredNodes() {
             return m_nodePaths.Keys;
+        }
+
+        public void OnCallback(object t) {
+
         }
 
         public PathList this[NavigateNode node] {

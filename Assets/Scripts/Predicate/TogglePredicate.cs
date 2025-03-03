@@ -2,10 +2,9 @@
 using UnityEngine;
 
 namespace Phos.Predicate {
-    [Serializable]
-    public class TogglePredicate : IPredicate {
+    public class TogglePredicate : BasePredicate {
         public bool value;
-        public bool Evaluate() {
+        public override bool Evaluate(bool source = false) {
             return value;
         }
     }

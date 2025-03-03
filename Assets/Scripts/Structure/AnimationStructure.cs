@@ -13,7 +13,12 @@ namespace Phos.Structure {
 
         private Animation _animation;
         private float _timePreSegment;
+        private float _segment;
         private float _value;
+
+        public override float Segment {
+            get => _segment / playPreSegment;
+        }
 
         private void OnEnable() {
             _timePreSegment = clip.length / playPreSegment;
@@ -40,17 +45,17 @@ namespace Phos.Structure {
         }
 
         protected override void UpdateTransform() {
-            float segment = m_segment.Value;
+            _segment = m_segment.Value;
             if (cycle) {
-                segment = Mathf.Abs(segment) % cyclePeriod;
+                _segment = Mathf.Abs(_segment) % cyclePeriod;
                 float half = cyclePeriod / 2f;
 
-                if (segment > half) {
-                    segment = cyclePeriod - segment;
+                if (_segment > half) {
+                    _segment = cyclePeriod - _segment;
                 }
             }
 
-            _value = segment * _timePreSegment;
+            _value = _segment * _timePreSegment;
         }
 
         private void UpdateSegment() {

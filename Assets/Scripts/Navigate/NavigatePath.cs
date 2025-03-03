@@ -88,7 +88,7 @@ namespace Phos.Navigate {
 
             if ((transform.position - m_moves[index].Target).sqrMagnitude < 0.01f) {
                 index++;
-                Debug.Log("Next");
+                //Debug.Log("Next");
 
                 m_last = m_current;
                 m_current = m_moves[index].Node;
@@ -122,11 +122,10 @@ namespace Phos.Navigate {
                 progress = Mathf.Clamp(1 - remain / distance, 0f, 1f);
             }
 
-            if (transform.up != node.transform.up) {
-                Vector3 up = Vector3.Slerp(m_last.transform.up, node.transform.up, progress);
-                Quaternion rotation = Quaternion.LookRotation(transform.forward, up);
-                transform.rotation = rotation;
-            }
+            Vector3 up = Vector3.Slerp(m_last.transform.up, node.transform.up, progress);
+            Vector3 forward = Vector3.ProjectOnPlane(delta, up).normalized;
+            Quaternion rotation = Quaternion.LookRotation(forward, up);
+            transform.rotation = rotation;
         }
 
         public bool Arrive(Transform transform) {

@@ -1,9 +1,12 @@
-﻿using Phos.Predicate;
+﻿using Phos.Callback;
+using Phos.Predicate;
+using Phos.Structure;
 using System;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace Phos.Navigate {
-    [System.Serializable]
+    [Serializable]
     public class NodePath {
         public NavigateNode nodeA;
         public NavigateNode nodeB;
@@ -15,12 +18,12 @@ namespace Phos.Navigate {
         public bool neighbor;
 
         public VirtualNode router;
-        public PredicateHolder predicate;
 
 #if UNITY_EDITOR
-        [NonSerialized]
-        [HideInInspector]
+        [NonSerialized, HideInInspector]
         public bool foldout = false;
+        [NonSerialized, HideInInspector]
+        public bool showPredicates = false;
 #endif
 
         public NodePath(NavigateNode nodeA, NavigateNode nodeB, Direction directionA, Direction directionB, bool active, bool neighbor) {
