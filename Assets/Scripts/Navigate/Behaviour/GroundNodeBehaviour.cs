@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem.Utilities;
 
 namespace Phos.Navigate.Behaviour {
     public class GroundNodeBehaviour : INodeBehaviour {
@@ -8,7 +8,7 @@ namespace Phos.Navigate.Behaviour {
 
         private GroundNodeBehaviour() { }
 
-        public ReadOnlyArray<Direction> GetAvailableDirections() {
+        public IReadOnlyList<Direction> GetAvailableDirections() {
             return Directions.Value;
         }
 

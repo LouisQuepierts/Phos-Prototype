@@ -4,6 +4,7 @@ using UnityEngine;
 namespace Phos.Navigate {
     [ExecuteInEditMode]
     public class NavigateNode : BaseNode {
+        public static bool ShowGizmos = true;
         private static Vector3 SCALE = new(0.1f, 0.1f, 0.1f);
 
         [HideInInspector]
@@ -77,6 +78,8 @@ namespace Phos.Navigate {
         }
 
         private void OnDrawGizmos() {
+            if (!ShowGizmos) return;
+
             Vector3 center = GetNodePoint();
             Matrix4x4 matrix = Gizmos.matrix;
             Gizmos.color = Color.blue;

@@ -25,7 +25,7 @@ namespace Phos.Navigate {
 
 #if UNITY_EDITOR
         private void OnDrawGizmos() {
-            if (Bound == null) return;
+            if (!NavigateNode.ShowGizmos || Bound == null) return;
             Gizmos.color = Color.magenta;
             Gizmos.DrawSphere(GetNodePoint(), 0.1f);
         }

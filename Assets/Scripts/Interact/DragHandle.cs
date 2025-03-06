@@ -6,7 +6,7 @@ namespace Phos.Interact {
 	public class DragHandle : MonoBehaviour {
         private ReadonlyProperty<float> m_highlight;
 
-		private InteractionControl m_control;
+		private BaseInteractionControl m_control;
         private Material m_material;
 
         private void Update() {
@@ -41,7 +41,7 @@ namespace Phos.Interact {
             m_control?.SetHovered(false);
         }
 
-        internal void Bind(InteractionControl control, SharedProperty<float> property) {
+        internal void Bind(BaseInteractionControl control, SharedProperty<float> property) {
             m_control = control;
             m_highlight = property;
         }

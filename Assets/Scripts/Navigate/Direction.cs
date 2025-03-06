@@ -1,5 +1,5 @@
 ﻿using System;
-using UnityEngine.InputSystem.Utilities;
+using System.Collections.Generic;
 
 namespace Phos.Navigate {
     [Serializable]
@@ -8,7 +8,7 @@ namespace Phos.Navigate {
     }
 
     public static class Directions {
-        public static readonly ReadOnlyArray<Direction> Value = new(new Direction[]{
+        public static readonly IReadOnlyList<Direction> Value = new List<Direction>(new Direction[]{
             Direction.Forward, Direction.Backward, Direction.Right, Direction.Left
         });
     }

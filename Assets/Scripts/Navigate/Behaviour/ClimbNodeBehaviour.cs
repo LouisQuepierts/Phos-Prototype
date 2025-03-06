@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using UnityEngine.InputSystem.Utilities;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Phos.Navigate.Behaviour {
     public class ClimbNodeBehaviour : INodeBehaviour {
@@ -7,7 +7,7 @@ namespace Phos.Navigate.Behaviour {
 
         private ClimbNodeBehaviour() { }
 
-        public ReadOnlyArray<Direction> GetAvailableDirections() {
+        public IReadOnlyList<Direction> GetAvailableDirections() {
             throw new System.NotImplementedException();
         }
 
@@ -24,6 +24,10 @@ namespace Phos.Navigate.Behaviour {
         }
 
         public Vector3 GetRelativeConnectPoint(Transform transform, Direction direction, float offset = 0) {
+            throw new System.NotImplementedException();
+        }
+
+        public void PerformPassing(PlayerController controller, NavigateOperation operation, BaseNode last) {
             throw new System.NotImplementedException();
         }
     }

@@ -16,11 +16,13 @@ namespace Phos.Structure {
         public enum CallbackType {
             InteractBegin,
             InteractFinished,
+            ChangeSegment,
             AlignFinished
         }
 
         protected ReadonlyProperty<float> m_segment;
         private float m_lastSegment;
+        private int m_lastRounded;
 
         public virtual float Segment {
             get => m_segment.Value;
@@ -28,8 +30,12 @@ namespace Phos.Structure {
 
         public abstract void InteractFinished();
 
-        public void AlginFinished() {
+        public virtual void AlginFinished() {
             Post(new CallbackContext(m_segment.Value, CallbackType.AlignFinished));
+        }
+
+        public virtual void SegmentChanged() {
+            Post(new CallbackContext(m_segment.Value, CallbackType.ChangeSegment));
         }
 
         protected abstract void UpdateTransform();

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 namespace Phos.Interact {
-    public class TranslationControl : InteractionControl {
+    public class TranslationControl : BaseInteractionControl {
         [Header("Translation Properties")]
         public float segmentLength = 1;
 

@@ -59,7 +59,7 @@ namespace Phos {
                     return;
                 }
 
-                m_path.Move(transform);
+                m_path.Move(this);
 
                 //pathCurrent = m_path.CurrentNode();
                 //pathLast = m_path.LastNode();

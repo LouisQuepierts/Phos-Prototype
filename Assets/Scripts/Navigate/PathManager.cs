@@ -68,8 +68,6 @@ namespace Phos.Navigate {
                     visited.Add(next);
                 }
             }
-
-            Debug.Log("Update Accessable");
         }
 
         public void Register(NavigateNode node) {

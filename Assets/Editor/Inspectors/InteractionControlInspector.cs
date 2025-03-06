@@ -3,13 +3,13 @@ using UnityEditor;
 using UnityEngine;
 
 namespace PhosEditor {
-    [CustomEditor(typeof(InteractionControl), true)]
+    [CustomEditor(typeof(BaseInteractionControl), true)]
 	public class InteractionControlInspector : Editor {
 		private bool foldout = false;
         public override void OnInspectorGUI() {
 			base.OnInspectorGUI();
 
-			InteractionControl control = (InteractionControl)target;
+			BaseInteractionControl control = (BaseInteractionControl)target;
             EditorGUILayout.Space(10);
             foldout = EditorGUILayout.BeginFoldoutHeaderGroup(foldout, "Shared Properties");
             EditorGUILayout.EndFoldoutHeaderGroup();

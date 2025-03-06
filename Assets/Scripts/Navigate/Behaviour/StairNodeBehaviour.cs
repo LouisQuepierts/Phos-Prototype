@@ -1,17 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem.Utilities;
 
 namespace Phos.Navigate.Behaviour {
     public class StairNodeBehaviour : INodeBehaviour {
         public static readonly StairNodeBehaviour Instance = new();
-        private static readonly ReadOnlyArray<Direction> AvailableDirections = new ReadOnlyArray<Direction>(new Direction[] {
+        private static readonly IReadOnlyList<Direction> AvailableDirections = new List<Direction>(new Direction[] {
             Direction.Forward, Direction.Backward
         });
 
         private StairNodeBehaviour() { }
 
-        public ReadOnlyArray<Direction> GetAvailableDirections() {
+        public IReadOnlyList<Direction> GetAvailableDirections() {
             return AvailableDirections;
         }
 

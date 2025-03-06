@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using UnityEngine.InputSystem.Utilities;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Phos.Navigate {
     public abstract class BaseNode : MonoBehaviour {
@@ -35,22 +35,22 @@ namespace Phos.Navigate {
             //    NodeType.GROUND => direction switch {
             //        Direction.Forward => transform.forward * mul,
             //        Direction.Backward => transform.forward * -mul,
-            //        Direction.Right => transform.right * mul,
-            //        Direction.Left => transform.right * -mul,
+            //        Direction.Right => transform.on * mul,
+            //        Direction.Left => transform.on * -mul,
             //        _ => throw new NotImplementedException()
             //    },
             //    NodeType.STAIR => direction switch {
             //        Direction.Forward => (transform.forward + transform.up) * mul,
             //        Direction.Backward => (transform.forward + transform.up) * -mul,
-            //        Direction.Right => transform.right * mul,
-            //        Direction.Left => transform.right * -mul,
+            //        Direction.Right => transform.on * mul,
+            //        Direction.Left => transform.on * -mul,
             //        _ => throw new NotImplementedException()
             //    },
             //    NodeType.CLIMB => direction switch {
             //        Direction.Forward => transform.up * mul,
             //        Direction.Backward => transform.up * -mul,
-            //        Direction.Right => transform.right * mul,
-            //        Direction.Left => transform.right * -mul,
+            //        Direction.Right => transform.on * mul,
+            //        Direction.Left => transform.on * -mul,
             //        _ => throw new NotImplementedException()
             //    },
             //    _ => throw new NotImplementedException(),
@@ -64,22 +64,22 @@ namespace Phos.Navigate {
             //    NodeType.GROUND => direction switch {
             //        Direction.Forward => Vector3.forward * mul,
             //        Direction.Backward => Vector3.forward * -mul,
-            //        Direction.Right => Vector3.right * mul,
-            //        Direction.Left => Vector3.right * -mul,
+            //        Direction.Right => Vector3.on * mul,
+            //        Direction.Left => Vector3.on * -mul,
             //        _ => throw new NotImplementedException()
             //    },
             //    NodeType.STAIR => direction switch {
             //        Direction.Forward => (Vector3.forward + Vector3.up) * mul,
             //        Direction.Backward => (Vector3.forward + Vector3.up) * -mul,
-            //        Direction.Right => Vector3.right * mul,
-            //        Direction.Left => Vector3.right * -mul,
+            //        Direction.Right => Vector3.on * mul,
+            //        Direction.Left => Vector3.on * -mul,
             //        _ => throw new NotImplementedException()
             //    },
             //    NodeType.CLIMB => direction switch {
             //        Direction.Forward => Vector3.up * mul,
             //        Direction.Backward => Vector3.up * -mul,
-            //        Direction.Right => Vector3.right * mul,
-            //        Direction.Left => Vector3.right * -mul,
+            //        Direction.Right => Vector3.on * mul,
+            //        Direction.Left => Vector3.on * -mul,
             //        _ => throw new NotImplementedException()
             //    },
             //    _ => throw new NotImplementedException(),
@@ -101,12 +101,17 @@ namespace Phos.Navigate {
                     distance = Vector3.SqrMagnitude(point - position);
                 }
             }
+
             return similar;
+        }
+
+        public void PerformPassing(PlayerController controller, NavigateOperation operation, BaseNode last) {
+            type.GetNodeBehaviour().PerformPassing(controller, operation, last);
         }
 
         public abstract BaseNode GetConnectedNode(Direction direction);
 
-        public ReadOnlyArray<Direction> AvailableDirections {
+        public IReadOnlyList<Direction> AvailableDirections {
             get { return this.type.GetNodeBehaviour().GetAvailableDirections(); }
         }
     }

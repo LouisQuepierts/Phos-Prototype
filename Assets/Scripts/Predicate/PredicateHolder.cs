@@ -49,13 +49,4 @@ namespace Phos.Predicate {
             Pass
         }
     }
-
-    [Serializable]
-    public enum PredicateType {
-        Toggle,
-        Structure,
-        Interact,
-        Position,
-        Auto
-    }
 }

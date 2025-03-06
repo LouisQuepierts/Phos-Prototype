@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Assertions.Must;
 
 namespace Phos.Navigate {
     public class NavigatePath : IEnumerable<NavigateOperation> {
@@ -30,14 +29,14 @@ namespace Phos.Navigate {
 
                     if (item.router != null) {
                         if (item.router.Bound == current) {
-                            m_moves.Add(new NavigateOperation(item.router, true));
-                            m_moves.Add(new NavigateOperation(other));
+                            m_moves.Add(new NavigateOperation(item.router, item, true));
+                            m_moves.Add(new NavigateOperation(other, item));
                         } else {
-                            m_moves.Add(new NavigateOperation(item.router));
-                            m_moves.Add(new NavigateOperation(other, true));
+                            m_moves.Add(new NavigateOperation(item.router, item));
+                            m_moves.Add(new NavigateOperation(other, item, true));
                         }
                     } else {
-                        m_moves.Add(new NavigateOperation(other));
+                        m_moves.Add(new NavigateOperation(other, item));
                     }
 
 
@@ -84,21 +83,25 @@ namespace Phos.Navigate {
         }
 
         public NavigateOperation Next(Transform transform) {
-            if (index == m_moves.Count - 1) return Last();
+            if (index >= m_moves.Count - 1) return Last();
 
             if ((transform.position - m_moves[index].Target).sqrMagnitude < 0.01f) {
                 index++;
-                //Debug.Log("Next");
+                Debug.Log("Next");
+
+                NavigateOperation current = m_moves[index];
 
                 m_last = m_current;
-                m_current = m_moves[index].Node;
+                m_current = current.Node;
             }
+
             return m_moves[index];
         }
 
-        public void Move(Transform transform) {
+        public void Move(PlayerController controller) {
+            Transform transform = controller.transform;
             NavigateOperation operation = Next(transform);
-            BaseNode node = operation.Node;
+
             Vector3 target = operation.Target;
             if (operation.IsTeleport) {
                 transform.position = target;
@@ -106,6 +109,15 @@ namespace Phos.Navigate {
             }
 
             Vector3 delta = target - transform.position;
+
+            if (Vector3.Dot(transform.forward, delta) < 1) {
+                Vector3 forward = Vector3.ProjectOnPlane(delta, transform.up);
+                transform.forward = forward;
+            }
+
+            controller.current?.PerformPassing(controller, operation, m_last);
+
+            /*Vector3 delta = target - transform.position;
             float magnitude = delta.magnitude;
             float progress = 0;
 
@@ -122,16 +134,18 @@ namespace Phos.Navigate {
                 progress = Mathf.Clamp(1 - remain / distance, 0f, 1f);
             }
 
-            Vector3 up = Vector3.Slerp(m_last.transform.up, node.transform.up, progress);
-            Vector3 forward = Vector3.ProjectOnPlane(delta, up).normalized;
-            Quaternion rotation = Quaternion.LookRotation(forward, up);
-            transform.rotation = rotation;
+            if (transform.up != node.transform.up) {
+                Vector3 up = Vector3.Slerp(m_last.transform.up, node.transform.up, progress);
+                Vector3 forward = Vector3.ProjectOnPlane(delta, up);
+                Quaternion rotation = Quaternion.LookRotation(forward, up);
+                transform.rotation = rotation;
+            }*/
         }
 
         public bool Arrive(Transform transform) {
-            for (int i = index; i < m_path.Count; i++) {
-                if (!m_path[i].active) {
-                    m_path.RemoveRange(i, m_path.Count - i);
+            for (int i = index; i < m_moves.Count; i++) {
+                if (!m_moves[i].Path.active) {
+                    m_moves.RemoveRange(i, m_moves.Count - i);
                     break;
                 }
             }

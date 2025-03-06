@@ -12,7 +12,7 @@ namespace Phos.BiOperation {
 
         private NodePath m_path;
 
-        private void Awake() {
+        private void Start() {
             if (nodeA == null || nodeB == null || nodeA == nodeB) {
                 Debug.LogError("BiOperation.TogglePathOperation must have two difference nodes!");
                 enabled = false;
@@ -32,6 +32,8 @@ namespace Phos.BiOperation {
             }
 
             m_path.active = trigger != invert;
+
+            Debug.Log($"Update Access {m_path.active}");
         }
     }
 }

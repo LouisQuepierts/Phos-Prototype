@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Phos.Predicate {
     public class InteractionPredicate : BasePredicate {
-        public InteractionControl control;
+        public BaseInteractionControl control;
         public MathComparater comparater;
         public float value;
 

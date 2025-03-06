@@ -18,25 +18,31 @@ namespace PhosEditor {
 
 
 
-        [MenuItem("Assets/Create/C# Script", false, 1)]
-        static void CreateCSharp() {
+        [MenuItem("Assets/Create/Script/C#", false, 1)]
+        static void CreateTemplateCSharp() {
             preprocessor = DefaultPreprocessor;
             CreateTemplate("CSharp.cs");
         }
 
-        [MenuItem("Assets/Create/ScritableObject Script", false, 1)]
+        [MenuItem("Assets/Create/Script/ScritableObject", false, 1)]
         static void CreateScriptableObject() {
             preprocessor = DefaultPreprocessor;
             CreateTemplate("ScriptableObject.cs");
         }
 
-        [MenuItem("Assets/Create/Predicate Script", false, 1)]
+        [MenuItem("Assets/Create/Script/MonoBehaviour", false, 1)]
+        static void CreateMonoBehaviour() {
+            preprocessor = DefaultPreprocessor;
+            CreateTemplate("MonoBehaviour.cs");
+        }
+
+        [MenuItem("Assets/Create/Script/Predicate", false, 1)]
         static void CreatePredicate() {
             preprocessor = DefaultPreprocessor;
             CreateTemplate("Predicate.cs");
         }
 
-        [MenuItem("Assets/Create/Inspector Script", false, 1)]
+        [MenuItem("Assets/Create/Script/Inspector", false, 1)]
         static void CreateInspector() {
             preprocessor = (text, filename) => {
                 string objectType = filename.Replace("Inspector", "");

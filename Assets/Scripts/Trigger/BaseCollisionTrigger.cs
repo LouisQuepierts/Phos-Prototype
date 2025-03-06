@@ -13,12 +13,10 @@ namespace Phos.Trigger {
             }
 
             Debug.Log($"Try Register Listeners");
-            var components = GetComponents(typeof(Component));
-            foreach (var component in components) {
-                if (component is ICallbackListener<bool> listener) {
-                    Register(listener);
-                    Debug.Log($"Register Listener {listener}");
-                }
+            var listeners = GetComponents<ICallbackListener<bool>>();
+            foreach (var listener in listeners) {
+                Register(listener);
+                Debug.Log($"Register Listener {listener}");
             }
 
             OnStart();

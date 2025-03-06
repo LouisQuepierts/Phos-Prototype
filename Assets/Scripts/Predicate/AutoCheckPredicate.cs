@@ -16,7 +16,7 @@ namespace Phos.Predicate {
             foreach (var direactionA in nodeA.AvailableDirections) {
                 foreach (var direactionB in nodeB.AvailableDirections) {
                     Vector3 delta = nodeA.GetConnectPoint(direactionA) - nodeB.GetConnectPoint(direactionB);
-                    if (delta.magnitude < 1e-6) {
+                    if (delta.magnitude < 1e-2) {
                         return true;
                     }
                 }

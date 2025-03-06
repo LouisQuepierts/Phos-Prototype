@@ -23,8 +23,6 @@ namespace PhosEditor {
         private NavigateNode input;
         private ReorderableList list;
 
-        private PredicateType newPredicateType;
-
         private void OnDisable() {
             LevelEditor.HighlightPath = null;
         }
@@ -156,6 +154,9 @@ namespace PhosEditor {
             if (dirty) {
                 EditorUtility.SetDirty(target);
             }
+
+            GUILayout.Label("Misc");
+            NavigateNode.ShowGizmos = GUILayout.Toggle(NavigateNode.ShowGizmos, "Show Gizmos");
         }
 
         //private bool DrawPathProperties(NodePath path) {

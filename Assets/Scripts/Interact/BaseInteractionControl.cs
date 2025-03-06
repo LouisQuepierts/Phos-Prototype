@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Phos.Interact {
-    public abstract partial class InteractionControl : CallbackProvider<StructureControl.CallbackContext> {
+    public abstract partial class BaseInteractionControl : CallbackProvider<StructureControl.CallbackContext> {
         [Header("Alignment Properties")]
         [Range(0.1f, 1f)]
         public float alignTime = 0.1f;
@@ -32,6 +32,8 @@ namespace Phos.Interact {
 
         public Axis axis;
 
+        public bool active = true;
+
         private Vector3 m_start;
 
         private bool m_aligning;
@@ -44,56 +46,31 @@ namespace Phos.Interact {
         public SharedProperty<float> m_segment = new(0f);
         public SharedProperty<float> m_highlight = new(0f);
 
+        private int m_lastSegment = 0;
+
         public float Segment {
             get {
                 return m_segment.Value;
             }
         }
 
-        /// <summary>
-        /// Get click point
-        /// </summary>
-        /// <param name="ray"></param>
-        /// <param name="enter"></param>
-        /// <param name="update"></param>
-        /// <returns>Has hit point</returns>
         protected abstract bool Raycast(Ray ray, out float enter, bool update);
 
-        /// <summary>
-        /// Determine whether overshoot is necessary after mouse release
-        /// </summary>
-        /// <returns>Should overshoot when mouse released</returns>
         protected abstract bool ShouldOvershoot();
 
-        /// <summary>
-        /// Drag control object
-        /// </summary>
-        /// <param name="start"></param>
-        /// <param name="current"></param>
         protected abstract void PerformDrag(Vector3 start, Vector3 current);
 
-        /// <summary>
-        /// Align object to nearest _value
-        /// </summary>
-        /// <returns>Does align finished</returns>
         protected abstract bool PerformAlign();
 
-        /// <summary>
-        /// Overshoot when align to a neart _value with long distance
-        /// </summary>
-        /// <returns>Does overshoot ended</returns>
         protected abstract bool PerformOvershoot();
 
-        /// <summary>
-        /// Get _value value after moved, do not round
-        /// </summary>
-        /// <returns>_value count</returns>
         protected abstract float UpdateSegment();
 
-        /// <summary>
-        /// Handle mouse pressed action
-        /// </summary>
         public void MousePressed() {
+            if (!active) {
+                return;
+            }
+
             m_pressed = true;
             m_aligning = false;
             m_overshooting = false;
@@ -113,6 +90,10 @@ namespace Phos.Interact {
         /// Handle mouse dragging action
         /// </summary>
         public void MouseDragging() {
+            if (!active) {
+                return;
+            }
+
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
             if (Raycast(ray, out float enter, false)) {
@@ -123,6 +104,7 @@ namespace Phos.Interact {
 
                 m_start = current;
             }
+
         }
 
         /// <summary>
@@ -157,6 +139,23 @@ namespace Phos.Interact {
             PathManager controller = PathManager.GetInstance();
             PlayerController player = PlayerController.GetInstance();
 
+
+            controller.UpdateAccessable(player.current);
+        }
+
+        private void OnChangeSegment() {
+            foreach (var structure in structures) {
+                structure.SegmentChanged();
+            }
+
+            Post(new StructureControl.CallbackContext(
+                m_segment.Value, StructureControl.CallbackType.ChangeSegment
+            ));
+
+            PathManager controller = PathManager.GetInstance();
+            PlayerController player = PlayerController.GetInstance();
+
+            Debug.Log("Update Accessable");
             controller.UpdateAccessable(player.current);
         }
 
@@ -188,6 +187,12 @@ namespace Phos.Interact {
             if (m_aligning != aligning) {
                 AlignFinished();
             }
+
+            int rounded = Mathf.RoundToInt(m_segment.Value);
+            if (rounded != m_lastSegment) {
+                OnChangeSegment();
+            }
+            m_lastSegment = rounded;
         }
 
         private void Update() {

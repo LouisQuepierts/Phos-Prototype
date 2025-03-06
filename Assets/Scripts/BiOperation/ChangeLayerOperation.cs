@@ -5,20 +5,18 @@ using UnityEngine;
 
 namespace Phos.BiOperation {
     public class ChangeLayerOperation : BaseBiOperation {
-        public GameObject target;
+        public GameObject[] targets;
 
         [Header("Layer")]
-        public string left;
-        public string right;
+        public string off;
+        public string on;
 
-        private int m_left;
-        private int m_right;
+        private int m_off;
+        private int m_on;
 
         private void Start() {
-            Debug.Log("Awake");
-
-            m_left = LayerMask.NameToLayer(left);
-            m_right = LayerMask.NameToLayer(right);
+            m_off = LayerMask.NameToLayer(off);
+            m_on = LayerMask.NameToLayer(on);
         }
 
         public override void Execute(bool trigger) {
@@ -26,10 +24,9 @@ namespace Phos.BiOperation {
                 return;
             }
 
-            if (trigger) {
-                target.layer = m_right;
-            } else {
-                target.layer = m_left;
+            int layer = trigger ? m_on : m_off;
+            foreach (var obj in targets) {
+                obj.layer = layer;
             }
         }
     }
