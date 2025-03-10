@@ -15,7 +15,11 @@ namespace Phos.Optical {
 
         private void OnEnable() {
             if (globalLight == null) {
-                enabled = false;
+                globalLight = FindObjectOfType<Light>();
+
+                if (globalLight == null) {
+                    enabled = false;
+                }
             }
         }
 

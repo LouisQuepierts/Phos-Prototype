@@ -19,6 +19,16 @@ namespace Phos.Navigate {
             PathManager.TryGetInstance().Register(this);
         }
 
+        public override BaseNode GetConnectedNode(Direction direction) {
+            foreach (var item in Paths) {
+                if (item.GetDirection(this) == direction) {
+                    return item.GetOther(this);
+                }
+            }
+
+            return null;
+        }
+
 #if UNITY_EDITOR
         //public void Connect(NavigateNode other, Direction direction, bool neighbor = true) {
         //    PathManager controller = PathManager.TryGetInstance();
@@ -114,16 +124,6 @@ namespace Phos.Navigate {
                 Gizmos.DrawLine(center, connect);
                 Gizmos.DrawLine(connect, other.GetConnectPoint(path.GetDirection(other)));
             }
-        }
-
-        public override BaseNode GetConnectedNode(Direction direction) {
-            foreach (var item in Paths) {
-                if (item.GetDirection(this) == direction) {
-                    return item.GetOther(this);
-                }
-            }
-
-            return null;
         }
 #endif
     }

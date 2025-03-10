@@ -7,6 +7,6 @@ namespace Phos {
             this.value = value;
         }
 
-        public T Value { get { return value; } }
+        public T Value => value;
     }
 }

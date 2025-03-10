@@ -1,5 +1,4 @@
-﻿using UnityEditor.Animations;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Phos.Structure {
     public class AnimationStructure : StructureControl {

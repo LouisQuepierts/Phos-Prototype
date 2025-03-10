@@ -4,6 +4,8 @@ namespace Phos.Navigate {
     public class VirtualNode : BaseNode {
         private NavigateNode m_bound;
 
+        public Direction direction;
+
         [HideInInspector]
         public NavigateNode Bound { get {
                 if (m_bound == null || !m_bound.enabled) {
@@ -21,17 +23,15 @@ namespace Phos.Navigate {
             }
         }
 
-        public Direction direction;
+        public override BaseNode GetConnectedNode(Direction direction) {
+            return this.m_bound.GetConnectedNode(direction);
+        }
 
 #if UNITY_EDITOR
         private void OnDrawGizmos() {
             if (!NavigateNode.ShowGizmos || Bound == null) return;
             Gizmos.color = Color.magenta;
             Gizmos.DrawSphere(GetNodePoint(), 0.1f);
-        }
-
-        public override BaseNode GetConnectedNode(Direction direction) {
-            return this.m_bound.GetConnectedNode(direction);
         }
 #endif
     }
