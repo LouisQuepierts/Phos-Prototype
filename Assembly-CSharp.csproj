@@ -26,7 +26,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>Temp\Bin\Debug\Assembly-CSharp\</OutputPath>
-    <DefineConstants>UNITY_2022_2_21;UNITY_2022_2;UNITY_2022;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER;UNITY_2019_3_OR_NEWER;UNITY_2019_4_OR_NEWER;UNITY_2020_1_OR_NEWER;UNITY_2020_2_OR_NEWER;UNITY_2020_3_OR_NEWER;UNITY_2021_1_OR_NEWER;UNITY_2021_2_OR_NEWER;UNITY_2021_3_OR_NEWER;UNITY_2022_1_OR_NEWER;UNITY_2022_2_OR_NEWER;PLATFORM_ARCH_64;UNITY_64;UNITY_INCLUDE_TESTS;ENABLE_AR;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_EVENT_QUEUE;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_TEXTURE_STREAMING;ENABLE_VIRTUALTEXTURING;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_UNITYWEBREQUEST;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_COLLAB_SOFTLOCKS;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_EDITOR_GAME_SERVICES;ENABLE_UNITY_GAME_SERVICES_ANALYTICS_SUPPORT;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_GENERATE_NATIVE_PLUGINS_FOR_ASSEMBLIES_API;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_MANAGED_JOBS;ENABLE_MANAGED_TRANSFORM_JOBS;ENABLE_MANAGED_ANIMATION_JOBS;ENABLE_MANAGED_AUDIO_JOBS;ENABLE_MANAGED_UNITYTLS;INCLUDE_DYNAMIC_GI;ENABLE_SCRIPTING_GC_WBARRIERS;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_VIDEO;ENABLE_ACCELERATOR_CLIENT_DEBUGGING;ENABLE_NAVIGATION_PACKAGE_DEBUG_VISUALIZATION;ENABLE_NAVIGATION_HEIGHTMESH_RUNTIME_SUPPORT;ENABLE_NAVIGATION_UI_REQUIRES_PACKAGE;PLATFORM_STANDALONE;TEXTCORE_1_0_OR_NEWER;PLATFORM_STANDALONE_WIN;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_NVIDIA;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_OUT_OF_PROCESS_CRASH_HANDLER;ENABLE_CLUSTER_SYNC;ENABLE_CLUSTERINPUT;PLATFORM_UPDATES_TIME_OUTSIDE_OF_PLAYER_LOOP;GFXDEVICE_WAITFOREVENT_MESSAGEPUMP;PLATFORM_INITIALIZES_MEMORY_MANAGER_EXPLICITLY;ENABLE_MONO;NET_STANDARD_2_0;NET_STANDARD;NET_STANDARD_2_1;NETSTANDARD;NETSTANDARD2_1;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_UNITY_COLLECTIONS_CHECKS;ENABLE_BURST_AOT;UNITY_TEAM_LICENSE;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_DIRECTOR;ENABLE_LOCALIZATION;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_TILEMAP;ENABLE_TIMELINE;ENABLE_INPUT_SYSTEM;ENABLE_LEGACY_INPUT_MANAGER;TEXTCORE_FONT_ENGINE_1_5_OR_NEWER;CSHARP_7_OR_LATER;CSHARP_7_3_OR_NEWER</DefineConstants>
+    <DefineConstants>UNITY_2022_2_21;UNITY_2022_2;UNITY_2022;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER;UNITY_2019_3_OR_NEWER;UNITY_2019_4_OR_NEWER;UNITY_2020_1_OR_NEWER;UNITY_2020_2_OR_NEWER;UNITY_2020_3_OR_NEWER;UNITY_2021_1_OR_NEWER;UNITY_2021_2_OR_NEWER;UNITY_2021_3_OR_NEWER;UNITY_2022_1_OR_NEWER;UNITY_2022_2_OR_NEWER;PLATFORM_ARCH_64;UNITY_64;UNITY_INCLUDE_TESTS;ENABLE_AR;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_EVENT_QUEUE;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_TEXTURE_STREAMING;ENABLE_VIRTUALTEXTURING;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_UNITYWEBREQUEST;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_COLLAB_SOFTLOCKS;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_EDITOR_GAME_SERVICES;ENABLE_UNITY_GAME_SERVICES_ANALYTICS_SUPPORT;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_GENERATE_NATIVE_PLUGINS_FOR_ASSEMBLIES_API;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_MANAGED_JOBS;ENABLE_MANAGED_TRANSFORM_JOBS;ENABLE_MANAGED_ANIMATION_JOBS;ENABLE_MANAGED_AUDIO_JOBS;ENABLE_MANAGED_UNITYTLS;INCLUDE_DYNAMIC_GI;ENABLE_SCRIPTING_GC_WBARRIERS;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_VIDEO;ENABLE_ACCELERATOR_CLIENT_DEBUGGING;ENABLE_NAVIGATION_PACKAGE_DEBUG_VISUALIZATION;ENABLE_NAVIGATION_HEIGHTMESH_RUNTIME_SUPPORT;ENABLE_NAVIGATION_UI_REQUIRES_PACKAGE;PLATFORM_STANDALONE;TEXTCORE_1_0_OR_NEWER;PLATFORM_STANDALONE_WIN;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_NVIDIA;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_OUT_OF_PROCESS_CRASH_HANDLER;ENABLE_CLUSTER_SYNC;ENABLE_CLUSTERINPUT;PLATFORM_UPDATES_TIME_OUTSIDE_OF_PLAYER_LOOP;GFXDEVICE_WAITFOREVENT_MESSAGEPUMP;PLATFORM_INITIALIZES_MEMORY_MANAGER_EXPLICITLY;ENABLE_MONO;NET_STANDARD_2_0;NET_STANDARD;NET_STANDARD_2_1;NETSTANDARD;NETSTANDARD2_1;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_UNITY_COLLECTIONS_CHECKS;ENABLE_BURST_AOT;UNITY_TEAM_LICENSE;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_DIRECTOR;ENABLE_LOCALIZATION;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_TILEMAP;ENABLE_TIMELINE;ENABLE_INPUT_SYSTEM;ENABLE_LEGACY_INPUT_MANAGER;TEXTCORE_FONT_ENGINE_1_5_OR_NEWER;UNITY_POST_PROCESSING_STACK_V2;CSHARP_7_OR_LATER;CSHARP_7_3_OR_NEWER</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169,0649</NoWarn>
@@ -55,9 +55,11 @@
      <Compile Include="Assets\Scripts\Structure\AnimationStructure.cs" />
      <Compile Include="Assets\Scripts\Navigate\Behaviour\INodeBehaviour.cs" />
      <Compile Include="Assets\Scripts\BiOperation\ChangeLayerOperation.cs" />
+     <Compile Include="Assets\Scripts\UI\FloatUpdater.cs" />
      <Compile Include="Assets\Scripts\Structure\StructureControl.cs" />
-     <Compile Include="Assets\Scripts\Optical\OpticalHelper.cs" />
+     <Compile Include="Assets\Scripts\Optical\OpticalDeviceManager.cs" />
      <Compile Include="Assets\Scripts\Controller\ConditionalController.cs" />
+     <Compile Include="Assets\Scripts\UI\MenuManager.cs" />
      <Compile Include="Assets\Scripts\BiOperation\ToggleInteractionControlOperation.cs" />
      <Compile Include="Assets\Scripts\Optical\LightData.cs" />
      <Compile Include="Assets\Scripts\ReadonlyProperty.cs" />
@@ -69,19 +71,24 @@
      <Compile Include="Assets\Scripts\Navigate\Direction.cs" />
      <Compile Include="Assets\Scripts\Interact\DragHandle.cs" />
      <Compile Include="Assets\Scripts\Utils\SingletonFactory.cs" />
+     <Compile Include="Assets\Scripts\UI\MenuController.cs" />
      <Compile Include="Assets\Scripts\Navigate\PathManager.cs" />
      <Compile Include="Assets\Scripts\Predicate\PredicateHolder.cs" />
      <Compile Include="Assets\Scripts\Navigate\Behaviour\ClimbNodeBehaviour.cs" />
      <Compile Include="Assets\Scripts\Callback\CallbackProvider.cs" />
      <Compile Include="Assets\Scripts\Structure\TranslationStructureControl.cs" />
      <Compile Include="Assets\Scripts\Optical\ConcaveMirror.cs" />
+     <Compile Include="Assets\Test.cs" />
      <Compile Include="Assets\Scripts\Trigger\BaseTrigger.cs" />
      <Compile Include="Assets\Scripts\Controller\TriggerableController.cs" />
      <Compile Include="Assets\Scripts\Predicate\StructurePredicate.cs" />
      <Compile Include="Assets\Scripts\Predicate\BasePredicate.cs" />
      <Compile Include="Assets\Scripts\Predicate\InteractionPredicate.cs" />
      <Compile Include="Assets\Scripts\Navigate\NavigateOperation.cs" />
+     <Compile Include="Assets\Scripts\Optical\LightBeam.cs" />
      <Compile Include="Assets\Scripts\Utils\LogicalOperator.cs" />
+     <Compile Include="Assets\Scripts\Optical\DynamicPathMesh.cs" />
+     <Compile Include="Assets\Scripts\Optical\OpticalDevice.cs" />
      <Compile Include="Assets\Scripts\Optical\ILightAcceptable.cs" />
      <Compile Include="Assets\Scripts\Predicate\IPredicate.cs" />
      <Compile Include="Assets\Scripts\Utils\MathComparater.cs" />
@@ -113,6 +120,7 @@
      <Compile Include="Assets\Scripts\Trigger\Collision\DirectionalCollisionTrigger.cs" />
      <Folder Include="Assets" />
      <Folder Include="Assets\Scripts\Trigger\Collision" />
+     <Folder Include="Assets\Menus" />
      <None Include="Assets\Resources\BillingMode.json" />
      <Folder Include="Assets\Scripts\BiOperation" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
@@ -134,8 +142,11 @@
      <Folder Include="Assets\TextMesh Pro" />
      <Folder Include="Assets\Scripts\Interact" />
      <Folder Include="Assets\Scripts\Player" />
+     <None Include="Assets\Shaders\LightBeam.shader" />
+     <None Include="Assets\Shaders\UI\FrostedGlass.shader" />
      <Folder Include="Assets\Shaders" />
      <Folder Include="Assets\Objects\Predicates" />
+     <Folder Include="Assets\Animations\Menu" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
      <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
@@ -147,6 +158,7 @@
      <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
      <Folder Include="Assets\Animations\Scene" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
+     <Folder Include="Assets\Scripts\PostProcessing" />
      <Folder Include="Assets\TextMesh Pro\Shaders" />
      <Folder Include="Assets\TextMesh Pro\Resources\Style Sheets" />
      <Folder Include="Assets\TextMesh Pro\Fonts" />
@@ -162,6 +174,7 @@
      <Folder Include="Assets\Scripts\Navigate" />
      <Folder Include="Assets\Shaders\UI" />
      <None Include="Assets\Shaders\UI\RoundRect.shader" />
+     <Folder Include="Assets\Prefabs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
      <Folder Include="Assets\Resources" />
@@ -171,7 +184,7 @@
      <Folder Include="Assets\Scripts\Navigate\Behaviour" />
      <Folder Include="Assets\Objects" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
-     <None Include="Assets\Shaders\UI\GuassianBlur.shader" />
+     <None Include="Assets\Shaders\UI\GaussianBlur.shader" />
      <Folder Include="Assets\Scripts\Predicate" />
      <None Include="Assets\TextMesh Pro\Sprites\EmojiOne.json" />
      <Folder Include="Assets\Scripts\Recall" />
@@ -815,6 +828,51 @@
      <Reference Include="Unity.AI.Navigation">
      <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.AI.Navigation.dll</HintPath>
      </Reference>
+     <Reference Include="Unity.Postprocessing.Runtime">
+     <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.Postprocessing.Runtime.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Analytics.DataPrivacy">
+     <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.Analytics.DataPrivacy.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Services.Core">
+     <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.Services.Core.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Rider.Editor">
+     <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.Rider.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.2D.Sprite.Editor">
+     <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.2D.Sprite.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.VisualScripting.Flow">
+     <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.VisualScripting.Flow.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Services.Core.Environments">
+     <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.Services.Core.Environments.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.Purchasing.SecurityCore">
+     <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\UnityEngine.Purchasing.SecurityCore.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.Purchasing.Codeless">
+     <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\UnityEngine.Purchasing.Codeless.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.TextMeshPro">
+     <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEditor.Purchasing">
+     <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\UnityEditor.Purchasing.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Services.Core.Analytics">
+     <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.Services.Core.Analytics.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.AI.Navigation.Editor.ConversionSystem">
+     <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.AI.Navigation.Editor.ConversionSystem.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.VSCode.Editor">
+     <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.VSCode.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEngine.Purchasing">
+     <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\UnityEngine.Purchasing.dll</HintPath>
+     </Reference>
      <Reference Include="UnityEngine.XR.LegacyInputHelpers">
      <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\UnityEngine.XR.LegacyInputHelpers.dll</HintPath>
      </Reference>
@@ -824,8 +882,8 @@
      <Reference Include="UnityEngine.Purchasing.SecurityStub">
      <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\UnityEngine.Purchasing.SecurityStub.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.Analytics.DataPrivacy">
-     <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.Analytics.DataPrivacy.dll</HintPath>
+     <Reference Include="UnityEngine.Advertisements">
+     <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\UnityEngine.Advertisements.dll</HintPath>
      </Reference>
      <Reference Include="Unity.Timeline.Editor">
      <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>
@@ -851,41 +909,26 @@
      <Reference Include="Unity.VisualScripting.Core.Editor">
      <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.VisualScripting.Core.Editor.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.Rider.Editor">
-     <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.Rider.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="UnityEngine.Advertisements">
-     <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\UnityEngine.Advertisements.dll</HintPath>
-     </Reference>
      <Reference Include="Analytics">
      <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Analytics.dll</HintPath>
      </Reference>
      <Reference Include="UnityEngine.UI">
      <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
      </Reference>
-     <Reference Include="UnityEditor.XR.LegacyInputHelpers">
-     <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\UnityEditor.XR.LegacyInputHelpers.dll</HintPath>
-     </Reference>
      <Reference Include="UnityEngine.Advertisements.Editor">
      <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\UnityEngine.Advertisements.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="UnityEditor.XR.LegacyInputHelpers">
+     <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\UnityEditor.XR.LegacyInputHelpers.dll</HintPath>
      </Reference>
      <Reference Include="Purchasing.Common">
      <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Purchasing.Common.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.VisualScripting.Flow">
-     <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.VisualScripting.Flow.dll</HintPath>
-     </Reference>
      <Reference Include="Unity.VisualScripting.Flow.Editor">
      <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.VisualScripting.Flow.Editor.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.2D.Sprite.Editor">
-     <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.2D.Sprite.Editor.dll</HintPath>
-     </Reference>
      <Reference Include="Unity.Timeline">
      <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.Timeline.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.Services.Core.Environments">
-     <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.Services.Core.Environments.dll</HintPath>
      </Reference>
      <Reference Include="Unity.VisualScripting.SettingsProvider.Editor">
      <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.VisualScripting.SettingsProvider.Editor.dll</HintPath>
@@ -893,50 +936,26 @@
      <Reference Include="Unity.Services.Analytics">
      <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.Services.Analytics.dll</HintPath>
      </Reference>
-     <Reference Include="UnityEngine.Purchasing.SecurityCore">
-     <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\UnityEngine.Purchasing.SecurityCore.dll</HintPath>
-     </Reference>
      <Reference Include="Unity.AI.Navigation.Updater">
      <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.AI.Navigation.Updater.dll</HintPath>
-     </Reference>
-     <Reference Include="UnityEngine.Purchasing.Codeless">
-     <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\UnityEngine.Purchasing.Codeless.dll</HintPath>
      </Reference>
      <Reference Include="Unity.VisualScripting.State.Editor">
      <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.VisualScripting.State.Editor.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.Services.Core">
-     <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.Services.Core.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.TextMeshPro">
-     <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
-     </Reference>
-     <Reference Include="UnityEditor.Purchasing">
-     <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\UnityEditor.Purchasing.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.Services.Core.Analytics">
-     <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.Services.Core.Analytics.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.AI.Navigation.Editor">
-     <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.AI.Navigation.Editor.dll</HintPath>
+     <Reference Include="Unity.Postprocessing.Editor">
+     <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.Postprocessing.Editor.dll</HintPath>
      </Reference>
      <Reference Include="Unity.TextMeshPro.Editor">
      <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.AI.Navigation.Editor.ConversionSystem">
-     <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.AI.Navigation.Editor.ConversionSystem.dll</HintPath>
+     <Reference Include="Unity.AI.Navigation.Editor">
+     <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.AI.Navigation.Editor.dll</HintPath>
      </Reference>
      <Reference Include="Unity.VisualScripting.State">
      <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.VisualScripting.State.dll</HintPath>
      </Reference>
      <Reference Include="Unity.2D.Tilemap.Editor">
      <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.2D.Tilemap.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="Unity.VSCode.Editor">
-     <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.VSCode.Editor.dll</HintPath>
-     </Reference>
-     <Reference Include="UnityEngine.Purchasing">
-     <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\UnityEngine.Purchasing.dll</HintPath>
      </Reference>
   </ItemGroup>
   <ItemGroup>

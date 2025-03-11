@@ -9,16 +9,20 @@ Shader "Phos/UI/RoundRect"
     }
     SubShader
     {
-        Tags { "RenderType"="Transparent" }
+        Tags {
+            "Queue" = "AlphaTest"
+            "IgnoreProjector" = "True"
+        }
         LOD 100
+        
+        ZWrite Off
+        Blend SrcAlpha OneMinusSrcAlpha
 
         Pass
         {
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            // make fog work
-            #pragma multi_compile_fog
 
             #include "UnityCG.cginc"
 
@@ -45,7 +49,6 @@ Shader "Phos/UI/RoundRect"
             float4 _MainTex_ST;
 
             float4 _Rect;
-
             fixed _Smooth;
             fixed _Radius;
 
@@ -53,7 +56,7 @@ Shader "Phos/UI/RoundRect"
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+                o.uv = v.uv;
                 o.color = v.color;
                 return o;
             }
@@ -61,8 +64,8 @@ Shader "Phos/UI/RoundRect"
             fixed4 frag (v2f i) : SV_Target
             {
                 fixed2 rect = fixed2(
-                    _Rect.x / _Rect.y,
-                    _Rect.y / _Rect.x
+                    max(_Rect.x / _Rect.y, 1),
+                    max(_Rect.y / _Rect.x, 1)
                 );
                 float shorter = min(_Rect.x, _Rect.y);
                 float radius = _Radius / shorter;
@@ -70,11 +73,12 @@ Shader "Phos/UI/RoundRect"
                 fixed2 pt = (i.uv.xy * 2.0 - 1.0) * rect;
                 fixed2 b = max(rect - radius, 0.0);
 
-                fixed2 d = abs(pt) - b;
-                float distance = min(max(d.x,d.y),0.0) + length(max(d,0.0)) - radius;
+                float distance = sd_box(pt, b) - radius;
 
                 float alpha = smoothstep(0, _Smooth, -distance);
-                fixed4 col = i.color * alpha;
+                
+                fixed4 col = i.color;
+                col.a *= alpha;
                 return col;
             }
             ENDCG

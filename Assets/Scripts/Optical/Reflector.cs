@@ -12,6 +12,7 @@ namespace Phos.Optical {
             LightData data = new LightData(
                 start,
                 reflectDirection,
+                -hit.normal,
                 income.Intensity * (1 - IntensityLoss)
             );
             outgo = new List<LightData> { data };
