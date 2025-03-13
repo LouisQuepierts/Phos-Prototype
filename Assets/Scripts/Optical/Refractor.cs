@@ -1,21 +1,23 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Phos.Optical {
-	public class Refractor : MonoBehaviour, ILightAcceptable {
-        public float RefractiveIndex = 1.5f;
+    [ExecuteAlways]
+	public class Refractor : OpticalDevice, ILightAcceptable {
+        public float refractiveIndex = 1.5f;
 
         [Range(0, 1)] 
-        public float IntensityLoss = 0.2f;
+        public float intensityLoss = 0.2f;
 
         public bool OnLightHitted(LightData income, RaycastHit hit, out List<LightData> outgo) {
             Vector3 normal = hit.normal;
-            float eta = 1.0f / RefractiveIndex;
+            float eta = 1.0f / refractiveIndex;
             bool entering = Vector3.Dot(income.Direction, normal) < 0;
 
             if (!entering) {
-                eta = RefractiveIndex;
+                eta = refractiveIndex;
                 normal = -normal;
             }
 
@@ -27,7 +29,7 @@ namespace Phos.Optical {
                     newStart,
                     refractDir,
                     hit.normal,
-                    income.Intensity * (1 - IntensityLoss),
+                    income.Intensity * (1 - intensityLoss),
                     !income.Inside ? GetComponent<Collider>() : null
                 )
             };

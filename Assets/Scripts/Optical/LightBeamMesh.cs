@@ -5,7 +5,7 @@ using UnityEngine.Serialization;
 namespace Phos.Optical {
     [ExecuteAlways]
     [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
-    public class DynamicPathMesh : MonoBehaviour {
+    public class LightBeamMesh : MonoBehaviour {
         public float width = 0.1f;
         public Material material;
 
@@ -16,18 +16,17 @@ namespace Phos.Optical {
         private readonly List<Color> _colors = new();
 
         private void Awake() {
-            _mesh = new Mesh();
+            Init();
+        }
+
+        public void Init() {
+            _mesh ??= new Mesh();
             GetComponent<MeshFilter>().mesh = _mesh;
             GetComponent<MeshRenderer>().material = material;
         }
 
         public void UpdatePath(List<LightPath> paths) {
             GenerateMesh(paths);
-            UpdateMesh();
-        }
-
-        public void UpdatePath(List<Vector3> points) {
-            GenerateMeshData(points);
             UpdateMesh();
         }
 
@@ -51,12 +50,17 @@ namespace Phos.Optical {
                     up = Vector3.Cross(forward, right).normalized;
                 }
 
-                Tube(start, end, right, up, new Color(1.0f, 0.98f, 0.75f, 0.5f), width);
-                Tube(start, end, right, up, new Color(1.0f, 0.98f, 0.75f, 0.5f), width * 0.5f);
+                float beginIntensity = Mathf.Clamp01(path.Intensity / 100f);
+                float endIntensity = Mathf.Clamp01((path.Intensity - path.Distance) / 100f);
+                
+                Debug.Log($"Intensity {beginIntensity} - {endIntensity}");
+
+                Tube(start, end, right, up, new Color(1.0f, 0.98f, 0.75f, 0.75f), width, beginIntensity, endIntensity);
+                Tube(start, end, right, up, new Color(1.0f, 0.98f, 0.75f, 0.75f), width * 0.5f, beginIntensity, endIntensity);
                 
                 LightData last = path.Light.Last;
 
-                if (path.Light.Continuously) {
+                if (path.Light.IsContinuous) {
                     Vector3 mDirection = Vector3.Lerp(forward, last.Direction, 0.5f);
                     Plane mPlane = new Plane(mDirection, start);
 
@@ -108,7 +112,14 @@ namespace Phos.Optical {
             }
         }
 
-        private void Tube(Vector3 start, Vector3 end, Vector3 right, Vector3 up, Color color, float f) {
+        private void Tube(
+            Vector3 start, Vector3 end, 
+            Vector3 right, Vector3 up, 
+            Color color, 
+            float f,
+            float beginIntensity,
+            float endIntensity
+            ) {
             right *= f;
             up *= f;
             var _000 = start + right + up;
@@ -140,8 +151,13 @@ namespace Phos.Optical {
             _uvs.Add(new Vector2(1, 1));
             _uvs.Add(new Vector2(1, 1));
 
-            for (int i = 0; i < 8; i++) {
-                _colors.Add(color);
+            Color beginColor = new Color(color.r, color.g, color.b, color.a * beginIntensity);
+            Color endColor = new Color(color.r, color.g, color.b, color.a * endIntensity);
+            for (int i = 0; i < 4; i++) {
+                _colors.Add(beginColor);
+            }
+            for (int i = 0; i < 4; i++) {
+                _colors.Add(endColor);
             }
             
             _triangles.Add(idx);       // _000

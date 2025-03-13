@@ -4,22 +4,29 @@ using UnityEngine.Serialization;
 
 namespace Phos.Optical {
     [ExecuteAlways]
-    public class Reflector : OpticalDevice, ILightAcceptable {
+    public class Splitter : OpticalDevice, ILightAcceptable {
         [Range(0, 1)] 
         public float intensityLoss = 0.1f;
-
+        
         public bool OnLightHitted(LightData income, RaycastHit hit, out List<LightData> outgo) {
             Vector3 reflectDirection = Vector3.Reflect(income.Direction, hit.normal);
-            Vector3 start = hit.point + reflectDirection * 0.001f;
-            LightData data = new LightData(
-                start,
+
+            float intensity = income.Intensity * (1 - intensityLoss);
+            LightData reflected = new LightData(
+                hit.point + reflectDirection * 0.001f,
                 reflectDirection,
                 -hit.normal,
-                income.Intensity * (1 - intensityLoss),
+                intensity,
                 null,
                 false
             );
-            outgo = new List<LightData> { data };
+            LightData transmitted = new LightData(
+                income.StartPoint,
+                income.Direction,
+                -hit.normal,
+                intensity
+            );
+            outgo = new List<LightData> { transmitted, reflected };
             return true;
         }
     }

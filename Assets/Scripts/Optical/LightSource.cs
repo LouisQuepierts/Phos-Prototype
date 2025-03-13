@@ -3,26 +3,63 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Serialization;
 
 namespace Phos.Optical {
     [ExecuteAlways]
 	public class LightSource : OpticalDevice {
-        public float Strength = 10f;
-        public float MinIntensity = 0.1f;
-        public int MaxBounces = 10;
+        public float strength = 10f;
+        public float minIntensity = 0.1f;
+        public int maxBounces = 10;
+        
+        public Material material;
 
-        private List<LightPath> _paths = new();
+        private readonly List<LightPath> _paths = new();
         private bool _updated = false;
 
-        public DynamicPathMesh _line;
+        private LightBeamMesh _line;
+
+        private float _strength;
+
+        private LightBeamMesh Light {
+            get {
+                if (!_line) {
+                    _line = CreateLightBeam();
+                }
+                return _line;
+            }
+        }
         
         public new void Awake() {
             base.Awake();
+            _strength = strength;
+            
             UpdateLightPaths();
         }
 
+        private LightBeamMesh CreateLightBeam() {
+            var obj = new GameObject("LightBeam");
+            var mesh = obj.AddComponent<LightBeamMesh>();
+            mesh.material = material;
+            mesh.Init();
+
+            var meshRenderer = obj.GetComponent<MeshRenderer>();
+            meshRenderer.shadowCastingMode = ShadowCastingMode.Off;
+            meshRenderer.receiveShadows = false;
+            meshRenderer.lightProbeUsage = LightProbeUsage.Off;
+            return mesh;
+        }
+
+        protected override bool IsChanged() {
+            if (Mathf.Approximately(_strength, strength)) return base.IsChanged();
+            
+            _strength = strength;
+            return true;
+        }
+
         // ReSharper disable Unity.PerformanceAnalysis
-        protected override void OnTransformChanged() {
+        public override void OpticalUpdate() {
             UpdateLightPaths();
             
             //if (!Application.isPlaying) return;
@@ -33,11 +70,11 @@ namespace Phos.Optical {
             List<Vector3> points = new List<Vector3>(_paths.Count + 1);
             points.Add(transform.position);
             points.AddRange(_paths.Select(t => t.End));
-            _line.UpdatePath(_paths);
+            Light.UpdatePath(_paths);
         }
 
         private void OnDrawGizmos() {
-            if (!debug) return;
+            if (!Manager.debug) return;
             
             if (!_updated) UpdateLightPaths();
             
@@ -54,10 +91,10 @@ namespace Phos.Optical {
                 transform.position,
                 transform.forward,
                 transform.forward,
-                Strength    
+                strength    
             );
 
-            TraceLight(light, MaxBounces);
+            TraceLight(light, maxBounces);
             _updated = true;
         }
 
@@ -67,7 +104,7 @@ namespace Phos.Optical {
 
             while (lightStack.Count > 0) {
                 var current = lightStack.Pop();
-                if (current.Intensity < MinIntensity || remainingBounces <= 0) continue;
+                if (current.Intensity < minIntensity || remainingBounces <= 0) continue;
 
                 if (Math.Abs(current.Direction.magnitude - 1.0) > 1e-6) continue;
 
@@ -87,14 +124,13 @@ namespace Phos.Optical {
                     _paths.Add(new LightPath(
                         current,
                         hit.point,
-                        hit.normal,
                         _paths.Count
                     ));
 
                     var acceptor = hit.collider.GetComponent<ILightAcceptable>();
                     if (acceptor == null ||
                         !acceptor.OnLightHitted(
-                            new LightData(hit.point, current.Direction, current.Intensity - hit.distance),
+                            new LightData(hit.point, current.Direction, current.Intensity, current.Collider),
                             hit,
                             out List<LightData> lights
                         )) continue;
@@ -102,13 +138,12 @@ namespace Phos.Optical {
                     foreach (var newLight in lights) {
                         newLight.Last = current;
                         lightStack.Push(newLight);
-                        remainingBounces--;
                     }
+                    remainingBounces--;
                 } else {
                     _paths.Add(new LightPath(
                         current,
                         current.StartPoint + current.Direction * current.Intensity,
-                        -current.StartPointNormal,
                         _paths.Count
                     ));
                 }

@@ -8,21 +8,20 @@ namespace Phos.Optical {
         public readonly LightData Light;
         public readonly Vector3 Start;
         public readonly Vector3 End;
+        public readonly float Distance;
 
         public Vector3 StartNormal;
-        public Vector3 EndNormal;
 
         public float Intensity => Light.Intensity;
 
-
-        public LightPath(LightData light, Vector3 end, Vector3 endNormal, int index) {
+        public LightPath(LightData light, Vector3 end, int index) {
             Index = index;
             Light = light;
             Start = light.StartPoint;
             StartNormal = light.StartPointNormal;
+            Distance = Vector3.Distance(Start, end);
 
             End = end;
-            EndNormal = endNormal;
 
             light.Path = this;
         }

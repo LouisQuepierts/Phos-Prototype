@@ -2,42 +2,48 @@
 using UnityEngine;
 
 namespace Phos.Optical {
+    [ExecuteAlways]
     public abstract class OpticalDevice : MonoBehaviour {
-        public bool debug;
-        
         private Vector3 _position;
         private Quaternion _rotation;
         private OpticalDeviceManager _manager;
-        
+
+        protected OpticalDeviceManager Manager => _manager;
+
         public void Awake() {
             _position = transform.position;
             _rotation = transform.rotation;
         }
 
-        private void Start() {
+        private void OnEnable() {
             _manager = OpticalDeviceManager.GetInstance();
+            _manager.Add(this);
         }
 
-        protected abstract void OnTransformChanged();
-
-        private void FixedUpdate() {
-            Check();
+        private void OnDisable() {
+            _manager.Remove(this);
         }
 
-#if UNITY_EDITOR
-        private void Update() {
-            if (!debug || Application.isPlaying) return;
-            Check();
+        private void OnDestroy() {
+            Debug.Log("OpticalDevice Destroy");
         }
-#endif
 
-        private void Check() {
-            if (!TransformChanged()) return;
+        public virtual void OpticalUpdate() {
             
+        }
+
+        protected virtual bool IsChanged() {
+            return TransformChanged();
+        }
+
+        // ReSharper disable Unity.PerformanceAnalysis
+        public  bool CheckChanged() {
+            if (!IsChanged()) return false;
+            Debug.Log(this);
             _position = transform.position;
             _rotation = transform.rotation;
-                
-            OnTransformChanged();
+
+            return true;
         }
 
         private bool TransformChanged() {
