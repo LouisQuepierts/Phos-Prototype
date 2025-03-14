@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace PhosEditor {
     [CustomEditor(typeof(CurveHelper))]
-	public class CurveHelperInspector : Editor {
+	public class CurveHelperInspector : UnityEditor.Editor {
 		public override void OnInspectorGUI() {
             base.OnInspectorGUI();
 

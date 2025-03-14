@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using Phos.Utils;
 
 namespace PhosEditor {
-    public class TemplateCreator : Editor {
+    public class TemplateCreator : UnityEditor.Editor {
         public const string ProjectName = "Phos";
 
         private delegate string Preprocessor(string text, string filename);

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace PhosEditor {
     [CustomEditor(typeof(BaseInteractionControl), true)]
-	public class InteractionControlInspector : Editor {
+	public class InteractionControlInspector : UnityEditor.Editor {
 		private bool foldout = false;
         public override void OnInspectorGUI() {
 			base.OnInspectorGUI();
