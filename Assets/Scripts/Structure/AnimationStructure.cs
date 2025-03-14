@@ -1,7 +1,7 @@
-﻿using UnityEditor.Animations;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Phos.Structure {
+    [RequireComponent(typeof(Animation))]
     public class AnimationStructure : StructureControl {
         public AnimationClip clip;
         [Range(0.1f, 32f)]

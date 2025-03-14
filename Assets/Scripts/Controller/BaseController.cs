@@ -26,10 +26,9 @@ namespace Phos.Controller {
         protected virtual void PostInitialization() { }
 
         protected void Execute(bool trigger = false) {
-            if (m_operations != null) {
-                foreach (var opr in m_operations) {
-                    opr.Execute(trigger);
-                }
+            if (m_operations == null) return;
+            foreach (var opr in m_operations) {
+                opr.Execute(trigger);
             }
         }
     }
