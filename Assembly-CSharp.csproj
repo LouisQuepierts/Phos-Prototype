@@ -68,6 +68,7 @@
      <Compile Include="Assets\Scripts\Player\PlayerController.cs" />
      <Compile Include="Assets\Scripts\BiOperation\TogglePathOperation.cs" />
      <Compile Include="Assets\Scripts\Optical\LightPath.cs" />
+     <Compile Include="Assets\Scripts\Optical\ConvexLens.cs" />
      <Compile Include="Assets\Scripts\Navigate\Direction.cs" />
      <Compile Include="Assets\Scripts\Interact\DragHandle.cs" />
      <Compile Include="Assets\Scripts\Utils\SingletonFactory.cs" />
@@ -106,6 +107,7 @@
      <Compile Include="Assets\Scripts\Predicate\TogglePredicate.cs" />
      <Compile Include="Assets\Scripts\Navigate\NodeType.cs" />
      <Compile Include="Assets\Scripts\Navigate\NodePath.cs" />
+     <Compile Include="Assets\Scripts\Optical\BaseLens.cs" />
      <Compile Include="Assets\Scripts\Navigate\Behaviour\GroundNodeBehaviour.cs" />
      <Compile Include="Assets\Scripts\Navigate\VirtualNode.cs" />
      <Compile Include="Assets\Scripts\Interact\BaseInteractionControl.cs" />
@@ -133,6 +135,7 @@
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
      <Folder Include="Assets\Scripts\Utils" />
      <Folder Include="Assets\Scripts\UI" />
+     <Folder Include="Assets\Scripts\Trigger\Optical" />
      <Folder Include="Assets\Scripts\Event" />
      <Folder Include="Assets\TextMesh Pro\Resources\Fonts &amp; Materials" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />

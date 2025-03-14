@@ -11,7 +11,7 @@ namespace Phos.Optical {
         [Range(0, 1)] 
         public float intensityLoss = 0.2f;
 
-        public bool OnLightHitted(LightData income, RaycastHit hit, out List<LightData> outgo) {
+        public void OnLightHitted(LightData income, RaycastHit hit, out List<LightData> outgo) {
             Vector3 normal = hit.normal;
             float eta = 1.0f / refractiveIndex;
             bool entering = Vector3.Dot(income.Direction, normal) < 0;
@@ -30,11 +30,10 @@ namespace Phos.Optical {
                     refractDir,
                     hit.normal,
                     income.Intensity * (1 - intensityLoss),
+                    income.Width,
                     !income.Inside ? GetComponent<Collider>() : null
                 )
             };
-
-            return true;
         }
 
         private Vector3 CalculateRefraction(Vector3 inDir, Vector3 normal, float eta) {

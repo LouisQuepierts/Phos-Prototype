@@ -8,7 +8,7 @@ namespace Phos.Optical {
         [Range(0, 1)] 
         public float intensityLoss = 0.1f;
 
-        public bool OnLightHitted(LightData income, RaycastHit hit, out List<LightData> outgo) {
+        public void OnLightHitted(LightData income, RaycastHit hit, out List<LightData> outgo) {
             Vector3 reflectDirection = Vector3.Reflect(income.Direction, hit.normal);
             Vector3 start = hit.point + reflectDirection * 0.001f;
             LightData data = new LightData(
@@ -16,11 +16,11 @@ namespace Phos.Optical {
                 reflectDirection,
                 -hit.normal,
                 income.Intensity * (1 - intensityLoss),
+                income.Width,
                 null,
                 false
             );
             outgo = new List<LightData> { data };
-            return true;
         }
     }
 }

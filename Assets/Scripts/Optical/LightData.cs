@@ -8,7 +8,10 @@ namespace Phos.Optical {
         
         public readonly Vector3 Direction;
         public readonly float Intensity;
+        public float Width;
         public readonly Collider Collider;
+
+        public int RemainedBounces = 0;
         
         public float AbsorptionCoefficient = 0.1f;
         public float ScatteringCoefficient = 0.05f;
@@ -22,21 +25,24 @@ namespace Phos.Optical {
         public bool IsRoot => Last == null;
         public bool IsContinuous => !IsRoot && Continuous;
         public bool Inside => Collider != null;
+        public bool CanBounces => RemainedBounces > 0;
 
-        public LightData(Vector3 start, Vector3 dir, float intensity, Collider collider = null, bool continuous = true) {
+        public LightData(Vector3 start, Vector3 dir, float intensity, float width, Collider collider = null, bool continuous = true) {
             StartPoint = start;
             StartPointNormal = Vector3.forward;
             Direction = dir.normalized;
             Intensity = intensity;
+            Width = width;
             Collider = collider;
             Continuous = continuous;
         }
         
-        public LightData(Vector3 start, Vector3 dir, Vector3 normal, float intensity, Collider collider = null, bool continuous = true) {
+        public LightData(Vector3 start, Vector3 dir, Vector3 normal, float intensity, float width, Collider collider = null, bool continuous = true) {
             StartPoint = start;
             StartPointNormal = normal;
             Direction = dir.normalized;
             Intensity = intensity;
+            Width = width;
             Collider = collider;
             Continuous = continuous;
         }

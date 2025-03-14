@@ -10,6 +10,9 @@ namespace Phos.Optical {
         public readonly Vector3 End;
         public readonly float Distance;
 
+        public float StartWidth;
+        public float EndWidth;
+        
         public Vector3 StartNormal;
 
         public float Intensity => Light.Intensity;
@@ -20,6 +23,8 @@ namespace Phos.Optical {
             Start = light.StartPoint;
             StartNormal = light.StartPointNormal;
             Distance = Vector3.Distance(Start, end);
+
+            StartWidth = EndWidth = light.Width;
 
             End = end;
 

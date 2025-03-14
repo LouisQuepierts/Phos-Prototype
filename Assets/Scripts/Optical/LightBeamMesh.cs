@@ -6,7 +6,6 @@ namespace Phos.Optical {
     [ExecuteAlways]
     [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
     public class LightBeamMesh : MonoBehaviour {
-        public float width = 0.1f;
         public Material material;
 
         private Mesh _mesh;
@@ -50,13 +49,13 @@ namespace Phos.Optical {
                     up = Vector3.Cross(forward, right).normalized;
                 }
 
-                float beginIntensity = Mathf.Clamp01(path.Intensity / 100f);
-                float endIntensity = Mathf.Clamp01((path.Intensity - path.Distance) / 100f);
+                float beginIntensity = Mathf.Sqrt(Mathf.Clamp01(path.Intensity / 100f));
+                float endIntensity = Mathf.Sqrt(Mathf.Clamp01((path.Intensity - path.Distance) / 100f));
                 
-                Debug.Log($"Intensity {beginIntensity} - {endIntensity}");
+                // Debug.Log($"Intensity {beginIntensity} - {endIntensity}");
 
-                Tube(start, end, right, up, new Color(1.0f, 0.98f, 0.75f, 0.75f), width, beginIntensity, endIntensity);
-                Tube(start, end, right, up, new Color(1.0f, 0.98f, 0.75f, 0.75f), width * 0.5f, beginIntensity, endIntensity);
+                Tube(path, right, up, new Color(1.0f, 0.98f, 0.75f, 0.75f), 1.0f, beginIntensity, endIntensity);
+                Tube(path, right, up, new Color(1.0f, 0.98f, 0.75f, 0.75f), 0.5f, beginIntensity, endIntensity);
                 
                 LightData last = path.Light.Last;
 
@@ -113,23 +112,29 @@ namespace Phos.Optical {
         }
 
         private void Tube(
-            Vector3 start, Vector3 end, 
+            LightPath path,
             Vector3 right, Vector3 up, 
             Color color, 
-            float f,
+            float amplifier,
             float beginIntensity,
             float endIntensity
             ) {
-            right *= f;
-            up *= f;
-            var _000 = start + right + up;
-            var _001 = start - right + up;
-            var _010 = start + right - up;
-            var _011 = start - right - up;
-            var _100 = end + right + up;;
-            var _101 = end - right + up;;
-            var _110 = end + right - up;;
-            var _111 = end - right - up;;
+            var start = path.Start;
+            var end = path.End;
+
+            var startRight = path.StartWidth * amplifier * right;
+            var startUp = path.StartWidth * amplifier * up;
+            var endRight = path.EndWidth * amplifier * right;
+            var endUp = path.EndWidth * amplifier * up;
+            
+            var _000 = start + startRight + startUp;
+            var _001 = start - startRight + startUp;
+            var _010 = start + startRight - startUp;
+            var _011 = start - startRight - startUp;
+            var _100 = end + endRight + endUp;
+            var _101 = end - endRight + endUp;
+            var _110 = end + endRight - endUp;
+            var _111 = end - endRight - endUp;
             
             int idx = _vertices.Count;
             
@@ -197,106 +202,6 @@ namespace Phos.Optical {
             Ray ray = new Ray(point, direction);
             plane.Raycast(ray, out var enter);
             return ray.GetPoint(enter);
-        }
-        
-        private void GenerateMesh_(List<LightPath> paths) {
-            _vertices.Clear();
-            _triangles.Clear();
-            _uvs.Clear();
-            
-            foreach (LightPath path in paths) {
-                Vector3 start = path.Start;
-                Vector3 end = path.End;
-
-                Vector3 forward = path.Light.Direction;
-                
-                Vector3 right = Vector3.Cross(forward, Vector3.up).normalized;
-                Vector3 up = Vector3.Cross(forward, right).normalized;
-                
-                if (right.magnitude < 0.1f) {
-                    right = Vector3.Cross(forward, Vector3.forward).normalized;
-                    up = Vector3.Cross(forward, right).normalized;
-                }
-
-                right *= width;
-                up *= width;
-
-                Vector3[] directions = {
-                    up,
-                    right,
-                    -up,
-                    -right
-                };
-
-                for (int face = 0; face < 4; face++) {
-                    Vector3 offset = directions[face];
-                    Vector3 u = directions[(face + 1) % 4];
-                
-                    _vertices.Add(start + offset + u);
-                    _vertices.Add(start - offset + u);
-                    _vertices.Add(end + offset + u);
-                    _vertices.Add(end - offset + u);
-                    
-                    int idx = face * 4;
-                    
-                    _uvs.Add(new Vector2(0, 0));
-                    _uvs.Add(new Vector2(0, 0));
-                    _uvs.Add(new Vector2(1, 1));
-                    _uvs.Add(new Vector2(1, 1));
-
-                    _triangles.Add(idx);
-                    _triangles.Add(idx + 1);
-                    _triangles.Add(idx + 2);
-                    _triangles.Add(idx + 2);
-                    _triangles.Add(idx + 1);
-                    _triangles.Add(idx + 3);
-                }
-            }
-        }
-
-        private void GenerateMeshData(List<Vector3> path) {
-            _vertices.Clear();
-            _triangles.Clear();
-
-            for (int i = 0; i < path.Count - 1; i++) {
-                Vector3 start = path[i];
-                Vector3 end = path[i + 1];
-                Vector3 forward = (end - start).normalized;
-
-                Vector3 up = Vector3.Cross(forward, Vector3.up).normalized;
-                Vector3 right = Vector3.Cross(forward, up).normalized;
-
-                if (up.magnitude < 0.1f) {
-                    up = Vector3.Cross(forward, Vector3.forward).normalized;
-                    right = Vector3.Cross(forward, up).normalized;
-                }
-
-                Vector3[] directions = {
-                    up,
-                    right,
-                    -up,
-                    -right
-                };
-
-                for (int face = 2; face < 3; face++) {
-                    Vector3 offset = directions[face] * width;
-                    Vector3 u = directions[(face + 1) % 4] * width;
-                
-                    int idx = _vertices.Count;
-                
-                    _vertices.Add(start + offset + u);
-                    _vertices.Add(start - offset + u);
-                    _vertices.Add(end + offset + u);
-                    _vertices.Add(end - offset + u);
-
-                    _triangles.Add(idx);
-                    _triangles.Add(idx + 1);
-                    _triangles.Add(idx + 2);
-                    _triangles.Add(idx + 2);
-                    _triangles.Add(idx + 1);
-                    _triangles.Add(idx + 3);
-                }
-            }
         }
 
         private void UpdateMesh() {

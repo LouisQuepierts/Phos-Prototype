@@ -7,6 +7,6 @@ namespace Phos.Optical {
 		/// if income can continue go on, return true
 		/// or else, return false
 		/// </summary>
-		bool OnLightHitted(LightData income, RaycastHit hit, out List<LightData> outgo);
+		void OnLightHitted(LightData income, RaycastHit hit, out List<LightData> outgo);
 	}
 }

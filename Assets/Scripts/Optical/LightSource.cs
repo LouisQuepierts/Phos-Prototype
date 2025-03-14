@@ -10,6 +10,7 @@ namespace Phos.Optical {
     [ExecuteAlways]
 	public class LightSource : OpticalDevice {
         public float strength = 10f;
+        public float width = 0.1f;
         public float minIntensity = 0.1f;
         public int maxBounces = 10;
         
@@ -91,20 +92,22 @@ namespace Phos.Optical {
                 transform.position,
                 transform.forward,
                 transform.forward,
-                strength    
+                strength,
+                width
             );
+            light.RemainedBounces = maxBounces;
 
-            TraceLight(light, maxBounces);
+            TraceLight(light);
             _updated = true;
         }
 
-        private void TraceLight(LightData light, int remainingBounces) {
+        private void TraceLight(LightData light) {
             Stack<LightData> lightStack = new();
             lightStack.Push(light);
 
             while (lightStack.Count > 0) {
                 var current = lightStack.Pop();
-                if (current.Intensity < minIntensity || remainingBounces <= 0) continue;
+                if (current.Intensity < minIntensity || !current.CanBounces) continue;
 
                 if (Math.Abs(current.Direction.magnitude - 1.0) > 1e-6) continue;
 
@@ -127,19 +130,23 @@ namespace Phos.Optical {
                         _paths.Count
                     ));
 
-                    var acceptor = hit.collider.GetComponent<ILightAcceptable>();
-                    if (acceptor == null ||
-                        !acceptor.OnLightHitted(
-                            new LightData(hit.point, current.Direction, current.Intensity, current.Collider),
-                            hit,
-                            out List<LightData> lights
-                        )) continue;
+                    int remainedBounces = current.RemainedBounces - 1;
                     
+                    var acceptor = hit.collider.GetComponent<ILightAcceptable>();
+                    if (acceptor == null) continue;
+                    
+                    LightData income = new LightData(hit.point, current.Direction, current.Intensity, current.Width, current.Collider);
+                    acceptor.OnLightHitted(
+                        income,
+                        hit,
+                        out List<LightData> lights
+                    );
+                        
                     foreach (var newLight in lights) {
                         newLight.Last = current;
+                        newLight.RemainedBounces = remainedBounces;
                         lightStack.Push(newLight);
                     }
-                    remainingBounces--;
                 } else {
                     _paths.Add(new LightPath(
                         current,

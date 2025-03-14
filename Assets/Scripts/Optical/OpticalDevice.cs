@@ -7,7 +7,7 @@ namespace Phos.Optical {
         private Vector3 _position;
         private Quaternion _rotation;
         private OpticalDeviceManager _manager;
-
+        private bool _changed;
         protected OpticalDeviceManager Manager => _manager;
 
         public void Awake() {
@@ -24,8 +24,8 @@ namespace Phos.Optical {
             _manager.Remove(this);
         }
 
-        private void OnDestroy() {
-            Debug.Log("OpticalDevice Destroy");
+        private void OnValidate() {
+            _changed = true;
         }
 
         public virtual void OpticalUpdate() {
@@ -33,7 +33,9 @@ namespace Phos.Optical {
         }
 
         protected virtual bool IsChanged() {
-            return TransformChanged();
+            bool changed = _changed;
+            _changed = false;
+            return changed || TransformChanged();
         }
 
         // ReSharper disable Unity.PerformanceAnalysis
