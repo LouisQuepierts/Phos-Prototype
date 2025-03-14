@@ -1,17 +1,8 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEditorInternal;
-using System.IO;
 using Phos.Navigate;
-using static Codice.Client.Commands.WkTree.WorkspaceTreeNode;
-using Phos.Utils;
-using Phos.Predicate;
-using static Codice.Client.BaseCommands.Import.Commit;
-using Phos.Callback;
-using Phos.Structure;
 
 namespace PhosEditor {
     [CustomEditor(typeof(NavigateNode))]

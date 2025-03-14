@@ -20,17 +20,17 @@ namespace PhosEditor {
             }
         }
 
-        public readonly static GameObject NodeTemplate = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Editor/Prefabs/Node.prefab");
+        public static readonly GameObject NodeTemplate = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Editor/Prefabs/Node.prefab");
 
         private static bool enable = false;
         private static bool selectionChanged = false;
         
-        private readonly static Color colorHighlight = new(1f, 0f, 0f, .25f);
-        private readonly static Color colorSelected = new(0f, 0f, 1f, 0.25f);
-        private readonly static Color colorNeighbor = new(0f, 1f, 0f, .25f);
-        private readonly static Color colorTeleport = new(1f, 0f, 1f, .25f);
-        private readonly static Color colorInactive = new(1f, .5f, .5f, .25f);
-        private readonly static Color colorHighlightPath = new(1f, 1f, 0f, .25f);
+        private static readonly Color colorHighlight = new(1f, 0f, 0f, .25f);
+        private static readonly Color colorSelected = new(0f, 0f, 1f, 0.25f);
+        private static readonly Color colorNeighbor = new(0f, 1f, 0f, .25f);
+        private static readonly Color colorTeleport = new(1f, 0f, 1f, .25f);
+        private static readonly Color colorInactive = new(1f, .5f, .5f, .25f);
+        private static readonly Color colorHighlightPath = new(1f, 1f, 0f, .25f);
 
         private static Vector3 hitPoint = Vector3.zero;
 
@@ -56,7 +56,7 @@ namespace PhosEditor {
             if (e == null) return;
 
             switch (e.type) {
-                case EventType.MouseUp:
+                case EventType.MouseDown:
                     OnMousePressed(e);
                     break;
                 case EventType.KeyUp:
@@ -151,7 +151,7 @@ namespace PhosEditor {
                         case 0:
                             OnMouseLeftClick(e, hit, target);
                             break;
-                        case 1:     // RIGHT
+                        case 1:
                             if (e.shift) {
                                 AddNode(hit, target);
                             }
@@ -264,19 +264,40 @@ namespace PhosEditor {
 
         private static void AddNode(RaycastHit hit, GameObject target) {
             if (hit.collider.gameObject.GetComponent<NavigateNode>() != null) return;
-            Vector3 direction = hit.normal;
-            Vector3 position = target.transform.parent.InverseTransformPoint(hit.point - direction * 0.1f);
-            position.x = Mathf.Round(position.x);
-            position.y = Mathf.Round(position.y);
-            position.z = Mathf.Round(position.z);
 
-            GameObject newObject = GameObject.Instantiate(NodeTemplate, target.transform.parent);
-            newObject.transform.localPosition = position;
-            newObject.transform.up = direction;
+            Transform parent = target.transform.parent;
+
+            GameObject newObject;
+            if (parent != null) {
+                Vector3 direction = parent.InverseTransformDirection(hit.normal);
+            
+                Vector3 position = parent.InverseTransformPoint(hit.point) - direction * 0.1f;
+                position.x = Mathf.Round(position.x);
+                position.y = Mathf.Round(position.y);
+                position.z = Mathf.Round(position.z);
+
+                newObject = GameObject.Instantiate(NodeTemplate, parent);
+                newObject.transform.localPosition = position;
+                newObject.transform.localRotation = Quaternion.LookRotation(Mathf.Abs(Vector3.Dot(direction, Vector3.forward)) > 0.9f ? Vector3.left : Vector3.forward, direction);
+                Debug.Log($"Placed a node at {position}; facing {direction}");
+            }
+            else {
+                Vector3 direction = hit.normal;
+
+                Vector3 position = hit.point - direction * 0.1f;
+                position.x = Mathf.Round(position.x);
+                position.y = Mathf.Round(position.y);
+                position.z = Mathf.Round(position.z);
+
+                newObject = GameObject.Instantiate(NodeTemplate);
+                newObject.transform.position = position;
+                newObject.transform.up = direction;
+                Debug.Log($"Placed a node at {position}; facing {direction}");
+            }
+            
 
             // TODO Build Connections
             NavigateNode node = newObject.GetComponent<NavigateNode>();
-            Transform transform = node.transform;
             Collider[] hits = Physics.OverlapSphere(node.GetNodePoint(), 1f);
 
             foreach (var item in hits) {
@@ -285,8 +306,6 @@ namespace PhosEditor {
             }
 
             Undo.RegisterCreatedObjectUndo(newObject, "Create On Click");
-
-            Debug.Log($"Placed a node at {position}; facing {direction}");
             Event.current.Use();
         }
 
