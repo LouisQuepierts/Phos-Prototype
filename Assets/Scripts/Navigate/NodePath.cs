@@ -37,8 +37,7 @@ namespace Phos.Navigate {
 
         public Direction GetDirection(NavigateNode node) {
             if (node == nodeA) return directionA;
-            if (node == nodeB) return directionB;
-            return Direction.Forward;
+            return node == nodeB ? directionB : Direction.Forward;
         }
 
         public void SetDirection(NavigateNode node, Direction direction) {

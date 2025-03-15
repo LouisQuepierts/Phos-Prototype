@@ -41,31 +41,19 @@ namespace Phos.Navigate.Behaviour {
             };
         }
 
-        public void PerformPassing(PlayerController controller, NavigateOperation operation, BaseNode last) {
-            Transform transform = controller.transform;
-            Vector3 target = operation.Target;
-
-            Vector3 delta = target - transform.position;
-            float magnitude = delta.magnitude;
-            float progress = 0;
-
-            if (magnitude < 1e-6) {
-                transform.position = target;
-                progress = 1;
-            } else {
-                float length = Mathf.Min(magnitude, operation.Speed);
-                transform.position += delta * (length / magnitude);
-
-                float distance = Vector3.Distance(last.GetNodePoint(), target);
-                float remain = Vector3.Distance(transform.position, target);
-
-                progress = Mathf.Clamp(1 - remain / distance, 0f, 1f);
-            }
-
-            Vector3 up = Vector3.Slerp(last.transform.up, operation.Node.transform.up, progress);
-            Vector3 forward = Vector3.ProjectOnPlane(delta, up).normalized;
-            Quaternion rotation = Quaternion.LookRotation(forward, up);
-            transform.rotation = rotation;
-        }
+        // public void PerformPassing(PlayerController controller, NavigateOperation operation, BaseNode last) {
+        //     Transform transform = controller.transform;
+        //     Vector3 target = operation.Target;
+        //
+        //     Vector3 delta = target - transform.position;
+        //     float magnitude = delta.magnitude;
+        //
+        //     if (magnitude < 1e-6) {
+        //         transform.position = target;
+        //     } 
+        //     
+        //     float length = Mathf.Min(magnitude, operation.Speed);
+        //     transform.position += delta * (length / magnitude);
+        // }
     }
 }

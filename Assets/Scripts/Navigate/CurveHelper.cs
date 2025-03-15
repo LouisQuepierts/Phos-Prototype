@@ -84,7 +84,7 @@ namespace Phos.Navigate {
 
             Vector3 center = transform.position + offset;
 
-            float distance = Vector3.Distance(start.GetNodePoint(), center);
+            float distance = Vector3.Distance(start.GetNodePosition(), center);
 
             float segment = interpolates + 1;
             for (int i = 1; i < segment; i++) {

@@ -63,6 +63,7 @@
      <Compile Include="Assets\Scripts\BiOperation\ToggleInteractionControlOperation.cs" />
      <Compile Include="Assets\Scripts\Optical\LightData.cs" />
      <Compile Include="Assets\Scripts\ReadonlyProperty.cs" />
+     <Compile Include="Assets\Scripts\Navigate\RouterNode.cs" />
      <Compile Include="Assets\Scripts\Trigger\BaseCollisionTrigger.cs" />
      <Compile Include="Assets\Scripts\Optical\Refractor.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerController.cs" />
@@ -99,6 +100,7 @@
      <Compile Include="Assets\Scripts\Callback\CallbackListener.cs" />
      <Compile Include="Assets\Scripts\Structure\RotationStructureControl.cs" />
      <Compile Include="Assets\Scripts\Interact\Axis.cs" />
+     <Compile Include="Assets\Scripts\Navigate\NavigateOperationPool.cs" />
      <Compile Include="Assets\Scripts\Predicate\WrappedPredicate.cs" />
      <Compile Include="Assets\Scripts\Utils\StringUtils.cs" />
      <Compile Include="Assets\Scripts\Optical\Reflector.cs" />

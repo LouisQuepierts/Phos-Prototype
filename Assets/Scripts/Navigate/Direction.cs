@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Phos.Navigate {
     [Serializable]
     public enum Direction {
-        Forward, Backward, Right, Left
+        Forward, Backward, Right, Left, None
     }
 
     public static class Directions {
@@ -20,7 +20,7 @@ namespace Phos.Navigate {
                 Direction.Backward => Direction.Forward,
                 Direction.Right => Direction.Left,
                 Direction.Left => Direction.Right,
-                _ => throw new NotImplementedException()
+                _ => Direction.None
             };
         }
     }

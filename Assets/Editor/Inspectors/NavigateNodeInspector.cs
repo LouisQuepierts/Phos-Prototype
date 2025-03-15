@@ -259,7 +259,7 @@ namespace PhosEditor {
         private void RebuildConnections() {
             NavigateNode node = (NavigateNode) target;
             Transform transform = node.transform;
-            Collider[] hits = Physics.OverlapSphere(node.GetNodePoint(), CAST_DISTANCE);
+            Collider[] hits = Physics.OverlapSphere(node.GetNodePosition(), CAST_DISTANCE);
 
             foreach (var item in hits) {
                 NavigateNode other = item.GetComponent<NavigateNode>();

@@ -18,18 +18,32 @@ namespace Phos.Navigate {
 
             float magnitude = delta.magnitude;
 
-            Vector3 up = operation.Node.transform.up;
-            if (up != transform.up) {
-                Vector3 forward = Vector3.ProjectOnPlane(delta, up);
-                transform.rotation = Quaternion.LookRotation(forward, up);
-            }
-
             if (magnitude < 1e-6) {
                 transform.position = target;
             } else {
                 float length = Mathf.Min(magnitude, operation.Speed);
                 transform.position += delta * (length / magnitude);
             }
+
+            Vector3 up = operation.Node.transform.up;
+            if (Mathf.Approximately(Vector3.Dot(transform.up, up), 1.0f)) return;
+            
+            if (Mathf.Approximately(Vector3.Dot(last.transform.up, up), 1.0f)) {
+                Vector3 forward = Vector3.ProjectOnPlane(delta, up);
+                transform.rotation = Quaternion.LookRotation(forward, up);
+                return;
+            }
+            
+            Vector3 dest = operation.NodePosition;
+            float distance = Vector3.Distance(last.GetNodePosition(), dest);
+            float remain = Vector3.Distance(transform.position, dest);
+
+            var progress = Mathf.Clamp(1 - remain / distance, 0f, 1f);
+
+            Vector3 lup = Vector3.Slerp(last.transform.up, operation.Node.transform.up, progress);
+            Vector3 lforward = Vector3.ProjectOnPlane(delta, lup).normalized;
+            Quaternion rotation = Quaternion.LookRotation(lforward, lup);
+            transform.rotation = rotation;
         }
 
         IReadOnlyList<Direction> GetAvailableDirections();

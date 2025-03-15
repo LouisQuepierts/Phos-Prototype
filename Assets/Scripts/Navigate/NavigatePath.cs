@@ -1,101 +1,109 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 
 namespace Phos.Navigate {
     public class NavigatePath : IEnumerable<NavigateOperation> {
         public static readonly NavigatePath Empty = new(new(), null, null);
 
-        private List<NodePath> m_path;
-        private List<NavigateOperation> m_moves;
+        private readonly List<NavigateOperation> _moves;
+        private BaseNode _dst;
+        
+        private BaseNode _last;
+        private BaseNode _current;
 
-        private BaseNode m_last;
-        private BaseNode m_current;
-
-        private int index;
+        private int _index;
 
         public NavigatePath(List<NodePath> path, NavigateNode src, NavigateNode dst) {
-            m_path = path;
-            index = 0;
+            _index = 0;
 
-            m_moves = new();
-            m_last = src;
-            m_current = src;
+            _moves = new();
+            _last = src;
+            _current = src;
+            _dst = dst;
 
-            if (src != null && dst != null) {
-                NavigateNode current = src;
-                foreach (var item in path) {
-                    NavigateNode other = item.GetOther(current);
+            if (!src || !dst) return;
 
-                    if (item.router != null) {
-                        if (item.router.Bound == current) {
-                            m_moves.Add(new NavigateOperation(item.router, item, true));
-                            m_moves.Add(new NavigateOperation(other, item));
-                        } else {
-                            m_moves.Add(new NavigateOperation(item.router, item));
-                            m_moves.Add(new NavigateOperation(other, item, true));
-                        }
+            var pool = PathManager.GetInstance().Pool;
+            
+            NavigateNode current = src;
+            foreach (var item in path) {
+                NavigateNode other = item.GetOther(current);
+                if (item.router) {
+                    if (item.router.Bound == current) {
+                        _moves.Add(pool.Get().Init(item.router, item, true));
+                        _moves.Add(pool.Get().Init(other, item));
                     } else {
-                        m_moves.Add(new NavigateOperation(other, item));
+                        _moves.Add(pool.Get().Init(item.router, item));
+                        _moves.Add(pool.Get().Init(other, item, true));
                     }
+                } 
+                else if (!item.neighbor) {
+                    _moves.Add(pool.Get().Init(current, item, false, item.GetDirection(current)));
+                    _moves.Add(pool.Get().Init(other, item, true, item.GetDirection(other)));
+                    _moves.Add(pool.Get().Init(other, item));
+                }
+                else {
+                    _moves.Add(pool.Get().Init(current, item, false, item.GetDirection(current)));
+                    _moves.Add(pool.Get().Init(other, item));
+                }
 
 
-                    /*if (!item.neighbor) {
+                /*if (!item.neighbor) {
                         Vector3 adjust = current.GetNodePoint();
                         if (adjust.y != to.y) {
                             adjust.y = Mathf.Max(adjust.y, to.y);
                         }
 
-                        if (m_moves.Count > 0) {
-                            m_moves[^1].Target.Set(adjust.x, adjust.y, adjust.z);
+                        if (_moves.Count > 0) {
+                            _moves[^1].Target.Set(adjust.x, adjust.y, adjust.z);
                         } else {
-                            m_moves.Add(new MoveOpertaion(adjust, true, 1f));
+                            _moves.Add(new MoveOpertaion(adjust, true, 1f));
                         }
                     }
 
-                    m_moves.Add(new MoveOpertaion(go, false, 0.2f));
+                    _moves.Add(new MoveOpertaion(go, false, 0.2f));
 
                     if ((go - to).sqrMagnitude > 1e-6) {
-                        m_moves.Add(new MoveOpertaion(to, !item.neighbor, 0.2f));
+                        _moves.Add(new MoveOpertaion(to, !item.neighbor, 0.2f));
                     }
 
-                    m_moves.Add(new MoveOpertaion(other.GetNodePoint(), false, 0.2f));*/
-                    current = other;
-                }
-
+                    _moves.Add(new MoveOpertaion(other.GetNodePoint(), false, 0.2f));*/
+                current = other;
             }
         }
 
         public IEnumerator<NavigateOperation> GetEnumerator() {
-            return m_moves.GetEnumerator();
+            return _moves.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator() {
-            return m_moves.GetEnumerator();
+            return _moves.GetEnumerator();
         }
 
         public void Setup(BaseNode last) {
-            m_last = last;
+            _last = last;
         }
 
         public bool HasNext() {
-            return index < m_moves.Count;
+            return _index < _moves.Count;
         }
 
         public NavigateOperation Next(Transform transform) {
-            if (index >= m_moves.Count - 1) return Last();
+            if (_index >= _moves.Count - 1) return Last();
 
-            if ((transform.position - m_moves[index].Target).sqrMagnitude < 0.01f) {
-                index++;
+            if ((transform.position - _moves[_index].Target).sqrMagnitude < 0.01f) {
+                _index++;
                 Debug.Log("Next");
 
-                NavigateOperation current = m_moves[index];
+                NavigateOperation current = _moves[_index];
 
-                m_last = m_current;
-                m_current = current.Node;
+                _last = _current;
+                _current = current.Node;
             }
 
-            return m_moves[index];
+            return _moves[_index];
         }
 
         public void Move(PlayerController controller) {
@@ -115,57 +123,46 @@ namespace Phos.Navigate {
                 transform.forward = forward;
             }
 
-            controller.current?.PerformPassing(controller, operation, m_last);
-
-            /*Vector3 delta = target - transform.position;
-            float magnitude = delta.magnitude;
-            float progress = 0;
-
-            if (magnitude < 1e-6) {
-                transform.position = target;
-                progress = 1;
-            } else {
-                float length = Mathf.Min(magnitude, operation.Speed);
-                transform.position += delta * (length / magnitude);
-
-                float distance = Vector3.Distance(m_last.GetNodePoint(), target);
-                float remain = Vector3.Distance(transform.position, target);
-
-                progress = Mathf.Clamp(1 - remain / distance, 0f, 1f);
-            }
-
-            if (transform.up != node.transform.up) {
-                Vector3 up = Vector3.Slerp(m_last.transform.up, node.transform.up, progress);
-                Vector3 forward = Vector3.ProjectOnPlane(delta, up);
-                Quaternion rotation = Quaternion.LookRotation(forward, up);
-                transform.rotation = rotation;
-            }*/
+            controller.current?.PerformPassing(controller, operation, _last);
         }
 
         public bool Arrive(Transform transform) {
-            for (int i = index; i < m_moves.Count; i++) {
-                if (!m_moves[i].Path.active) {
-                    m_moves.RemoveRange(i, m_moves.Count - i);
-                    break;
-                }
+            _dst = Last().Node;
+            for (int i = _index; i < _moves.Count; i++) {
+                if (_moves[i].Path.active) continue;
+                
+                _dst = _moves[Mathf.Max(0, i - 1)].Node;
+                break;
             }
-            return ((transform.position - Last().Target).sqrMagnitude < 0.01f);
+
+            return (transform.position - _dst.GetNodePosition()).sqrMagnitude < 0.01f;
         }
 
         public NavigateOperation Last() {
-            return m_moves[^1];
+            return _moves[^1];
+        }
+        
+        public BaseNode Destination() {
+            return _dst;
         }
 
         public BaseNode LastNode() {
-            return m_last;
+            return _last;
         }
 
         public BaseNode CurrentNode() {
-            return m_current;
+            return _current;
         }
 
-        public int Count => m_moves.Count;
+        public void Free() {
+            var pool = PathManager.GetInstance().Pool;
+            foreach (var move in this._moves) {
+                pool.Release(move);
+            }
+        }
 
-        public NavigateOperation this[int index] => m_moves[index];
+        public int Count => _moves.Count;
+
+        public NavigateOperation this[int index] => _moves[index];
     }
 }

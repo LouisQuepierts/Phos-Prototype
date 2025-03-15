@@ -113,14 +113,14 @@ namespace PhosEditor {
                 Handles.color = colorHighlightPath;
                 Handles.CubeHandleCap(
                     0,
-                    HighlightPath.nodeA.GetConnectPoint(HighlightPath.directionA),
+                    HighlightPath.nodeA.GetConnectionPosition(HighlightPath.directionA),
                     HighlightPath.nodeA.transform.rotation,
                     0.4f,
                     EventType.Repaint
                 );
                 Handles.CubeHandleCap(
                     0,
-                    HighlightPath.nodeB.GetConnectPoint(HighlightPath.directionB),
+                    HighlightPath.nodeB.GetConnectionPosition(HighlightPath.directionB),
                     HighlightPath.nodeB.transform.rotation,
                     0.4f,
                     EventType.Repaint
@@ -229,13 +229,13 @@ namespace PhosEditor {
             Direction currentDirection = path.GetDirection(node);
             Direction minDirection = currentDirection;
             float minMagnitude = Mathf.Min(
-                (node.GetConnectPoint(minDirection) - hitPoint).magnitude,
-                (node.GetNodePoint() - hitPoint).magnitude
+                (node.GetConnectionPosition(minDirection) - hitPoint).magnitude,
+                (node.GetNodePosition() - hitPoint).magnitude
             );
 
             foreach (Direction direction in Directions.Value) {
                 if (direction == currentDirection) continue;
-                Vector3 point = node.GetConnectPoint(direction);
+                Vector3 point = node.GetConnectionPosition(direction);
                 float magnitude = (point - hitPoint).magnitude;
 
                 if (magnitude < minMagnitude) {
@@ -298,7 +298,7 @@ namespace PhosEditor {
 
             // TODO Build Connections
             NavigateNode node = newObject.GetComponent<NavigateNode>();
-            Collider[] hits = Physics.OverlapSphere(node.GetNodePoint(), 1f);
+            Collider[] hits = Physics.OverlapSphere(node.GetNodePosition(), 1f);
 
             foreach (var item in hits) {
                 NavigateNode other = item.GetComponent<NavigateNode>();
