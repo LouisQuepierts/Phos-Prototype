@@ -45,31 +45,31 @@ namespace Phos {
             if (Physics.Raycast(ray, out RaycastHit hit, 4f)) {
                 NavigateNode node = hit.collider.GetComponent<NavigateNode>();
 
-                if (node != null) {
+                if (node) {
                     current = node;
                     transform.parent = node.transform.parent;
                 }
             }
 
-            if (m_path != NavigatePath.Empty) {
-
-                if (m_path.Arrive(transform)) {
-                    transform.position = m_path.Last().Target;
-                    m_path = NavigatePath.Empty;
-                    return;
-                }
-
-                m_path.Move(this);
-
-                //pathCurrent = m_path.CurrentNode();
-                //pathLast = m_path.LastNode();
-
-                //if (pathCurrent != null && pathLast != null) {
-                //    distance = Vector3.Distance(pathCurrent.GetNodePoint(), pathLast.GetNodePoint());
-                //    float pDistance = Vector3.Distance(transform.position, pathLast.GetNodePoint());
-                //    pathProgress = Mathf.Clamp(1 - pDistance / distance, 0f, 1f);
-                //}
+            if (m_path == NavigatePath.Empty) return;
+            
+            if (m_path.Arrive(transform)) {
+                transform.position = m_path.Destination().GetNodePosition();
+                m_path.Free();
+                m_path = NavigatePath.Empty;
+                return;
             }
+
+            m_path.Move(this);
+
+            //pathCurrent = m_path.CurrentNode();
+            //pathLast = m_path.LastNode();
+
+            //if (pathCurrent != null && pathLast != null) {
+            //    distance = Vector3.Distance(pathCurrent.GetNodePoint(), pathLast.GetNodePoint());
+            //    float pDistance = Vector3.Distance(transform.position, pathLast.GetNodePoint());
+            //    pathProgress = Mathf.Clamp(1 - pDistance / distance, 0f, 1f);
+            //}
         }
 
         private void OnDrawGizmos() {
@@ -106,23 +106,23 @@ namespace Phos {
             if (Input.GetMouseButtonDown(0)) {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-                if (Physics.Raycast(ray, out RaycastHit hit)) {
-                    NavigateNode node = hit.collider.GetComponent<NavigateNode>();
+                if (!Physics.Raycast(ray, out RaycastHit hit)) return;
+                NavigateNode node = hit.collider.GetComponent<NavigateNode>();
 
-                    if (node != null && node != current && node != clicked && node.accessable) {
-                        clicked = node;
-                        PathManager controller = PathManager.TryGetInstance();
-                        if (controller.FindPath(current, clicked, out m_path)) {
-                            if (Vector3.Distance(current.transform.position, transform.position) > 0.5f) {
-                                Debug.Log("Is Moving");
-                                Direction direction = current.GetSimilarDirection(transform.position);
-                                BaseNode other = current.GetConnectedNode(direction);
-                                if (other != null) {
-                                    m_path.Setup(other);
-                                }
-                            }
-                        }
-                    }
+                if (!node || node == current || node == clicked || !node.Accessable) return;
+                clicked = node;
+                
+                PathManager controller = PathManager.TryGetInstance();
+                
+                m_path.Free();
+                if (!controller.FindPath(current, clicked, out m_path)) return;
+                
+                if (!(Vector3.Distance(current.transform.position, transform.position) > 0.5f)) return;
+                Debug.Log("Is Moving");
+                Direction direction = current.GetSimilarDirection(transform.position);
+                BaseNode other = current.GetConnectedNode(direction);
+                if (other) {
+                    m_path.Setup(other);
                 }
             } else if (Input.GetMouseButtonDown(1)) {
                 PathManager.TryGetInstance().UpdateAccessable(current);

@@ -88,7 +88,7 @@ namespace PhosEditor {
 
             vnode.transform.parent = lower.transform;
             vnode.transform.position = higher.transform.position
-                + higher.GetRelativeConnectPoint(direction.Opposite(), BaseNode.BLOCK_SCALE);
+                + higher.GetRelativeConnectionPosition(direction.Opposite(), BaseNode.BLOCK_SCALE);
 
             EditorUtility.SetDirty(Selection.activeGameObject);
         }

@@ -8,17 +8,18 @@ namespace Phos.Navigate {
     public class PathManager : MonoBehaviour, ICallbackListener<object> {
         private static PathManager CurrentManager;
 
+        // ReSharper disable Unity.PerformanceAnalysis
         public static PathManager TryGetInstance() {
-            if (CurrentManager == null) {
-                PathManager temp = FindFirstObjectByType<PathManager>();
+            if (CurrentManager) return CurrentManager;
+            
+            PathManager temp = FindFirstObjectByType<PathManager>();
 
-                if (temp == null) {
-                    GameObject go = new GameObject("PathManager");
-                    temp = go.AddComponent<PathManager>();
-                }
-
-                CurrentManager = temp;
+            if (!temp) {
+                GameObject go = new GameObject("PathManager");
+                temp = go.AddComponent<PathManager>();
             }
+
+            CurrentManager = temp;
             return CurrentManager;
         }
 
@@ -28,7 +29,9 @@ namespace Phos.Navigate {
 
         [SerializeField]
         public List<NodePath> m_paths = new();
-        public Dictionary<NavigateNode, PathList> m_nodePaths = new();
+
+        private readonly Dictionary<NavigateNode, PathList> m_nodePaths = new();
+        private readonly NavigateOperationPool _pool = new(16, 128);
 
         private void OnEnable() {
             CurrentManager = this;
@@ -47,7 +50,7 @@ namespace Phos.Navigate {
 
         public void UpdateAccessable(NavigateNode src) {
             foreach (var node in m_nodePaths.Keys) {
-                node.accessable = false;
+                node.Accessable = false;
             }
 
             Queue<NavigateNode> queue = new();
@@ -58,7 +61,7 @@ namespace Phos.Navigate {
 
             while (queue.Count > 0) {
                 NavigateNode current = queue.Dequeue();
-                current.accessable = true;
+                current.Accessable = true;
 
                 foreach (var path in m_nodePaths[current]) {
                     NavigateNode next = path.GetOther(current);
@@ -83,9 +86,8 @@ namespace Phos.Navigate {
             NavigateNode dst,
             out NavigatePath naviPath
         ) {
-
             naviPath = NavigatePath.Empty;
-            if (src == null || dst == null || src == dst) {
+            if (!src || !dst || src == dst) {
                 return false;
             }
 
@@ -213,6 +215,8 @@ namespace Phos.Navigate {
                 return m_nodePaths[node];
             }
         }
+
+        public NavigateOperationPool Pool => _pool;
 
         public sealed class PathList : List<NodePath> {
             public NodePath this[NavigateNode node] { 
