@@ -1,13 +1,10 @@
-﻿using Phos.Interact;
-using Phos.Structure;
-using Phos.Utils;
+﻿using Phos.Utils;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Phos.Predicate {
 	[Serializable]
-	public class PredicateHolder : IPredicate {
+	public class PredicateHolder {
         public LogicalOperator @operator;
 
         private BasePredicate[] predicates;
