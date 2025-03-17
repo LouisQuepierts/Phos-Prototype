@@ -1,11 +1,10 @@
 ﻿using System;
-using Phos.Trigger.Predicate;
 using UnityEngine;
 
 namespace Phos.Trigger {
     [RequireComponent(typeof(TriggerController))]
     public class CollisionTriggerBehaviour : MonoBehaviour {
-        public CollisionFlag flag;
+        public ExecutionFlag flag = ExecutionFlag.Enter;
         
         private TriggerController _trigger;
         
@@ -15,7 +14,7 @@ namespace Phos.Trigger {
         }
 
         private void OnTriggerEnter(Collider other) {
-            if (!flag.HasFlag(CollisionFlag.Enter)) return;
+            if (!flag.HasFlag(ExecutionFlag.Enter)) return;
             var context = _trigger.Context;
             context.NewValue = true;
             context.Collider = other.gameObject;
@@ -24,7 +23,7 @@ namespace Phos.Trigger {
         }
 
         private void OnTriggerExit(Collider other) {
-            if (!flag.HasFlag(CollisionFlag.Exit)) return;
+            if (!flag.HasFlag(ExecutionFlag.Exit)) return;
             var context = _trigger.Context;
             context.NewValue = false;
             context.Collider = other.gameObject;
@@ -34,7 +33,8 @@ namespace Phos.Trigger {
     }
 
     [Flags]
-    public enum CollisionFlag {
+    [Serializable]
+    public enum ExecutionFlag {
         Enter,
         Exit
     }

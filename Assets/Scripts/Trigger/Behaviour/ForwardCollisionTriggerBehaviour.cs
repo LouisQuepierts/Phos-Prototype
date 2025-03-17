@@ -3,7 +3,7 @@
 namespace Phos.Trigger {
     [RequireComponent(typeof(TriggerController))]
     public class ForwardCollisionTriggerBehaviour : MonoBehaviour {
-        public CollisionFlag flag;
+        public ExecutionFlag flag;
         private TriggerController _trigger;
         
         private void Start() {
@@ -12,12 +12,12 @@ namespace Phos.Trigger {
         }
 
         private void OnTriggerEnter(Collider other) {
-            if (!flag.HasFlag(CollisionFlag.Enter)) return;
+            if (!flag.HasFlag(ExecutionFlag.Enter)) return;
             Trigger(other);
         }
 
         private void OnTriggerExit(Collider other) {
-            if (!flag.HasFlag(CollisionFlag.Exit)) return;
+            if (!flag.HasFlag(ExecutionFlag.Exit)) return;
             Trigger(other);
         }
 
