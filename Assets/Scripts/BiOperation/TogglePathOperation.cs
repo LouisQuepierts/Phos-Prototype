@@ -9,7 +9,7 @@ namespace Phos.BiOperation {
 
         public bool invert;
 
-        private NodePath m_path;
+        private NodePath _path;
 
         private void Start() {
             if (nodeA == null || nodeB == null || nodeA == nodeB) {
@@ -18,8 +18,8 @@ namespace Phos.BiOperation {
                 return;
             }
 
-            m_path = nodeA.Paths[nodeB];
-            if (m_path == null) {
+            _path = nodeA.Paths[nodeB];
+            if (_path == null) {
                 Debug.LogError($"BiOperation.TogglePathOperation: {nodeA} does not have a path to {nodeB}");
                 enabled = false;
             }
@@ -30,9 +30,9 @@ namespace Phos.BiOperation {
                 return;
             }
 
-            m_path.active = trigger != invert;
+            _path.active = trigger != invert;
 
-            Debug.Log($"Update Access {m_path.active}");
+            Debug.Log($"Update Access {_path.active}");
         }
     }
 }

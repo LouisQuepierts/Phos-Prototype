@@ -1,7 +1,5 @@
 ﻿using Phos.Interact;
-using Phos.Navigate;
 using Phos.Operation;
-using UnityEngine;
 
 namespace Phos.BiOperation {
     public class ToggleInteractionControlOperation : BaseBiOperation {
