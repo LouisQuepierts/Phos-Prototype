@@ -1,5 +1,6 @@
 using System;
 using Phos.Navigate;
+using Phos.Trigger;
 using UnityEngine;
 
 namespace Phos {
@@ -50,7 +51,12 @@ namespace Phos {
 
                 if (node) {
                     current = node;
-                    transform.parent = node.transform.parent;
+
+                    if (transform.parent != node.transform.parent) {
+                        Transform last = transform.parent;
+                        transform.parent = node.transform.parent;
+                        ParentTriggerBehaviour.Trigger(node.transform, last, gameObject);
+                    }
                 }
             }
 
