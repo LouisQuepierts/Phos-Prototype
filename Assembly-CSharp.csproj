@@ -165,6 +165,7 @@
      <Folder Include="Assets\TextMesh Pro\Resources" />
      <Folder Include="Assets\Models" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
+     <None Include="Assets\Shaders\ClickHighlight.shader" />
      <Folder Include="Assets\TextMesh Pro" />
      <Folder Include="Assets\Scripts\Trigger\Behaviour" />
      <None Include="Assets\Shaders\DirectionalColor.shader" />
