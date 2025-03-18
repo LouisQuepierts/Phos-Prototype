@@ -7,15 +7,12 @@ namespace Phos.BiOperation {
 
         public bool invert;
 
-        private void Start() {
-        }
-
         public override void Execute(bool trigger) {
             if (!enabled) {
                 return;
             }
 
-            control.active = trigger != invert;
+            control.SetControlActive(trigger != invert);
         }
     }
 }

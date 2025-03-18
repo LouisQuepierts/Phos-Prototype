@@ -1,4 +1,5 @@
-﻿using Phos.Callback;
+﻿using System;
+using Phos.Callback;
 using Phos.Navigate;
 using Phos.Structure;
 using System.Collections.Generic;
@@ -47,6 +48,9 @@ namespace Phos.Interact {
 
         private int _lastSegment;
 
+        private Animation _animation;
+        private AnimationClip _clip;
+
         public float Segment => _segment.Value;
 
         protected abstract bool Raycast(Ray ray, out float enter, bool update);
@@ -62,6 +66,22 @@ namespace Phos.Interact {
         protected abstract float UpdateSegment();
 
         protected abstract void MoveTo(int delta);
+
+        public void SetControlActive(bool active) {
+            if (this.active == active) return;
+            this.active = active;
+            _hovered = false;
+
+            if (!_animation || !_animation.clip) return;
+            Debug.Log($"Toggle {active}");
+            var clip = _animation.clip;
+            var state = _animation[clip.name];
+            state.speed = active ? 1 : -1;
+            
+            if (_animation.isPlaying) return;
+            state.time = active ? 0 : clip.length;
+            _animation.Play();
+        }
 
         public void MousePressed() {
             if (!active) {
@@ -213,6 +233,16 @@ namespace Phos.Interact {
             foreach (var handle in handles) {
                 AddHandle(handle);
             }
+        }
+
+        private void Start() {
+            _animation = GetComponent<Animation>();
+            
+            if (!_animation) return;
+            _clip = _animation.clip;
+                
+            if (active) return;
+            _animation[_clip.name].time = _clip.length;
         }
     }
 }

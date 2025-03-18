@@ -34,10 +34,12 @@ namespace Phos.Interact {
         }
 
         private void OnMouseEnter() {
+            if (!m_control || !m_control.active) return; 
             m_control?.SetHovered(true);
         }
 
         private void OnMouseExit() {
+            if (!m_control || !m_control.active) return; 
             m_control?.SetHovered(false);
         }
 
