@@ -32,7 +32,7 @@ namespace Phos.BiOperation {
 
             _path.active = trigger != invert;
 
-            Debug.Log($"Update Access {_path.active}");
+            // Debug.Log($"Update Access {_path.active}");
         }
     }
 }

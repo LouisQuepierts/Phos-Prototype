@@ -27,7 +27,7 @@ namespace Phos.Navigate {
 
         public void Release(NavigateOperation operation) {
             lock (_lock) {
-                Debug.Log("Release");
+                // Debug.Log("Release");
                 if (_pool.Count < _maxSize) {
                     _pool.Push(operation);
                 }

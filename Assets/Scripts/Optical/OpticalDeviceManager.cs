@@ -38,16 +38,24 @@ namespace Phos.Optical {
         }
 
         private void FixedUpdate() {
-            var shouldUpdate = _devices.Aggregate(false, (current, device) => current | device.CheckChanged());
+            if (!Application.isPlaying) {
+                var shouldUpdate = _devices.Aggregate(false, (current, device) => current | device.CheckChanged());
 
-            if (!shouldUpdate) return;
-            
+                if (!shouldUpdate) return;
+            }
+
             OpticalUpdate();
         }
 
         private void OpticalUpdate() {
+            // Update
             foreach (var device in _devices) {
                 device.OpticalUpdate();
+            }
+            
+            // Last Update
+            foreach (var device in _devices) {
+                device.LateOpticalUpdate();
             }
         }
 

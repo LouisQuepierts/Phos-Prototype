@@ -1,8 +1,10 @@
+using System;
 using Phos.Navigate;
 using UnityEngine;
 
 namespace Phos {
     public class PlayerController : MonoBehaviour {
+        private const float MaxRaycastDistance = 64f;
         private static PlayerController instance;
 
         public NavigateNode current;
@@ -14,7 +16,8 @@ namespace Phos {
         //public float distance;
         //public float pathProgress;
 
-        private NavigatePath m_path = NavigatePath.Empty;
+        private NavigatePath _path = NavigatePath.Empty;
+        private int _layerMask;
 
         public static PlayerController GetInstance() {
             return instance;
@@ -22,17 +25,17 @@ namespace Phos {
 
         private void Awake() {
             instance = this;
+            _layerMask = 0 | 1 << LayerMask.NameToLayer("Node");
+            Debug.Log(Convert.ToString(_layerMask, 2).PadLeft(32, '0'));
 
             Ray ray = new Ray(transform.position + transform.up, -transform.up);
 
-            if (Physics.Raycast(ray, out RaycastHit hit, 4f)) {
-                NavigateNode node = hit.collider.GetComponent<NavigateNode>();
+            if (!Physics.Raycast(ray, out RaycastHit hit, 4f, _layerMask)) return;
+            NavigateNode node = hit.collider.GetComponent<NavigateNode>();
 
-                if (node != null) {
-                    current = node;
-                    PathManager.TryGetInstance().UpdateAccessable(node);
-                }
-            }
+            if (node == null) return;
+            current = node;
+            PathManager.TryGetInstance().UpdateAccessable(node);
         }
 
         void Update() {
@@ -42,7 +45,7 @@ namespace Phos {
         private void FixedUpdate() {
             Ray ray = new Ray(transform.position + transform.up, -transform.up);
 
-            if (Physics.Raycast(ray, out RaycastHit hit, 4f)) {
+            if (Physics.Raycast(ray, out RaycastHit hit, 4f, _layerMask)) {
                 NavigateNode node = hit.collider.GetComponent<NavigateNode>();
 
                 if (node) {
@@ -51,19 +54,19 @@ namespace Phos {
                 }
             }
 
-            if (m_path == NavigatePath.Empty) return;
+            if (_path == NavigatePath.Empty) return;
             
-            if (m_path.Arrive(transform)) {
-                transform.position = m_path.Destination().GetNodePosition();
-                m_path.Free();
-                m_path = NavigatePath.Empty;
+            if (_path.Arrive(transform)) {
+                transform.position = _path.Destination().GetNodePosition();
+                _path.Free();
+                _path = NavigatePath.Empty;
                 return;
             }
 
-            m_path.Move(this);
+            _path.Move(this);
 
-            //pathCurrent = m_path.CurrentNode();
-            //pathLast = m_path.LastNode();
+            //pathCurrent = _path.CurrentNode();
+            //pathLast = _path.LastNode();
 
             //if (pathCurrent != null && pathLast != null) {
             //    distance = Vector3.Distance(pathCurrent.GetNodePoint(), pathLast.GetNodePoint());
@@ -73,10 +76,10 @@ namespace Phos {
         }
 
         private void OnDrawGizmos() {
-            if (m_path != NavigatePath.Empty) {
-                var move = m_path.Next(transform);
+            if (_path != NavigatePath.Empty) {
+                var move = _path.Next(transform);
                 bool show = false;
-                foreach (var path in m_path) {
+                foreach (var path in _path) {
                     if (path == move) {
                         show = true;
                     } else if (!show) {
@@ -106,7 +109,7 @@ namespace Phos {
             if (Input.GetMouseButtonDown(0)) {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-                if (!Physics.Raycast(ray, out RaycastHit hit)) return;
+                if (!Physics.Raycast(ray, out RaycastHit hit, MaxRaycastDistance, _layerMask)) return;
                 NavigateNode node = hit.collider.GetComponent<NavigateNode>();
 
                 if (!node || node == current || node == clicked || !node.Accessable) return;
@@ -114,15 +117,15 @@ namespace Phos {
                 
                 PathManager controller = PathManager.TryGetInstance();
                 
-                m_path.Free();
-                if (!controller.FindPath(current, clicked, out m_path)) return;
+                _path.Free();
+                if (!controller.FindPath(current, clicked, out _path)) return;
                 
                 if (!(Vector3.Distance(current.transform.position, transform.position) > 0.5f)) return;
                 Debug.Log("Is Moving");
                 Direction direction = current.GetSimilarDirection(transform.position);
                 BaseNode other = current.GetConnectedNode(direction);
                 if (other) {
-                    m_path.Setup(other);
+                    _path.Setup(other);
                 }
             } else if (Input.GetMouseButtonDown(1)) {
                 PathManager.TryGetInstance().UpdateAccessable(current);

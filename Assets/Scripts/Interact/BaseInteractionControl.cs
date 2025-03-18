@@ -1,12 +1,11 @@
 ﻿using Phos.Callback;
 using Phos.Navigate;
 using Phos.Structure;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Phos.Interact {
-    public abstract partial class BaseInteractionControl : CallbackProvider<StructureControl.CallbackContext> {
+    public abstract class BaseInteractionControl : CallbackProvider<StructureControl.CallbackContext> {
         [Header("Alignment Properties")]
         [Range(0.1f, 1f)]
         public float alignTime = 0.1f;
@@ -17,13 +16,13 @@ namespace Phos.Interact {
         [Range(0f, 1f)]
         public float reboundCeofficient = .5f;
 
-        public bool hardEdge = false;
+        public bool hardEdge;
 
-        [Header("Segment Proeprties")]
+        [Header("Segment Properties")]
         [Range(-32, 1)]
-        public int minSegment = 0;
+        public int minSegment;
         [Range(-1, 32)]
-        public int maxSegment = 0;
+        public int maxSegment;
 
         [Header("Structure Properties")]
         public List<StructureControl> structures = new();
@@ -34,25 +33,21 @@ namespace Phos.Interact {
 
         public bool active = true;
 
-        private Vector3 m_start;
+        private Vector3 _start;
 
-        private bool m_aligning;
-        private bool m_overshooting;
+        private bool _aligning;
+        private bool _overshooting;
 
-        private List<DragHandle> m_handles = new();
-        private bool m_pressed = false;
-        private bool m_hovered = false;
+        private List<DragHandle> _handles = new();
+        private bool _pressed;
+        private bool _hovered;
 
-        public SharedProperty<float> m_segment = new(0f);
-        public SharedProperty<float> m_highlight = new(0f);
+        public SharedProperty<float> _segment = new(0f);
+        public SharedProperty<float> _highlight = new(0f);
 
-        private int m_lastSegment = 0;
+        private int _lastSegment;
 
-        public float Segment {
-            get {
-                return m_segment.Value;
-            }
-        }
+        public float Segment => _segment.Value;
 
         protected abstract bool Raycast(Ray ray, out float enter, bool update);
 
@@ -66,23 +61,25 @@ namespace Phos.Interact {
 
         protected abstract float UpdateSegment();
 
+        protected abstract void MoveTo(int delta);
+
         public void MousePressed() {
             if (!active) {
                 return;
             }
 
-            m_pressed = true;
-            m_aligning = false;
-            m_overshooting = false;
+            _pressed = true;
+            _aligning = false;
+            _overshooting = false;
 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
             if (Raycast(ray, out float enter, true)) {
-                m_start = ray.GetPoint(enter);
+                _start = ray.GetPoint(enter);
             }
 
             Post(new StructureControl.CallbackContext(
-                m_segment.Value, StructureControl.CallbackType.InteractBegin
+                _segment.Value, StructureControl.CallbackType.InteractBegin
             ));
         }
 
@@ -99,10 +96,10 @@ namespace Phos.Interact {
             if (Raycast(ray, out float enter, false)) {
                 Vector3 current = ray.GetPoint(enter);
 
-                PerformDrag(m_start, current);
-                m_segment.Value = UpdateSegment();
+                PerformDrag(_start, current);
+                _segment.Value = UpdateSegment();
 
-                m_start = current;
+                _start = current;
             }
 
         }
@@ -111,10 +108,16 @@ namespace Phos.Interact {
         /// Handle mouse released action
         /// </summary>
         public void MouseReleased() {
-            m_overshooting = ShouldOvershoot();
-            m_pressed = false;
-            m_aligning = true;
+            _overshooting = ShouldOvershoot();
+            _pressed = false;
+            _aligning = true;
             InteractFinished();
+        }
+
+        public void MoveDelta(int delta) {
+            if (delta == 0) return;
+            _aligning = true;
+            MoveTo(Mathf.RoundToInt(_segment.Value) + delta);
         }
 
         private void InteractFinished() {
@@ -123,94 +126,93 @@ namespace Phos.Interact {
             }
 
             Post(new StructureControl.CallbackContext(
-                m_segment.Value, StructureControl.CallbackType.InteractFinished
+                _segment.Value, StructureControl.CallbackType.InteractFinished
             ));
         }
 
+        // ReSharper disable Unity.PerformanceAnalysis
         private void AlignFinished() {
             foreach (var structure in structures) {
-                structure.AlginFinished();
+                structure.AlignFinished();
             }
 
             Post(new StructureControl.CallbackContext(
-                m_segment.Value, StructureControl.CallbackType.AlignFinished
+                _segment.Value, StructureControl.CallbackType.AlignFinished
             ));
 
             PathManager controller = PathManager.GetInstance();
             PlayerController player = PlayerController.GetInstance();
 
-
             controller.UpdateAccessable(player.current);
         }
 
+        // ReSharper disable Unity.PerformanceAnalysis
         private void OnChangeSegment() {
             foreach (var structure in structures) {
                 structure.SegmentChanged();
             }
 
             Post(new StructureControl.CallbackContext(
-                m_segment.Value, StructureControl.CallbackType.ChangeSegment
+                _segment.Value, StructureControl.CallbackType.ChangeSegment
             ));
 
             PathManager controller = PathManager.GetInstance();
             PlayerController player = PlayerController.GetInstance();
 
-            Debug.Log("Update Accessable");
+            // Debug.Log("Update Accessible");
             controller.UpdateAccessable(player.current);
         }
 
         public void AddHandle(DragHandle handle) {
-            m_handles.Add(handle);
-            handle.Bind(this, m_highlight);
+            _handles.Add(handle);
+            handle.Bind(this, _highlight);
         }
 
         public void SetHovered(bool hovered) {
-            m_hovered = hovered;
+            _hovered = hovered;
         }
 
         private void FixedUpdate() {
-            bool aligning = m_aligning;
-            if (m_aligning) {
-                if (m_overshooting) {
+            bool aligning = _aligning;
+            if (_aligning) {
+                if (_overshooting) {
                     if (overshootCeoficient > 0 && PerformOvershoot()) {
-                        m_overshooting = false;
+                        _overshooting = false;
                     }
                 } else {
                     if (PerformAlign()) {
-                        m_aligning = false;
+                        _aligning = false;
                     }
                 }
 
-                m_segment.Value = Mathf.Round(UpdateSegment() * 1000f) / 1000f;
+                _segment.Value = Mathf.Round(UpdateSegment() * 1000f) / 1000f;
             }
 
-            if (m_aligning != aligning) {
+            if (_aligning != aligning) {
                 AlignFinished();
             }
 
-            int rounded = Mathf.RoundToInt(m_segment.Value);
-            if (rounded != m_lastSegment) {
+            int rounded = Mathf.RoundToInt(_segment.Value);
+            if (rounded != _lastSegment) {
                 OnChangeSegment();
             }
-            m_lastSegment = rounded;
+            _lastSegment = rounded;
         }
 
         private void Update() {
-            float highlightValue = (m_hovered || m_pressed) ? 1f : -1f;
-            float value = m_highlight.Value;
-            m_highlight.Value = Mathf.Clamp(value + highlightValue * Time.deltaTime * 5f, 0f, 1f);
+            float highlightValue = (_hovered || _pressed) ? 1f : -1f;
+            float value = _highlight.Value;
+            _highlight.Value = Mathf.Clamp(value + highlightValue * Time.deltaTime * 5f, 0f, 1f);
         }
 
         private void OnEnable() {
             foreach (var structure in structures) {
-                structure.BindProperty(m_segment);
+                structure.BindProperty(_segment);
             }
 
             foreach (var handle in handles) {
                 AddHandle(handle);
             }
         }
-
-        public float Segement => m_segment.Value;
     }
 }

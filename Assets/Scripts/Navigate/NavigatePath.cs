@@ -95,7 +95,7 @@ namespace Phos.Navigate {
 
             if ((transform.position - _moves[_index].Target).sqrMagnitude < 0.01f) {
                 _index++;
-                Debug.Log("Next");
+                //Debug.Log("Next");
 
                 NavigateOperation current = _moves[_index];
 

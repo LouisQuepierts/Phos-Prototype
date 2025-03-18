@@ -1,7 +1,10 @@
 ﻿namespace Phos.Trigger.Predicate {
-    public class DisposablePredicate : BaseTriggerPredicate{
+    public class DisposablePredicate : BaseTriggerPredicate {
+        private bool _triggered;
         public override bool Evaluate(TriggerContext context) {
-            return !context.TriggerController.Value;
+            if (_triggered) return false;
+            _triggered = context.TriggerController.Value;
+            return _triggered;
         }
     }
 }
