@@ -10,6 +10,8 @@ namespace Phos {
 
         public NavigateNode current;
         public NavigateNode clicked;
+        
+        public ClickHighlight clickHighlight;
 
         //[Header("Runtime Node")]
         //public BaseNode pathCurrent;
@@ -118,8 +120,14 @@ namespace Phos {
                 if (!Physics.Raycast(ray, out RaycastHit hit, MaxRaycastDistance, _layerMask)) return;
                 NavigateNode node = hit.collider.GetComponent<NavigateNode>();
 
-                if (!node || node == current || node == clicked || !node.Accessable) return;
+                if (!node) return;
+                
                 clicked = node;
+                if (clickHighlight) {
+                    clickHighlight.Click(clicked);
+                }
+                
+                if (node == current || !node.Accessable) return;
                 
                 PathManager controller = PathManager.TryGetInstance();
                 

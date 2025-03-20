@@ -1,4 +1,5 @@
 ﻿using System;
+using Phos.Navigate;
 using UnityEngine;
 
 namespace Phos {
@@ -18,7 +19,9 @@ namespace Phos {
             _renderer.SetPropertyBlock(_block);
         }
 
-        public void Click() {
+        public void Click(NavigateNode clicked) {
+            transform.position = clicked.GetNodePosition() + clicked.transform.up * 0.01f;
+            transform.rotation = clicked.transform.rotation;
             _value = 1.0f;
         }
 

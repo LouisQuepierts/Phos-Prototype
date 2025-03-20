@@ -21,6 +21,23 @@ namespace Phos.Navigate {
             _moves = new();
             _last = src;
             _current = src;
+
+            // check door
+            var deep = 4;
+            while (deep != 0 &&
+                   dst &&
+                   dst.type == NodeType.DOOR) {
+                var direction = path[^1].GetDirection(dst);
+                var node = dst.GetConnectedNode(direction.Opposite());
+                if (node is not NavigateNode navi) {
+                    break;
+                }
+                
+                var next = dst.Paths[navi];
+                dst = navi;
+                path.Add(next);
+                deep++;
+            }
             _dst = dst;
 
             if (!src || !dst) return;

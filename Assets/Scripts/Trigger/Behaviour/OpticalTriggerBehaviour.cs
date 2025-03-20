@@ -28,12 +28,15 @@ namespace Phos.Trigger {
 
         // ReSharper disable Unity.PerformanceAnalysis
         public override void LateOpticalUpdate() {
-            if (_hit == _wasHit) return;
-            
-            var context = _trigger.Context;
-            context.NewValue = _hit;
-            _trigger.Trigger();
-            _wasHit = _hit;
+            if (!Application.isPlaying) return;
+
+            if (_hit != _wasHit) {
+                var context = _trigger.Context;
+                context.NewValue = _hit;
+                _trigger.Trigger();
+                _wasHit = _hit;
+            }
+
             _hit = false;
         }
     }

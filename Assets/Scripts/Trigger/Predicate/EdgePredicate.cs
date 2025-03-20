@@ -2,10 +2,10 @@
 
 namespace Phos.Trigger.Predicate {
     public class EdgePredicate : BaseTriggerPredicate {
-        public bool rising;
+        public ExecutionFlag edge;
         
         public override bool Evaluate(TriggerContext context) {
-            return context.NewValue == rising;
+            return edge.HasFlag(context.NewValue ? ExecutionFlag.Enter : ExecutionFlag.Exit);
         }
     }
 }

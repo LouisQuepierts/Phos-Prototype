@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
-using UnityEngine.Serialization;
 
 namespace Phos.Optical {
     [ExecuteAlways]
@@ -19,16 +17,17 @@ namespace Phos.Optical {
         private readonly List<LightPath> _paths = new();
         private bool _updated = false;
 
-        private LightBeamMesh _line;
+        [HideInInspector]
+        public LightBeamMesh line;
 
         private float _strength;
 
         private LightBeamMesh Light {
             get {
-                if (!_line) {
-                    _line = CreateLightBeam();
+                if (!line) {
+                    line = CreateLightBeam();
                 }
-                return _line;
+                return line;
             }
         }
         
@@ -66,7 +65,7 @@ namespace Phos.Optical {
             //if (!Application.isPlaying) return;
 
             //_line ??= gameObject.GetComponent<LineRenderer>() ?? gameObject.AddComponent<LineRenderer>();
-            Debug.Log("Update Light Paths");
+            // Debug.Log("Update Light Paths");
 
             List<Vector3> points = new List<Vector3>(_paths.Count + 1);
             points.Add(transform.position);
@@ -86,7 +85,7 @@ namespace Phos.Optical {
         }
 
         private void UpdateLightPaths() {
-            Debug.Log("Update Light Paths");
+            // Debug.Log("Update Light Paths");
             _paths.Clear();
             var light = new LightData(
                 transform.position,
