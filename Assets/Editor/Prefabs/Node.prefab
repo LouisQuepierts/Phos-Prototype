@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6861018344050308855}
   - component: {fileID: 1320563220562558400}
   - component: {fileID: 5909216197115065223}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Node
   m_TagString: Node
   m_Icon: {fileID: 0}
@@ -25,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8878965025163661699}
-  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 0.000000014901159, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
+  m_RootOrder: -2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1320563220562558400
 BoxCollider:
@@ -66,5 +66,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e028a9bd3b9598645be7809a894b8ef7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offset: 0
   type: 0
+  offset: 0

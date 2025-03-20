@@ -768,6 +768,9 @@
      <Reference Include="Unity.2D.Sprite.Editor">
      <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.2D.Sprite.Editor.dll</HintPath>
      </Reference>
+     <Reference Include="Unity.Formats.Fbx.Runtime">
+     <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.Formats.Fbx.Runtime.dll</HintPath>
+     </Reference>
      <Reference Include="Unity.RenderPipelines.Core.Editor">
      <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.RenderPipelines.Core.Editor.dll</HintPath>
      </Reference>
@@ -783,6 +786,9 @@
      <Reference Include="Unity.RenderPipelines.Core.ShaderLibrary">
      <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.RenderPipelines.Core.ShaderLibrary.dll</HintPath>
      </Reference>
+     <Reference Include="Unity.Formats.Fbx.Editor">
+     <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.Formats.Fbx.Editor.dll</HintPath>
+     </Reference>
      <Reference Include="UnityEngine.Purchasing.Codeless">
      <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\UnityEngine.Purchasing.Codeless.dll</HintPath>
      </Reference>
@@ -795,11 +801,11 @@
      <Reference Include="Unity.Services.Core.Analytics">
      <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.Services.Core.Analytics.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.AI.Navigation.Editor.ConversionSystem">
-     <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.AI.Navigation.Editor.ConversionSystem.dll</HintPath>
-     </Reference>
      <Reference Include="Unity.VSCode.Editor">
      <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.VSCode.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.AI.Navigation.Editor.ConversionSystem">
+     <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.AI.Navigation.Editor.ConversionSystem.dll</HintPath>
      </Reference>
      <Reference Include="UnityEngine.Purchasing">
      <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\UnityEngine.Purchasing.dll</HintPath>
@@ -831,14 +837,17 @@
      <Reference Include="UnityEditor.SpatialTracking">
      <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\UnityEditor.SpatialTracking.dll</HintPath>
      </Reference>
-     <Reference Include="Unity.VisualStudio.Editor">
-     <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.VisualStudio.Editor.dll</HintPath>
+     <Reference Include="UnityEngine.Advertisements.Editor">
+     <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\UnityEngine.Advertisements.Editor.dll</HintPath>
      </Reference>
      <Reference Include="UnityEditor.UI">
      <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
      </Reference>
      <Reference Include="Unity.VisualScripting.Core">
      <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.VisualScripting.Core.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.VisualStudio.Editor">
+     <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.VisualStudio.Editor.dll</HintPath>
      </Reference>
      <Reference Include="UnityEngine.SpatialTracking">
      <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\UnityEngine.SpatialTracking.dll</HintPath>
@@ -851,9 +860,6 @@
      </Reference>
      <Reference Include="UnityEngine.UI">
      <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
-     </Reference>
-     <Reference Include="UnityEngine.Advertisements.Editor">
-     <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\UnityEngine.Advertisements.Editor.dll</HintPath>
      </Reference>
      <Reference Include="UnityEditor.XR.LegacyInputHelpers">
      <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\UnityEditor.XR.LegacyInputHelpers.dll</HintPath>
@@ -876,11 +882,17 @@
      <Reference Include="Unity.AI.Navigation.Updater">
      <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.AI.Navigation.Updater.dll</HintPath>
      </Reference>
+     <Reference Include="Autodesk.Fbx">
+     <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Autodesk.Fbx.dll</HintPath>
+     </Reference>
      <Reference Include="Unity.Postprocessing.Editor">
      <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.Postprocessing.Editor.dll</HintPath>
      </Reference>
      <Reference Include="Unity.VisualScripting.State.Editor">
      <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.VisualScripting.State.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Autodesk.Fbx.Editor">
+     <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Autodesk.Fbx.Editor.dll</HintPath>
      </Reference>
      <Reference Include="Unity.TextMeshPro.Editor">
      <HintPath>D:\Projects\Unity\Phos-Prototype\Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll</HintPath>
