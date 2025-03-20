@@ -276,7 +276,8 @@ namespace PhosEditor {
                 position.y = Mathf.Round(position.y);
                 position.z = Mathf.Round(position.z);
 
-                newObject = GameObject.Instantiate(NodeTemplate, parent);
+                var template = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Editor/Prefabs/Node.prefab");
+                newObject = GameObject.Instantiate(template, parent);
                 newObject.transform.localPosition = position;
                 newObject.transform.localRotation = Quaternion.LookRotation(Mathf.Abs(Vector3.Dot(direction, Vector3.forward)) > 0.9f ? Vector3.left : Vector3.forward, direction);
                 Debug.Log($"Placed a node at {position}; facing {direction}");

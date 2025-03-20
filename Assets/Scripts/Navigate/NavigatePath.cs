@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Phos.Trigger;
 using UnityEngine;
-using UnityEngine.Pool;
 
 namespace Phos.Navigate {
     public class NavigatePath : IEnumerable<NavigateOperation> {
@@ -21,6 +21,23 @@ namespace Phos.Navigate {
             _moves = new();
             _last = src;
             _current = src;
+
+            // check door
+            var deep = 4;
+            while (deep != 0 &&
+                   dst &&
+                   dst.type == NodeType.DOOR) {
+                var direction = path[^1].GetDirection(dst);
+                var node = dst.GetConnectedNode(direction.Opposite());
+                if (node is not NavigateNode navi) {
+                    break;
+                }
+                
+                var next = dst.Paths[navi];
+                dst = navi;
+                path.Add(next);
+                deep++;
+            }
             _dst = dst;
 
             if (!src || !dst) return;
@@ -94,8 +111,9 @@ namespace Phos.Navigate {
             if (_index >= _moves.Count - 1) return Last();
 
             if ((transform.position - _moves[_index].Target).sqrMagnitude < 0.01f) {
+                ArriveNodeTriggerBehaviour.Trigger(_moves[_index].Node, transform);
                 _index++;
-                Debug.Log("Next");
+                //Debug.Log("Next");
 
                 NavigateOperation current = _moves[_index];
 

@@ -6,14 +6,14 @@ namespace Phos.Controller {
         [Header("Operation")]
         public GameObject operationGroup;
 
-        private BaseBiOperation[] m_operations;
+        private BaseBiOperation[] _operations;
 
         private void Start() {
             PreInitialization();
 
-            m_operations = operationGroup == null ? GetComponents<BaseBiOperation>() : operationGroup.GetComponents<BaseBiOperation>();
+            _operations = operationGroup == null ? GetComponents<BaseBiOperation>() : operationGroup.GetComponents<BaseBiOperation>();
 
-            if (m_operations == null || m_operations.Length == 0) {
+            if (_operations == null || _operations.Length == 0) {
                 enabled = false;
                 return;
             }
@@ -26,8 +26,8 @@ namespace Phos.Controller {
         protected virtual void PostInitialization() { }
 
         protected void Execute(bool trigger = false) {
-            if (m_operations == null) return;
-            foreach (var opr in m_operations) {
+            if (_operations == null) return;
+            foreach (var opr in _operations) {
                 opr.Execute(trigger);
             }
         }

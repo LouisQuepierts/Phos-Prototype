@@ -3,47 +3,56 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Phos.Interact {
+    [RequireComponent(typeof(Renderer))]
 	public class DragHandle : MonoBehaviour {
-        private ReadonlyProperty<float> m_highlight;
+        private static readonly int Highlight = Shader.PropertyToID("_Highlight");
+        private ReadonlyProperty<float> _highlight;
 
-		private BaseInteractionControl m_control;
-        private Material m_material;
+		private BaseInteractionControl _control;
+
+        private Renderer _renderer;
+        private MaterialPropertyBlock _block;
 
         private void Update() {
-            if (m_highlight != null) {
-                m_material.SetFloat("_Highlight", m_highlight.Value);
-            }
+            if (_highlight == null) return;
+            
+            _block.SetFloat(Highlight, _highlight.Value);
+            _renderer.SetPropertyBlock(_block, 0);
         }
 
         private void Awake() {
             List<Material> materials = new();
-            GetComponentInParent<Renderer>().GetMaterials(materials);
-            m_material = materials[0];
+            _block = new MaterialPropertyBlock();
+            
+            _renderer = GetComponent<Renderer>();
+            _renderer.GetPropertyBlock(_block, 0);
         }
 
         private void OnMouseDown() {
-            m_control?.MousePressed();
+            _control?.MousePressed();
         }
 
         private void OnMouseDrag() {
-            m_control?.MouseDragging();
+            _control?.MouseDragging();
         }
 
         private void OnMouseUp() {
-            m_control?.MouseReleased();
+            _control?.MouseReleased();
         }
 
         private void OnMouseEnter() {
-            m_control?.SetHovered(true);
+            if (!_control || !_control.active) return; 
+            _control?.SetHovered(true);
         }
 
         private void OnMouseExit() {
-            m_control?.SetHovered(false);
+            if (!_control || !_control.active) return; 
+            _control?.SetHovered(false);
         }
 
         internal void Bind(BaseInteractionControl control, SharedProperty<float> property) {
-            m_control = control;
-            m_highlight = property;
+            _control = control;
+            _highlight = property;
         }
     }
 }

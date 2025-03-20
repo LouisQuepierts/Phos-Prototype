@@ -32,6 +32,10 @@ namespace Phos.Optical {
             
         }
 
+        public virtual void LateOpticalUpdate() {
+            
+        }
+
         protected virtual bool IsChanged() {
             bool changed = _changed;
             _changed = false;

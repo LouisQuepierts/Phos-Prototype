@@ -1,5 +1,6 @@
 ﻿using Phos.Navigate.Behaviour;
 using System;
+using Navigate.Behaviour;
 
 namespace Phos.Navigate {
     [System.Serializable]
@@ -7,7 +8,8 @@ namespace Phos.Navigate {
         GROUND,
         STAIR,
         CLIMB,
-        CURVE
+        CURVE,
+        DOOR
     }
 
     public static class NodeTypeExtensions {
@@ -15,7 +17,8 @@ namespace Phos.Navigate {
             GroundNodeBehaviour.Instance,
             StairNodeBehaviour.Instance,
             ClimbNodeBehaviour.Instance,
-            CurveNodeBehaviour.Instance
+            CurveNodeBehaviour.Instance,
+            DoorNodeBehaviour.Instance
         };
 
         public static INodeBehaviour GetNodeBehaviour(this NodeType type) {

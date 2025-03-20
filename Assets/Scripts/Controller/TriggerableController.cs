@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Phos.Controller {
     public class TriggerableController : BaseController, ICallbackListener<bool> {
-        public BaseTrigger[] triggers;
+        public TriggerController[] triggers;
 
         protected override void PostInitialization() {
             foreach (var trigger in triggers) {

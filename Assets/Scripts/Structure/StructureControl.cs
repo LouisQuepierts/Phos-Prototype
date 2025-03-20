@@ -30,7 +30,7 @@ namespace Phos.Structure {
 
         public abstract void InteractFinished();
 
-        public virtual void AlginFinished() {
+        public virtual void AlignFinished() {
             Post(new CallbackContext(m_segment.Value, CallbackType.AlignFinished));
         }
 
@@ -42,9 +42,9 @@ namespace Phos.Structure {
 
         protected virtual void OnFixedUpdate() { }
 
-        public void BindProperty(ReadonlyProperty<float> proeprty) {
-            Debug.Log($"{this} Bind {proeprty}");
-            m_segment = proeprty;
+        public void BindProperty(ReadonlyProperty<float> property) {
+            Debug.Log($"{this} Bind {property}");
+            m_segment = property;
         }
 
         private void FixedUpdate() {
@@ -55,10 +55,6 @@ namespace Phos.Structure {
                 UpdateTransform();
             }
             m_lastSegment = m_segment.Value;
-        }
-
-        private void Start() {
-            
         }
     }
 }

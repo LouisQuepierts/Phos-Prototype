@@ -78,6 +78,7 @@ namespace PhosEditor {
             Direction direction = path.GetDirection(lower);
 
             VirtualNode vnode = Array.Find(nodes, item => item.direction == direction);
+            Debug.Log($"{vnode} {direction}");
             if (vnode == null) {
                 GameObject nodeObject = new GameObject($"VirtualNode {direction}");
                 vnode = nodeObject.AddComponent<VirtualNode>();

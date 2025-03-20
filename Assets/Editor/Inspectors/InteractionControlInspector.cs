@@ -17,12 +17,12 @@ namespace PhosEditor {
             if (foldout) {
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField("Highlight");
-                EditorGUILayout.LabelField($"{control.m_highlight.Value}");
+                EditorGUILayout.LabelField($"{control._highlight.Value}");
                 EditorGUILayout.EndHorizontal();
 
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField("Segment");
-                EditorGUILayout.LabelField($"{control.m_segment.Value}");
+                EditorGUILayout.LabelField($"{control._segment.Value}");
                 EditorGUILayout.EndHorizontal();
             }
         }
