@@ -11,6 +11,8 @@ namespace Phos.Navigate {
             get; set;
         } = new();
 
+        public bool hide = false;
+
         [NonSerialized]
         public bool Accessable = false;
 

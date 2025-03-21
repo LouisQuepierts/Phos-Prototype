@@ -1,7 +1,10 @@
 using Phos.Navigate;
 using System;
+using Phos.Perform;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace PhosEditor {
     [InitializeOnLoad]
@@ -337,6 +340,16 @@ namespace PhosEditor {
         static void Disable() {
             enable = false;
         }
+        
+        [MenuItem("Tool/Setup Scene")]
+        static void SetupScene() {
+            var ctrl = new GameObject("GeneralController");
+            if (!Object.FindFirstObjectByType(typeof(SceneController)))
+                ctrl.AddComponent<SceneController>();
+            
+            if (!Object.FindFirstObjectByType(typeof(PathManager)))
+                ctrl.AddComponent<PathManager>();
+        }
 
         [MenuItem("Tool/Setup Camera")]
         static void SetupCamera() {
@@ -349,6 +362,9 @@ namespace PhosEditor {
                 camera.nearClipPlane = 0.3f;
                 camera.farClipPlane = 1000.0f;
                 camera.orthographicSize = 10f;
+
+                if (!camera.GetComponent<MultiLayerCamera>())
+                    camera.AddComponent<MultiLayerCamera>();
             }
         }
 

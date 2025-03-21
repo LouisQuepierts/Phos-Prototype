@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Water
-  m_Shader: {fileID: 4800000, guid: a03e80ba580e4b8d88cb546a818a2b11, type: 3}
+  m_Name: DynamicWater 1
+  m_Shader: {fileID: 4800000, guid: ce1d015162024a35bfdcca645dbf9ee2, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -25,6 +25,10 @@ Material:
     m_TexEnvs:
     - _BumpMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DepthNoiseTex:
+        m_Texture: {fileID: 2800000, guid: 6f1d3f2d7919f6e4a841f8c659e0a51c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -44,7 +48,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _FoamNoiseTex:
-        m_Texture: {fileID: 2800000, guid: ba4da57b14c968a47b2dfb87119781ab, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6f1d3f2d7919f6e4a841f8c659e0a51c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -52,6 +56,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -63,64 +71,60 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _PerlinNoiseTex:
+        m_Texture: {fileID: 2800000, guid: ba4da57b14c968a47b2dfb87119781ab, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _WaveNoiseTex:
+        m_Texture: {fileID: 2800000, guid: ba4da57b14c968a47b2dfb87119781ab, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _BUILTIN_QueueControl: 0
-    - _BUILTIN_QueueOffset: 0
     - _BumpScale: 1
     - _Cutoff: 0.5
-    - _DeepAmplifier: 0.092
-    - _DeepFactor: 0.5
-    - _Depth: 0
+    - _DeepAmplifier: 0.408
+    - _DeepFactor: 0.309
+    - _DepthNoiseAmplifier: 0.255
+    - _DepthNoiseScale: 0.042
     - _DetailNormalMapScale: 1
+    - _Distortion: 0.069
     - _DstBlend: 0
-    - _Fade: 1.25
-    - _FoamDepth: 0.594
-    - _FoamNoiseAmplifier: 0.3
-    - _FoamNoiseScale: 0.015
+    - _Fade: 0.787
+    - _FoamNoiseAmplifier: 0.119
+    - _FoamNoiseScale: 0.05
     - _FoamNoiseSpeed: 0.01
-    - _FoamSpeed: 0.097
-    - _FoamWidth: 0.336
+    - _FoamWidth: 0.132
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _Metallic: 0
     - _Mode: 0
+    - _NoiseScale: 7.1
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _ScreenHigher: 0.747
-    - _ScreenLower: 0.2
-    - _ScreenOffset: 0.112
+    - _RefractionStrength: 12.4
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
-    - _Speed: 0.05
     - _SrcBlend: 1
-    - _Transition: 0.767
-    - _TurbulanceSpeed: 0.043
     - _UVSec: 0
+    - _WaveAmplitude: 0.82
+    - _WaveLength: 4
+    - _WaveNoiseAmplifier: 0.294
+    - _WaveNoiseScale: 7.3
+    - _WindDirection: 70
+    - _WindSpeed: 0.4
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _DeepColor: {r: 0.5711641, g: 0.683412, b: 0.7924528, a: 0}
+    - _Color: {r: 0.4, g: 0.9254902, b: 1, a: 1}
+    - _DarkerColor: {r: 0.7348352, g: 0.2121573, b: 0.8207547, a: 1}
+    - _DeepColor: {r: 0.4473229, g: 0.3954788, b: 0.6509434, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FoamColor: {r: 1, g: 1, b: 1, a: 0}
-    - _ScreenHigherAmbient: {r: 1, g: 0.65471697, b: 0.83865273, a: 1}
-    - _ScreenLowerAmbient: {r: 0.6264151, g: 0.92499024, b: 1, a: 1}
-    - _SurfaceColor: {r: 0.89056605, g: 0.98681515, b: 1, a: 0}
-    - _Turbulance: {r: -0.1, g: 0.01, b: 0, a: 0}
-    - _WaterColor: {r: 0.39999998, g: 0.9239768, b: 1, a: 0}
-    - _Wave1: {r: 1, g: 1, b: 1, a: 1}
+    - _FoamColor: {r: 1, g: 1, b: 1, a: 1}
+    - _LighterColor: {r: 0.86226416, g: 1, b: 0.9758698, a: 1}
+    - _SurfaceColor: {r: 0.53333336, g: 0.8687291, b: 1, a: 1}
+    - _Wave1: {r: 1.34, g: 5.18, b: 1.21, a: 2.5}
+    - _Wave2: {r: 0.92, g: 4.22, b: 1.38, a: 31.97}
+    - _Wave3: {r: 1.85, g: 7.55, b: 2.5, a: -42.06}
+    - _Wave4: {r: 0.88, g: 4.4, b: 4.62, a: -103.85}
   m_BuildTextureStacks: []
---- !u!114 &9081822187714182325
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 639247ca83abc874e893eb93af2b5e44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 0

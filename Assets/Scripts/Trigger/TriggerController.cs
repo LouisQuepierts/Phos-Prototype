@@ -34,7 +34,6 @@ namespace Phos.Trigger {
             _enabled.Value = _context.NewValue;
 
             if (!triggered) return;
-            Debug.Log($"{gameObject.name} triggered");
             
             Post(Value);
             foreach (var operation in _operations) {
