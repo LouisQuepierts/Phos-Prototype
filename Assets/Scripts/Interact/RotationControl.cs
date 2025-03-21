@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Phos.Interact {
     public class RotationControl : BaseInteractionControl {
@@ -48,7 +49,7 @@ namespace Phos.Interact {
             Vector3 startToCurrent = current - transform.position;
             Vector3 startToDrag = start - transform.position;
 
-            float delta = Vector3.SignedAngle(startToDrag, startToCurrent, transform.up);
+            float delta = Vector3.SignedAngle(startToDrag, startToCurrent, axis.Direction(transform));
             float angle = Mathf.Clamp(_rotated + delta, _minAngle, _maxAngle);
 
             _rotated = angle;
