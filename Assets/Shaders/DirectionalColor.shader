@@ -2,7 +2,8 @@
 {
     Properties
     {
-        _MainTex ("Albedo (RGB)", 2D) = "white" {}
+        _Albedo ("Albedo (RGB)", 2D) = "white" {}
+        _Emission ("Emission", 2D) = "Black" {}
         _Glossiness ("Smoothness", Range(0,1)) = 0.5
         _Metallic ("Metallic", Range(0,1)) = 0.0
         
@@ -28,11 +29,12 @@
         // Use shader model 3.0 target, to get nicer looking lighting
         #pragma target 3.0
 
-        sampler2D _MainTex;
+        sampler2D _Albedo;
+        sampler2D _Emission;
 
         struct Input
         {
-            float2 uv_MainTex;
+            float2 uv_Albedo;
             float3 worldNormal;
             float3 worldPos;
         };
@@ -62,7 +64,7 @@
             // 计算法线与光源的夹角强度
             float NdotL = dot(normalize(IN.worldNormal), lightDir);
 
-            fixed4 color = lerp (
+            fixed4 ambient = lerp (
                 lerp (
                     _DarkColor,
                     _TransitionColor,
@@ -72,15 +74,17 @@
                 smoothstep(_Transition, 1, NdotL)
             );
 
-            fixed4 base = tex2D(_MainTex, IN.uv_MainTex);
-            fixed intensity = color.a * _Intensity;
-            color = base * (1 - intensity) + color * intensity;
+            fixed4 albedo = tex2D(_Albedo, IN.uv_Albedo);
+            fixed4 emission = tex2D(_Emission, IN.uv_Albedo);
+            fixed intensity = ambient.a * _Intensity;
+            ambient = albedo * (1 - intensity) + ambient * intensity;
             
             // 输出结果
-            o.Albedo = color.rgb;
+            o.Albedo = ambient.rgb;
             o.Alpha = 1;
             o.Metallic = _Metallic;
             o.Smoothness = _Glossiness;
+            o.Emission = emission;
         }
         ENDCG
     }

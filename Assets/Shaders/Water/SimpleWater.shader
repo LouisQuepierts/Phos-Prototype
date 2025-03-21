@@ -7,6 +7,10 @@
     	_DeepColor ("Deep Color", Color) = (1,1,1,1)
     	_DeepAmplifier ("Deep Amplifier", Range(0, 1)) = 0.5
     	
+    	_ScreenHigherAmbient ("Screen Higher Ambient", Color) = (1,1,1,1)
+    	_ScreenLowerAmbient ("Screen Lower Ambient", Color) = (1,1,1,1)
+    	_ScreenOffset ("Screen Offset", Range(0, 1)) = 0
+    	
     	_FoamColor ("Foam Color", Color) = (1,1,1,1)
     	_FoamWidth ("Foam Width", Range(0, 1)) = 0.3
     	_FoamNoiseScale ("Foam Noise Scale", Range(0, 1)) = 0.05
@@ -74,6 +78,10 @@
             fixed4 _SurfaceColor;
             fixed4 _DeepColor;
             float _DeepAmplifier;
+
+            fixed4 _ScreenHigherAmbient;
+            fixed4 _ScreenLowerAmbient;
+            fixed _ScreenOffset;
             
             fixed4 _FoamColor;
             float _FoamWidth;
@@ -141,7 +149,7 @@
 
             fixed4 frag(v2f i) : SV_Target
             {
-                fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.rgb;
+                fixed3 ambient = lerp(_ScreenLowerAmbient, _ScreenHigherAmbient, saturate(i.screenPos.y + _ScreenOffset));
 
             	float4 view_pos = mul(UNITY_MATRIX_V, i.worldPos);
             	
@@ -151,7 +159,7 @@
             	float foamNoise = tex2D(_FoamNoiseTex, world_pos.xz * _FoamNoiseScale + _Time.y * _FoamNoiseSpeed);
             	float foam = step(height + foamNoise * _FoamNoiseAmplifier, _FoamWidth);
 
-            	fixed3 color = ambient + lerp(_DeepColor, _SurfaceColor, height);
+            	fixed3 color = ambient * lerp(_DeepColor, _SurfaceColor, height);
             	fixed3 surface = lerp(color, _FoamColor, foam);
             	// color = refract_height;
             	

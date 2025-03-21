@@ -2,6 +2,7 @@
 {
     Properties
     {
+    	_ColorMap ("Color Map", 2D) = "white" {}
         _WaveNoiseTex ("Wave Noise Tex", 2D) = "white" {}
     	_FoamNoiseTex ("Foam Noise Tex", 2D) = "white" {}
     	_SurfaceColor ("Surface Color", Color) = (0.54,0.87,1,1)
@@ -70,6 +71,7 @@
             	float2 uv : TEXCOORD0;
             };
 
+            
             sampler2D _WaveNoiseTex;
             sampler2D _FoamNoiseTex;
             float4 _WaveNoiseTex_ST;
