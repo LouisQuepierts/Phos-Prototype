@@ -23,6 +23,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _Albedo:
+        m_Texture: {fileID: 2800000, guid: c519fd3ccfe6fd2409926f3e183d258b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BumpMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -37,6 +41,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _DetailNormalMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Emission:
+        m_Texture: {fileID: 2800000, guid: 01797b9a32587f945a10841137aedaa9, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
@@ -70,7 +78,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0
     - _GlossyReflections: 1
-    - _Intensity: 0.5
+    - _Intensity: 0.719
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
@@ -85,10 +93,10 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _DarkColor: {r: 0.760249, g: 0.7490566, b: 1, a: 1}
+    - _DarkColor: {r: 0.48759088, g: 0.4765931, b: 0.7075472, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _LightColor: {r: 0.9056604, g: 0.5071483, b: 0.27682447, a: 0.5058824}
-    - _TransitionColor: {r: 0.7176471, g: 0.2308406, b: 0.12941174, a: 1}
+    - _TransitionColor: {r: 0.6603774, g: 0.41990033, b: 0.53123236, a: 0.27058825}
     - _XColor: {r: 0.9501115, g: 0.83396226, b: 1, a: 1}
     - _YColor: {r: 1, g: 0.9283019, b: 0.95865554, a: 1}
     - _ZColor: {r: 0.9056604, g: 0.6014952, b: 0.86618006, a: 1}
