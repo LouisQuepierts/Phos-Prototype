@@ -3,6 +3,7 @@ using Phos.Callback;
 using Phos.Navigate;
 using Phos.Structure;
 using System.Collections.Generic;
+using Phos.Perform;
 using UnityEngine;
 
 namespace Phos.Interact {
@@ -161,7 +162,7 @@ namespace Phos.Interact {
             ));
 
             PathManager controller = PathManager.GetInstance();
-            PlayerController player = PlayerController.GetInstance();
+            PlayerController player = SceneController.Instance.Player;
 
             controller.UpdateAccessable(player.current);
         }
@@ -177,7 +178,7 @@ namespace Phos.Interact {
             ));
 
             PathManager controller = PathManager.GetInstance();
-            PlayerController player = PlayerController.GetInstance();
+            PlayerController player = SceneController.Instance.Player;
 
             // Debug.Log("Update Accessible");
             controller.UpdateAccessable(player.current);

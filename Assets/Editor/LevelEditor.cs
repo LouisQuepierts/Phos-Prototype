@@ -1,7 +1,9 @@
 using Phos.Navigate;
 using System;
+using Phos.Perform;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace PhosEditor {
     [InitializeOnLoad]
@@ -336,6 +338,16 @@ namespace PhosEditor {
         [MenuItem("Tool/LevelEditor/Disable")]
         static void Disable() {
             enable = false;
+        }
+        
+        [MenuItem("Tool/Setup Scene")]
+        static void SetupScene() {
+            var ctrl = new GameObject("GeneralController");
+            if (!Object.FindFirstObjectByType(typeof(SceneController)))
+                ctrl.AddComponent<SceneController>();
+            
+            if (!Object.FindFirstObjectByType(typeof(PathManager)))
+                ctrl.AddComponent<PathManager>();
         }
 
         [MenuItem("Tool/Setup Camera")]

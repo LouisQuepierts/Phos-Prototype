@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
+using Phos.Callback;
+using Phos.Trigger;
 using UnityEngine;
 
 namespace Phos.Navigate {
-    public abstract class BaseNode : MonoBehaviour {
+    public abstract class BaseNode : CallbackProvider<BaseNode> {
         public const float BLOCK_SCALE = 0.5f;
 
         public NodeType type = NodeType.GROUND;
-        public float offset = 0.0f;
+        public float offset;
 
         public virtual Vector3 GetNodePosition() {
             return type.GetNodeBehaviour().GetNodePoint(transform, offset);
@@ -42,6 +44,10 @@ namespace Phos.Navigate {
 
         public virtual BaseNode GetConnectionPoint(Direction direction) {
             return this;
+        }
+
+        public void OnArrive(Transform transform) {
+            ArriveNodeTriggerBehaviour.Trigger(this, transform);
         }
 
         public Direction GetSimilarDirection(Vector3 position) {

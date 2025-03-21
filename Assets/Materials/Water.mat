@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Water
-  m_Shader: {fileID: -6465566751694194690, guid: fc07fe7229363304caa3f1ab850575b2, type: 3}
+  m_Shader: {fileID: 4800000, guid: a03e80ba580e4b8d88cb546a818a2b11, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -43,6 +43,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _FoamNoiseTex:
+        m_Texture: {fileID: 2800000, guid: ba4da57b14c968a47b2dfb87119781ab, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -65,13 +69,18 @@ Material:
     - _BUILTIN_QueueOffset: 0
     - _BumpScale: 1
     - _Cutoff: 0.5
+    - _DeepAmplifier: 0.092
+    - _DeepFactor: 0.5
     - _Depth: 0
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _Fade: 1.25
     - _FoamDepth: 0.594
+    - _FoamNoiseAmplifier: 0.3
+    - _FoamNoiseScale: 0.015
+    - _FoamNoiseSpeed: 0.01
     - _FoamSpeed: 0.097
-    - _FoamWidth: 0.514
+    - _FoamWidth: 0.336
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
@@ -79,6 +88,9 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
+    - _ScreenHigher: 0.747
+    - _ScreenLower: 0.2
+    - _ScreenOffset: 0.112
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _Speed: 0.05
@@ -89,10 +101,12 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _DeepColor: {r: 0.39999995, g: 0.70980394, b: 1, a: 0}
+    - _DeepColor: {r: 0.5711641, g: 0.683412, b: 0.7924528, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FoamColor: {r: 1, g: 1, b: 1, a: 0}
-    - _SurfaceColor: {r: 0.39999992, g: 0.9254902, b: 1, a: 0}
+    - _ScreenHigherAmbient: {r: 1, g: 0.65471697, b: 0.83865273, a: 1}
+    - _ScreenLowerAmbient: {r: 0.6264151, g: 0.92499024, b: 1, a: 1}
+    - _SurfaceColor: {r: 0.89056605, g: 0.98681515, b: 1, a: 0}
     - _Turbulance: {r: -0.1, g: 0.01, b: 0, a: 0}
     - _WaterColor: {r: 0.39999998, g: 0.9239768, b: 1, a: 0}
     - _Wave1: {r: 1, g: 1, b: 1, a: 1}

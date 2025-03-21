@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Phos.Navigate {
-    [ExecuteInEditMode]
+    [ExecuteAlways]
     public class PathManager : MonoBehaviour, ICallbackListener<object> {
         private static PathManager CurrentManager;
 

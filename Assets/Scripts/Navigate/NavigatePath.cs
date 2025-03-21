@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Phos.Trigger;
 using UnityEngine;
 
 namespace Phos.Navigate {
@@ -111,7 +110,7 @@ namespace Phos.Navigate {
             if (_index >= _moves.Count - 1) return Last();
 
             if ((transform.position - _moves[_index].Target).sqrMagnitude < 0.01f) {
-                ArriveNodeTriggerBehaviour.Trigger(_moves[_index].Node, transform);
+                _moves[_index].Node.OnArrive(transform);
                 _index++;
                 //Debug.Log("Next");
 

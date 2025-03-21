@@ -1,6 +1,7 @@
 ﻿using Phos;
 using Phos.Navigate;
 using Phos.Operation;
+using Phos.Perform;
 
 namespace BiOperation {
     public class TeleportOperation : BaseBiOperation {
@@ -11,7 +12,7 @@ namespace BiOperation {
         private PathManager _pathManager;
         
         private void Start() {
-            _player = PlayerController.GetInstance();
+            _player = SceneController.Instance.Player;
             _pathManager = PathManager.GetInstance();
         }
 

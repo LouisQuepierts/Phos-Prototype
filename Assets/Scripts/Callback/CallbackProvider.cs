@@ -3,26 +3,26 @@ using UnityEngine;
 
 namespace Phos.Callback {
 	public abstract class CallbackProvider<T> : MonoBehaviour {
-		private Action<T> m_Callback;
+		private Action<T> _callback;
 
         protected void Post(T t) {
-            m_Callback?.Invoke(t);
+            _callback?.Invoke(t);
         }
 
 		public void Register(Action<T> callback) {
-			m_Callback += callback;
+			_callback += callback;
 		}
 
 		public void Register(ICallbackListener<T> listener) {
-			m_Callback += listener.OnCallback;
+			_callback += listener.OnCallback;
 		}
 
 		public void Unregister(Action<T> callback) {
-			m_Callback -= callback;
+			_callback -= callback;
 		}
 
 		public void Unregister(ICallbackListener<T> listener) {
-			m_Callback -= listener.OnCallback;
+			_callback -= listener.OnCallback;
 		}
 	}
 }
