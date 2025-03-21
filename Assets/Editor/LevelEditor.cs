@@ -1,6 +1,7 @@
 using Phos.Navigate;
 using System;
 using Phos.Perform;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -361,6 +362,9 @@ namespace PhosEditor {
                 camera.nearClipPlane = 0.3f;
                 camera.farClipPlane = 1000.0f;
                 camera.orthographicSize = 10f;
+
+                if (!camera.GetComponent<MultiLayerCamera>())
+                    camera.AddComponent<MultiLayerCamera>();
             }
         }
 

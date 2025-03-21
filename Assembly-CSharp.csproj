@@ -59,9 +59,12 @@
      <Compile Include="Assets\Scripts\Optical\OpticalDeviceManager.cs" />
      <Compile Include="Assets\Scripts\Recall\RecallEntry.cs" />
      <Compile Include="Assets\Scripts\Controller\ConditionalController.cs" />
+     <Compile Include="Assets\Scripts\Utils\IToggleable.cs" />
      <Compile Include="Assets\Scripts\BiOperation\MoveInteractionControlOperation.cs" />
      <Compile Include="Assets\Scripts\Utils\TextureGenerator.cs" />
+     <Compile Include="Assets\Scripts\Perform\MultiLayerCamera.cs" />
      <Compile Include="Assets\Scripts\UI\MenuManager.cs" />
+     <Compile Include="Assets\Scripts\Persistence\IPersistent.cs" />
      <Compile Include="Assets\Scripts\BiOperation\ToggleInteractionControlOperation.cs" />
      <Compile Include="Assets\Scripts\Optical\LightData.cs" />
      <Compile Include="Assets\Scripts\Trigger\Predicate\BaseTriggerPredicate.cs" />
@@ -76,11 +79,13 @@
      <Compile Include="Assets\Scripts\Optical\LightPath.cs" />
      <Compile Include="Assets\Scripts\Optical\ConvexLens.cs" />
      <Compile Include="Assets\Scripts\Navigate\Direction.cs" />
+     <Compile Include="Assets\Scripts\Perform\SceneController.cs" />
      <Compile Include="Assets\Scripts\Recall\RecallController.cs" />
      <Compile Include="Assets\Scripts\Interact\DragHandle.cs" />
      <Compile Include="Assets\Scripts\Utils\SingletonFactory.cs" />
      <Compile Include="Assets\Scripts\UI\MenuController.cs" />
      <Compile Include="Assets\Scripts\Navigate\PathManager.cs" />
+     <Compile Include="Assets\Scripts\Perform\WaterSimulation.cs" />
      <Compile Include="Assets\Scripts\Trigger\Predicate\TargetPredicate.cs" />
      <Compile Include="Assets\Scripts\Predicate\PredicateHolder.cs" />
      <Compile Include="Assets\Scripts\Navigate\Behaviour\ClimbNodeBehaviour.cs" />
@@ -92,9 +97,11 @@
      <Compile Include="Assets\Scripts\Trigger\Predicate\ChangePredicate.cs" />
      <Compile Include="Assets\Test.cs" />
      <Compile Include="Assets\Scripts\Controller\TriggerableController.cs" />
+     <Compile Include="Assets\Scripts\BiOperation\ChangePlayerLayerOperation.cs" />
      <Compile Include="Assets\Scripts\Predicate\StructurePredicate.cs" />
      <Compile Include="Assets\Scripts\Trigger\Predicate\DirectionalPredicate.cs" />
      <Compile Include="Assets\Scripts\Trigger\Behaviour\ForwardCollisionTriggerBehaviour.cs" />
+     <Compile Include="Assets\Scripts\Persistence\IPersistenceOperator.cs" />
      <Compile Include="Assets\Scripts\Player\ClickHighlight.cs" />
      <Compile Include="Assets\Scripts\Predicate\BasePredicate.cs" />
      <Compile Include="Assets\Scripts\BiOperation\AnimationOperation.cs" />
@@ -103,6 +110,7 @@
      <Compile Include="Assets\Scripts\Utils\LogicalOperator.cs" />
      <Compile Include="Assets\Scripts\Trigger\Behaviour\OpticalTriggerBehaviour.cs" />
      <Compile Include="Assets\Scripts\Optical\OpticalDevice.cs" />
+     <Compile Include="Assets\Scripts\Perform\Checkpoint.cs" />
      <Compile Include="Assets\Scripts\Optical\ILightAcceptable.cs" />
      <Compile Include="Assets\Scripts\Utils\MathComparater.cs" />
      <Compile Include="Assets\Scripts\Navigate\NavigateNode.cs" />
@@ -115,8 +123,10 @@
      <Compile Include="Assets\Scripts\Interact\Axis.cs" />
      <Compile Include="Assets\Scripts\Trigger\TriggerController.cs" />
      <Compile Include="Assets\Scripts\Navigate\NavigateOperationPool.cs" />
+     <Compile Include="Assets\Scripts\Persistence\PersistenceSystem.cs" />
      <Compile Include="Assets\Scripts\Trigger\Behaviour\ArriveNodeTriggerBehaviour.cs" />
      <Compile Include="Assets\Scripts\Predicate\WrappedPredicate.cs" />
+     <Compile Include="Assets\Scripts\Persistence\SceneData.cs" />
      <Compile Include="Assets\Scripts\Utils\StringUtils.cs" />
      <Compile Include="Assets\Scripts\Optical\Reflector.cs" />
      <Compile Include="Assets\Scripts\Trigger\Predicate\DisposablePredicate.cs" />
@@ -132,6 +142,7 @@
      <Compile Include="Assets\Scripts\Interact\BaseInteractionControl.cs" />
      <Compile Include="Assets\Scripts\Utils\InstanceFactory.cs" />
      <Compile Include="Assets\Scripts\BiOperation\TeleportOperation.cs" />
+     <Compile Include="Assets\Scripts\BiOperation\ToggleOperation.cs" />
      <Compile Include="Assets\Scripts\Utils\Factory.cs" />
      <Compile Include="Assets\Scripts\Optical\Splitter.cs" />
      <Compile Include="Assets\Scripts\Event\EventBus.cs" />
@@ -141,6 +152,7 @@
      <Compile Include="Assets\Scripts\Optical\LightSource.cs" />
      <Compile Include="Assets\Scripts\Navigate\CurveHelper.cs" />
      <Folder Include="Assets" />
+     <None Include="Assets\Shaders\Generate\VoronoiNoise.shader" />
      <Folder Include="Assets\Menus" />
      <Folder Include="Assets\Shaders\Generate" />
      <None Include="Assets\Resources\BillingMode.json" />
@@ -168,7 +180,9 @@
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
      <None Include="Assets\Shaders\Water\OceanWater.shader" />
      <Folder Include="Assets\TextMesh Pro\Resources" />
+     <None Include="Assets\Shaders\Generate\SimpleNoise.shader" />
      <Folder Include="Assets\Models" />
+     <Folder Include="Assets\Scripts\Persistence" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
      <None Include="Assets\Shaders\ClickHighlight.shader" />
      <Folder Include="Assets\TextMesh Pro" />
@@ -176,7 +190,6 @@
      <None Include="Assets\Shaders\DirectionalColor.shader" />
      <Folder Include="Assets\Scripts\Interact" />
      <Folder Include="Assets\Scripts\Player" />
-     <None Include="Assets\Shaders\Generate\VoronoiNoise.shader" />
      <None Include="Assets\Shaders\UI\FrostedGlass.shader" />
      <Folder Include="Assets\Shaders" />
      <Folder Include="Assets\Objects\Predicates" />
@@ -190,6 +203,7 @@
      <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
      <Folder Include="Assets\Scripts\Optical" />
      <None Include="Assets\Shaders\HandleShader.shader" />
+     <None Include="Assets\Shaders\Generate\PerlinNoise.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
      <Folder Include="Assets\Animations\Scene" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
@@ -201,7 +215,6 @@
      <Folder Include="Assets\Scripts\Controller" />
      <Folder Include="Assets\Animations" />
      <Folder Include="Assets\Scenes" />
-     <None Include="Assets\Shaders\Generate\SimpleNoise.shader" />
      <Folder Include="Assets\Scripts\Trigger" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
      <Folder Include="Assets\Materials\Screen" />
@@ -212,7 +225,6 @@
      <Folder Include="Assets\Prefabs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
-     <None Include="Assets\Shaders\Generate\PerlinNoise.shader" />
      <Folder Include="Assets\Resources" />
      <Folder Include="Assets\Scripts\Structure" />
      <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />

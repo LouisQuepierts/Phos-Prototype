@@ -12,7 +12,7 @@ namespace Phos.BiOperation {
                 return;
             }
 
-            control.SetControlActive(trigger != invert);
+            control.Toggle(trigger != invert);
         }
     }
 }

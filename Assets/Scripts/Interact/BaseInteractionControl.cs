@@ -4,10 +4,12 @@ using Phos.Navigate;
 using Phos.Structure;
 using System.Collections.Generic;
 using Phos.Perform;
+using Phos.Utils;
 using UnityEngine;
 
 namespace Phos.Interact {
-    public abstract class BaseInteractionControl : CallbackProvider<StructureControl.CallbackContext> {
+    public abstract class BaseInteractionControl : 
+        CallbackProvider<StructureControl.CallbackContext>, IToggleable {
         [Header("Alignment Properties")]
         [Range(0.1f, 1f)]
         public float alignTime = 0.1f;
@@ -68,19 +70,19 @@ namespace Phos.Interact {
 
         protected abstract void MoveTo(int delta);
 
-        public void SetControlActive(bool active) {
-            if (this.active == active) return;
-            this.active = active;
+        public void Toggle(bool enable) {
+            if (this.active == enable) return;
+            this.active = enable;
             _hovered = false;
 
             if (!_animation || !_animation.clip) return;
-            Debug.Log($"Toggle {active}");
+            Debug.Log($"Toggle {enable}");
             var clip = _animation.clip;
             var state = _animation[clip.name];
-            state.speed = active ? 1 : -1;
+            state.speed = enable ? 1 : -1;
             
             if (_animation.isPlaying) return;
-            state.time = active ? 0 : clip.length;
+            state.time = enable ? 0 : clip.length;
             _animation.Play();
         }
 

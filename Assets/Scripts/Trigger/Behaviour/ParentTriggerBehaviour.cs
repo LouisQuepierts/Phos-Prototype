@@ -16,6 +16,7 @@ namespace Phos.Trigger {
         private TriggerController _trigger;
 
         private void Invoke(Transform current, Transform last, GameObject @object) {
+            if (!current || !last) return;
             var context = _trigger.Context;
             
             if (target == current || includeChildren && current.IsChildOf(target)) {
