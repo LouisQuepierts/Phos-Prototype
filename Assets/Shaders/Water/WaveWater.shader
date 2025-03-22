@@ -1,14 +1,20 @@
-﻿Shader "Phos/LakeWater"
+﻿Shader "Phos/WaveWater"
 {
     Properties
     {
-    	_ColorMap ("Color Map", 2D) = "white" {}
         _WaveNoiseTex ("Wave Noise Tex", 2D) = "white" {}
     	_FoamNoiseTex ("Foam Noise Tex", 2D) = "white" {}
     	_SurfaceColor ("Surface Color", Color) = (0.54,0.87,1,1)
         _LighterColor ("Lighter Color", Color) = (0.86,1,0.98,1)
     	_DarkerColor ("Darker Color", Color) = (0.73,0.21,0.82,1)
     	_DeepColor ("Deep Color", Color) = (0.44,0.40,0.65,1)
+    	
+    	[Toggle(GRADIENT)] _Gradient ("Gradient", Float) = 0
+    	
+    	_ScreenHigherAmbient ("Screen Higher Ambient", Color) = (1,1,1,1)
+    	_ScreenLowerAmbient ("Screen Lower Ambient", Color) = (1,1,1,1)
+    	_ScreenOffset ("Screen Offset", Range(0, 1)) = 0
+    	_ScreenFactor ("Screen Factor", Range(0, 2)) = 0
     	
     	_DeepFactor ("Deep Factor", Range(0, 1)) = 0.5
     	
@@ -26,6 +32,11 @@
     	_Wave2 ("Wave 2", Vector) = (0, 0, 0, 0)
     	_Wave3 ("Wave 3", Vector) = (0, 0, 0, 0)
     	_Wave4 ("Wave 4", Vector) = (0, 0, 0, 0)
+    	
+    	[Toggle] _EnableWave1 ("Enable Wave 1", Float) = 0
+    	[Toggle] _EnableWave2 ("Enable Wave 2", Float) = 0
+    	[Toggle] _EnableWave3 ("Enable Wave 3", Float) = 0
+    	[Toggle] _EnableWave4 ("Enable Wave 4", Float) = 0
     }
     SubShader
     {
@@ -44,9 +55,9 @@
             #pragma geometry geom
             // make fog work
             #pragma multi_compile_fog
+            #pragma shader_feature GRADIENT
 
             #include "UnityCG.cginc"
-            #include "Lighting.cginc"
 
             struct appdata
             {
@@ -101,6 +112,18 @@
             float4 _Wave3;
             float4 _Wave4;
 
+            fixed _EnableWave1;
+            fixed _EnableWave2;
+            fixed _EnableWave3;
+            fixed _EnableWave4;
+
+            #if defined(GRADIENT)
+            fixed4 _ScreenHigherAmbient;
+            fixed4 _ScreenLowerAmbient;
+            fixed _ScreenOffset;
+            fixed _ScreenFactor;
+            #endif
+
             float calculate_wave(float3 pos, float amplitude, float wavelength, float speed, float direction)
             {
 				float time = _Time.y;
@@ -119,15 +142,15 @@
 				float wave = 0;
             	
             	float w1 = calculate_wave(vertex, _Wave1.x, _Wave1.y, _Wave1.z, _Wave1.w);
-            	wave += w1;
+            	wave += w1 * _EnableWave1;
             	float w2 = calculate_wave(vertex, _Wave2.x, _Wave2.y, _Wave2.z, _Wave2.w);
-            	wave += w2;
+            	wave += w2 * _EnableWave2;
             	float w3 = calculate_wave(vertex, _Wave3.x, _Wave3.y, _Wave3.z, _Wave3.w);
-            	wave += w3;
+            	wave += w3 * _EnableWave3;
             	float w4 = calculate_wave(vertex, _Wave4.x, _Wave4.y, _Wave4.z, _Wave4.w);
-            	wave += w4;
+            	wave += w4 * _EnableWave4;
             	
-				return wave / 4;
+				return wave / (_EnableWave1 + _EnableWave2 + _EnableWave3 + _EnableWave4);
 			}
 
             inline float calculate_depth(float2 uv)
@@ -210,8 +233,13 @@
             	float foam = step(height + foamNoise * _FoamNoiseAmplifier, _FoamWidth);
             	
 				fixed3 color = ambient + lerp(_DeepColor, diffuse, height);
+
+            	#if defined(GRADIENT)
+            	fixed3 gradient = lerp(_ScreenLowerAmbient, _ScreenHigherAmbient, saturate((i.screenPos.y + _ScreenOffset) * _ScreenFactor));
+            	color *= gradient;
+            	#endif
+
             	fixed3 surface = lerp(color, _FoamColor, foam);
-            	// color = refract_height;
             	
                 return fixed4(surface, 1);
             }

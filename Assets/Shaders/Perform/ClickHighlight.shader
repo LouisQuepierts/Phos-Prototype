@@ -1,4 +1,4 @@
-﻿Shader "Unlit/ClickHighlight"
+﻿Shader "Phos/Perform/ClickHighlight"
 {
     Properties
     {
@@ -49,7 +49,7 @@
                 fixed dist = length(uv);
                 fixed4 col = range;
                 col.a = smoothstep(0.0, 0.25, _Highlight) * step(dist, 1 - (1 - range) * 0.25);
-                clip(col.a);
+                clip(0.9);
                 return col;
             }
             ENDCG

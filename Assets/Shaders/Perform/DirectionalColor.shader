@@ -1,4 +1,4 @@
-﻿Shader "Custom/DirectionalColor"
+﻿Shader "Phos/Perform/DirectionalColor"
 {
     Properties
     {
@@ -10,6 +10,12 @@
         _LightColor ("Light Side Color", Color) = (1,1,1,1)    // 受光面颜色
         _DarkColor ("Dark Side Color", Color) = (0.2,0.2,0.2,1) // 背光面颜色
         _TransitionColor ("Transition Color", Color) = (0.5, 0.5, 0.5, 1)
+        
+    	[Toggle(GRADIENT)] _Gradient ("Gradient", Float) = 0
+    	_ScreenHigherAmbient ("Screen Higher Ambient", Color) = (1,1,1,1)
+    	_ScreenLowerAmbient ("Screen Lower Ambient", Color) = (1,1,1,1)
+    	_ScreenOffset ("Screen Offset", Range(0, 1)) = 0
+    	_ScreenFactor ("Screen Factor", Range(0, 2)) = 0
         
         _Transition ("Transition", Range (0,1)) = 0.5
         _Intensity ("Intensity", Range(0,1)) = 0.2
@@ -25,6 +31,9 @@
         CGPROGRAM
         // Physically based Standard lighting model, and enable shadows on all light types
         #pragma surface surf Standard fullforwardshadows
+        #pragma shader_feature GRADIENT
+
+        #include "UnityCG.cginc"
 
         // Use shader model 3.0 target, to get nicer looking lighting
         #pragma target 3.0
@@ -37,6 +46,7 @@
             float2 uv_Albedo;
             float3 worldNormal;
             float3 worldPos;
+            float4 screenPos;
         };
 
         half _Glossiness;
@@ -48,6 +58,14 @@
         fixed4 _LightColor;
         fixed4 _DarkColor;
         fixed4 _TransitionColor;
+
+        
+        #if defined(GRADIENT)
+        fixed4 _ScreenHigherAmbient;
+        fixed4 _ScreenLowerAmbient;
+        fixed _ScreenOffset;
+        fixed _ScreenFactor;
+        #endif
 
         // Add instancing support for this shader. You need to check 'Enable Instancing' on materials that use the shader.
         // See https://docs.unity3d.com/Manual/GPUInstancing.html for more information about instancing.
@@ -78,6 +96,11 @@
             fixed4 emission = tex2D(_Emission, IN.uv_Albedo);
             fixed intensity = ambient.a * _Intensity;
             ambient = albedo * (1 - intensity) + ambient * intensity;
+            
+            #if defined(GRADIENT)
+            fixed3 screenAmbient = lerp(_ScreenLowerAmbient, _ScreenHigherAmbient, saturate((IN.screenPos.y + _ScreenOffset) * _ScreenFactor));
+            ambient.rgb *= screenAmbient;
+            #endif
             
             // 输出结果
             o.Albedo = ambient.rgb;
