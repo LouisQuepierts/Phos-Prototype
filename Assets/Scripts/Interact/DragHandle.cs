@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Phos.Interact {
     [RequireComponent(typeof(Renderer))]
 	public class DragHandle : MonoBehaviour {
         private static readonly int Highlight = Shader.PropertyToID("_Highlight");
+
+        public bool dummy;
+        
         private ReadonlyProperty<float> _highlight;
 
 		private BaseInteractionControl _control;
@@ -21,7 +22,6 @@ namespace Phos.Interact {
         }
 
         private void Awake() {
-            List<Material> materials = new();
             _block = new MaterialPropertyBlock();
             
             _renderer = GetComponent<Renderer>();
@@ -29,14 +29,17 @@ namespace Phos.Interact {
         }
 
         private void OnMouseDown() {
+            if (dummy) return;
             _control?.MousePressed();
         }
 
         private void OnMouseDrag() {
+            if (dummy) return;
             _control?.MouseDragging();
         }
 
         private void OnMouseUp() {
+            if (dummy) return;
             _control?.MouseReleased();
         }
 

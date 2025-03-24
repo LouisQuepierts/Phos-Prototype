@@ -2,7 +2,7 @@
 using UnityEngine;
 
 namespace Phos.Perform {
-    public class Checkpoint : MonoBehaviour {
+    public class SpawnPoint : MonoBehaviour {
         private BaseNode _node;
 
         private void Awake() {

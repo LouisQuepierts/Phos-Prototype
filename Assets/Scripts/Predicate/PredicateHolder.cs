@@ -7,17 +7,17 @@ namespace Phos.Predicate {
 	public class PredicateHolder {
         public LogicalOperator @operator;
 
-        private BasePredicate[] predicates;
+        private BasePredicate[] _predicates;
         private Status _status = Status.None;
 
         public void Init(GameObject parent) {
-            predicates = parent.GetComponents<BasePredicate>();
+            _predicates = parent.GetComponents<BasePredicate>();
         }
 
         public bool Evaluate(bool source = false) {
             switch (_status) {
                 case Status.None:
-                    _status = predicates.Length == 0 ? Status.Pass : Status.Available;
+                    _status = _predicates.Length == 0 ? Status.Pass : Status.Available;
                     break;
                 case Status.Pass:
                     return source;
@@ -33,11 +33,11 @@ namespace Phos.Predicate {
         }
 
         private bool EvaluateOr() {
-            return Array.TrueForAll(predicates, predicate => predicate.Evaluate());
+            return Array.TrueForAll(_predicates, predicate => predicate.Evaluate());
         }
 
         private bool EvaluateAnd() {
-            return Array.Exists(predicates, predicate => predicate.Evaluate());
+            return Array.Exists(_predicates, predicate => predicate.Evaluate());
         }
 
         private enum Status {

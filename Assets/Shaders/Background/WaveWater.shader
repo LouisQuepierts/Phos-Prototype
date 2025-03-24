@@ -1,33 +1,33 @@
-﻿Shader "Phos/WaveWater"
+﻿Shader "Phos/Background/WaveWater"
 {
     Properties
     {
-        _WaveNoiseTex ("Wave Noise Tex", 2D) = "white" {}
-    	_FoamNoiseTex ("Foam Noise Tex", 2D) = "white" {}
     	_SurfaceColor ("Surface Color", Color) = (0.54,0.87,1,1)
         _LighterColor ("Lighter Color", Color) = (0.86,1,0.98,1)
     	_DarkerColor ("Darker Color", Color) = (0.73,0.21,0.82,1)
     	_DeepColor ("Deep Color", Color) = (0.44,0.40,0.65,1)
     	
-    	[Toggle(GRADIENT)] _Gradient ("Gradient", Float) = 0
-    	
-    	_ScreenHigherAmbient ("Screen Higher Ambient", Color) = (1,1,1,1)
-    	_ScreenLowerAmbient ("Screen Lower Ambient", Color) = (1,1,1,1)
-    	_ScreenOffset ("Screen Offset", Range(0, 1)) = 0
-    	_ScreenFactor ("Screen Factor", Range(0, 2)) = 0
-    	
     	_DeepFactor ("Deep Factor", Range(0, 1)) = 0.5
     	
+    	_FoamNoiseTex ("Foam Noise Tex", 2D) = "white" {}
     	_FoamColor ("Foam Color", Color) = (1,1,1,1)
     	_FoamWidth ("Foam Width", Range(0, 1)) = 0.3
     	_FoamNoiseScale ("Foam Noise Scale", Range(0, 1)) = 0.05
     	_FoamNoiseAmplifier ("Foam Noise Amplifier", Range(0, 1)) = 0.3
     	_FoamNoiseSpeed ("Foam Noise Speed", Range(0, 1)) = 0.01
     	
+        _WaveNoiseTex ("Wave Noise Tex", 2D) = "white" {}
     	_WaveNoiseScale ("Wave Noise Scale", Range(0, 20)) = 0.5
     	_WaveNoiseAmplifier ("Wave Noise Amplifier", Range(0, 1)) = 0.5
     	
+//    	_TurbulenceTex ("Turbulence Noise Tex", 2D) = "white" {}
+//    	_TurbulenceScale ("Turbulence Noise Scale", Range(0, 5)) = 0.05
+//    	_TurbulenceAmplifier ("Turbulence Noise Amplifier", Range(0, 1)) = 0.5
+    	
     	// length, amplitude, speed
+    	
+    	[Toggle(GRADIENT)] _Gradient ("Gradient", Float) = 0
+    	
     	_Wave1 ("Wave 1", Vector) = (0, 0, 0, 0)
     	_Wave2 ("Wave 2", Vector) = (0, 0, 0, 0)
     	_Wave3 ("Wave 3", Vector) = (0, 0, 0, 0)
@@ -85,8 +85,7 @@
             
             sampler2D _WaveNoiseTex;
             sampler2D _FoamNoiseTex;
-            float4 _WaveNoiseTex_ST;
-            float4 _FoamNoiseTex_ST;
+            // sampler2D _TurbulenceTex;
 
             sampler2D _CameraDepthTexture;
             float4 _CameraDepthTexture_ST;
@@ -106,6 +105,9 @@
 
             float _WaveNoiseScale;
             float _WaveNoiseAmplifier;
+
+            // fixed _TurbulenceScale;
+            // fixed _TurbulenceAmplifier;
             
             float4 _Wave1;
             float4 _Wave2;
@@ -117,12 +119,7 @@
             fixed _EnableWave3;
             fixed _EnableWave4;
 
-            #if defined(GRADIENT)
-            fixed4 _ScreenHigherAmbient;
-            fixed4 _ScreenLowerAmbient;
-            fixed _ScreenOffset;
-            fixed _ScreenFactor;
-            #endif
+            #include "../ambient_gradient.cginc"
 
             float calculate_wave(float3 pos, float amplitude, float wavelength, float speed, float direction)
             {
@@ -171,6 +168,13 @@
             	return world_position;
             }
 
+    //         inline fixed2 turbulence_dir(fixed2 uv)
+    //         {
+				// fixed noise = tex2D(_TurbulenceTex, uv * _TurbulenceScale + _Time * 0.02) - 0.5;
+				// fixed2 dir = fixed2(noise * _TurbulenceAmplifier * 0.1, 0);
+    //         	return dir;
+    //         }
+
             v2g vert(appdata v)
             {
                 v2g o;
@@ -216,28 +220,30 @@
 
             fixed4 frag(g2f i) : SV_Target
             {
-                fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.rgb;
 				fixed3 worldNormal = normalize(i.normal);
 				fixed3 worldLightDir = normalize(_WorldSpaceLightPos0.xyz);
 
             	float4 view_pos = mul(UNITY_MATRIX_V, i.worldPos);
             	
             	float4 world_pos = depth_2_world_pos(view_pos.xy, calculate_depth(i.screenPos.xy));
-            	float height = saturate((i.worldPos.y - world_pos.y) * _DeepFactor);
-            	
-            	fixed lightDot = dot(worldNormal, worldLightDir);
-				fixed3 diffuse = lerp(_DarkerColor, _SurfaceColor, saturate(lightDot / 2 + 0.5));
-            	diffuse = lerp(diffuse, _LighterColor, smoothstep(0.75, 1.0, lightDot));
+            	float height = smoothstep(0, 10 * _DeepFactor, i.worldPos.y - world_pos.y);
 
             	float foamNoise = tex2D(_FoamNoiseTex, world_pos.xz * _FoamNoiseScale + _Time.y *_FoamNoiseSpeed);
             	float foam = step(height + foamNoise * _FoamNoiseAmplifier, _FoamWidth);
             	
-				fixed3 color = ambient + lerp(_DeepColor, diffuse, height);
-
-            	#if defined(GRADIENT)
-            	fixed3 gradient = lerp(_ScreenLowerAmbient, _ScreenHigherAmbient, saturate((i.screenPos.y + _ScreenOffset) * _ScreenFactor));
-            	color *= gradient;
-            	#endif
+            	fixed lightDot = dot(worldNormal, worldLightDir);
+				fixed3 diffuse = lerp(_DarkerColor, _SurfaceColor, saturate(lightDot / 2 + 0.5));
+            	
+            	// fixed2 turbulenced_dir = turbulence_dir(i.screenPos.xy);
+            	// fixed2 turbulenced_uv = i.screenPos.xy + turbulenced_dir;
+            	// float turbulenced_y = depth_2_world_pos(view_pos.xy, calculate_depth(turbulenced_uv)).y;
+	            //
+            	// float y = lerp(world_pos.y, turbulenced_y, step(0, i.worldPos.y - turbulenced_y));
+            	// float turbulenced_height = step(10 * _DeepFactor, i.worldPos.y - y);
+            	
+            	diffuse = lerp(diffuse, _LighterColor, smoothstep(0.75, 1.0, lightDot));
+				fixed3 color = lerp(_DeepColor, diffuse, height);
+            	color = phos_gradient(i.screenPos.y, fixed4(color, 1)).rgb;
 
             	fixed3 surface = lerp(color, _FoamColor, foam);
             	

@@ -67,6 +67,12 @@ namespace Phos.Interact {
             }*/
         }
 
+        protected override void PerformScroll(float scrollY) {
+            float angle = Mathf.Clamp(_rotated + scrollY, _minAngle, _maxAngle);
+            _rotated = angle;
+            transform.localRotation = Quaternion.Euler(angle * axis.Direction());
+        }
+
         protected override bool PerformOvershoot() {
             float angle = Mathf.SmoothDamp(
                 _rotated,

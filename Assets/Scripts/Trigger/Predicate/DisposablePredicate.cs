@@ -6,5 +6,9 @@
             _triggered = context.TriggerController.Value;
             return _triggered;
         }
+
+        public override void Reset() {
+            _triggered = false;
+        }
     }
 }

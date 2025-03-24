@@ -20,6 +20,10 @@ namespace Phos.Navigate {
             //};
         }
 
+        public virtual Vector3 GetNodeNormal() {
+            return type.GetNodeBehaviour().GetNodeNormal(transform);
+        }
+
         public Vector3 GetLocalOffset() {
             return type.GetNodeBehaviour().GetLocalOffset(offset);
             //return type switch {
@@ -59,6 +63,24 @@ namespace Phos.Navigate {
                 if (Vector3.SqrMagnitude(point - position) < distance) {
                     similar = direction;
                     distance = Vector3.SqrMagnitude(point - position);
+                }
+            }
+
+            return similar;
+        }
+
+        public Direction GetNearestDirection(Vector3 dir) {
+            Direction similar = AvailableDirections[0];
+            float dot = float.NegativeInfinity;
+            
+            foreach (Direction direction in AvailableDirections) {
+                Vector3 point = GetConnectionPosition(direction);
+
+                float d = Vector3.Dot(point, dir);
+
+                if (d > dot) {
+                    similar = direction;
+                    dot = d;
                 }
             }
 

@@ -6,15 +6,22 @@ using UnityEngine;
 
 namespace BiOperation {
     public class ToggleOperation : BaseBiOperation {
+        public GameObject[] objects;
         public Component[] targets;
         public bool invert;
 
         private List<IToggleable> _toggles;
 
         private void Start() {
-            _toggles = new List<IToggleable>(targets.Length);
+            _toggles = new List<IToggleable>(objects.Length + targets.Length);
             foreach (var component in targets) {
                 if (component is IToggleable toggle) {
+                    _toggles.Add(toggle);
+                }
+            }
+            
+            foreach (var obj in objects) {
+                if (obj.TryGetComponent(out IToggleable toggle)) {
                     _toggles.Add(toggle);
                 }
             }

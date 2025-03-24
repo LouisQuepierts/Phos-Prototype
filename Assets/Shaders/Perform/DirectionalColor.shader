@@ -11,14 +11,10 @@
         _DarkColor ("Dark Side Color", Color) = (0.2,0.2,0.2,1) // 背光面颜色
         _TransitionColor ("Transition Color", Color) = (0.5, 0.5, 0.5, 1)
         
-    	[Toggle(GRADIENT)] _Gradient ("Gradient", Float) = 0
-    	_ScreenHigherAmbient ("Screen Higher Ambient", Color) = (1,1,1,1)
-    	_ScreenLowerAmbient ("Screen Lower Ambient", Color) = (1,1,1,1)
-    	_ScreenOffset ("Screen Offset", Range(0, 1)) = 0
-    	_ScreenFactor ("Screen Factor", Range(0, 2)) = 0
-        
         _Transition ("Transition", Range (0,1)) = 0.5
         _Intensity ("Intensity", Range(0,1)) = 0.2
+        
+    	[Toggle(GRADIENT)] _Gradient ("Gradient", Float) = 0
     }
     SubShader
     {
@@ -59,13 +55,7 @@
         fixed4 _DarkColor;
         fixed4 _TransitionColor;
 
-        
-        #if defined(GRADIENT)
-        fixed4 _ScreenHigherAmbient;
-        fixed4 _ScreenLowerAmbient;
-        fixed _ScreenOffset;
-        fixed _ScreenFactor;
-        #endif
+        #include "../ambient_gradient.cginc"
 
         // Add instancing support for this shader. You need to check 'Enable Instancing' on materials that use the shader.
         // See https://docs.unity3d.com/Manual/GPUInstancing.html for more information about instancing.
@@ -95,12 +85,8 @@
             fixed4 albedo = tex2D(_Albedo, IN.uv_Albedo);
             fixed4 emission = tex2D(_Emission, IN.uv_Albedo);
             fixed intensity = ambient.a * _Intensity;
-            ambient = albedo * (1 - intensity) + ambient * intensity;
-            
-            #if defined(GRADIENT)
-            fixed3 screenAmbient = lerp(_ScreenLowerAmbient, _ScreenHigherAmbient, saturate((IN.screenPos.y + _ScreenOffset) * _ScreenFactor));
-            ambient.rgb *= screenAmbient;
-            #endif
+            ambient = lerp(albedo, ambient, intensity);
+            ambient = phos_gradient(IN.screenPos.y, ambient);
             
             // 输出结果
             o.Albedo = ambient.rgb;

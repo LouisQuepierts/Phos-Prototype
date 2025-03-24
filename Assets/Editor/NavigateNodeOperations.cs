@@ -17,7 +17,10 @@ namespace PhosEditor {
             // if connect succeed, return
             if (nodeA.TryConnect(nodeB)) return;
 
-            PathManager.TryGetInstance().Connect(nodeB, nodeA, Direction.Forward, Direction.Backward, false);
+            Vector3 delta = nodeA.transform.position - nodeB.transform.position;
+            Direction direction = nodeA.GetNearestDirection(-delta);
+            Direction opposite = nodeB.GetNearestDirection(delta);
+            PathManager.TryGetInstance().Connect(nodeB, nodeA, opposite, direction, false);
 
             Debug.Log("Connect Succeed");
         }

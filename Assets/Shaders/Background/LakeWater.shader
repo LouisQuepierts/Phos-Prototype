@@ -1,4 +1,4 @@
-﻿Shader "Phos/LakeWater"
+﻿Shader "Phos/Background/LakeWater"
 {
     Properties
     {
@@ -200,7 +200,7 @@
             	float4 view_pos = mul(UNITY_MATRIX_V, i.worldPos);
             	
             	float4 world_pos = depth_2_world_pos(view_pos.xy, calculate_depth(i.screenPos.xy));
-            	float height = saturate((i.worldPos.y - world_pos.y) * _DeepFactor);
+            	float height = smoothstep(0, 10 * _DeepFactor, i.worldPos.y - world_pos.y);;
             	
             	fixed lightDot = dot(worldNormal, worldLightDir);
 				fixed3 diffuse = lerp(_DarkerColor, _SurfaceColor, saturate(lightDot / 2 + 0.5));

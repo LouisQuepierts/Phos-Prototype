@@ -35,6 +35,7 @@ namespace Phos.Trigger {
         
         private void Awake() {
             _trigger = GetComponent<TriggerController>();
+            if (!target) target = transform;
         }
         
         private void OnEnable() {

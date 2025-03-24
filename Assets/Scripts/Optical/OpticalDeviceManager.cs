@@ -59,6 +59,10 @@ namespace Phos.Optical {
             }
         }
 
+        private void OnDestroy() {
+            _instance = null;
+        }
+
 #if UNITY_EDITOR
         private void Update() {
             if (!debug || Application.isPlaying) return;

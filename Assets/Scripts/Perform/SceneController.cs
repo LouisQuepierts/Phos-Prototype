@@ -1,19 +1,29 @@
 ﻿using System;
 using Phos.Navigate;
+using Phos.Utils;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Phos.Perform {
-    public class SceneController : MonoBehaviour {
+    public class SceneController : MonoBehaviour, IToggleable {
         public string sceneName;
+        public bool active = true;
         
         [Header("Prefabs")]
         public PlayerController player;
         public ClickHighlight clickHighlight;
         
         [Header("Checkpoints")]
-        public Checkpoint[] checkpoints;
+        public SpawnPoint[] checkpoints;
+        
+        [Header("Archives")]
+        public SceneArchive[] archives;
+        public int debugArchive = -1;
+
+        [Header("Scene Ambient")] 
+        public Material[] materials;
 
         public static SceneController Instance { get; private set; }
 
@@ -27,11 +37,19 @@ namespace Phos.Perform {
         private int _layerMask;
 
         // search in saves
-        private int _checkpoint = 0;
+        private int _progress = 0;
         
-        private void Start() {
+        private void OnEnable() {
             HandleMouseInput();
-            if (_checkpoint >= checkpoints.Length) {
+            _progress = PlayerPrefs.GetInt($"{sceneName}.progress", 0);
+
+            #if UNITY_EDITOR
+            if (debugArchive > -1 && debugArchive < checkpoints.Length) {
+                _progress = debugArchive;
+            }
+            #endif
+            
+            if (_progress >= checkpoints.Length) {
                 throw new Exception("No checkpoints found");
             }
 
@@ -42,7 +60,7 @@ namespace Phos.Perform {
                 throw new Exception("No player found");
             }
 
-            Player.Spawn(checkpoints[_checkpoint].GetPosition());
+            archives[_progress].LoadArchive(Player);
             
             var clickHighlightObj = PrefabUtility.InstantiatePrefab(clickHighlight.gameObject);
             _clickHighlight = clickHighlightObj.GetComponent<ClickHighlight>();
@@ -60,6 +78,8 @@ namespace Phos.Perform {
         }
         
         private void HandleMouseInput() {
+            if (!active) return;
+            
             if (Input.GetMouseButtonDown(0)) {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -71,6 +91,19 @@ namespace Phos.Perform {
                 _clickHighlight?.Click(node);
                 Player?.MoveTo(node);
             }
+        }
+
+        public void Toggle(bool enable) {
+            active = enable;
+        }
+
+        public void RecordArchive(int archiveID) {
+            if (archiveID >= archives.Length || archiveID < 0) {
+                Debug.LogWarning($"Invalid archive ID {archiveID}");
+                return;
+            }
+            _progress = archiveID;
+            PlayerPrefs.SetInt($"{sceneName}.progress", _progress);
         }
     }
 }

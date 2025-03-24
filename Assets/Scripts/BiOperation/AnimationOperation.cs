@@ -4,18 +4,21 @@ using UnityEngine;
 namespace BiOperation {
     public class AnimationOperation : BaseBiOperation {
         public new Animation animation;
+        public AnimationClip clip;
 
         private string _name;
         private AnimationState _state;
 
         private void OnEnable() {
-            if (animation.clip == null) {
+            AnimationClip ac = clip ?? animation.clip;
+            if (clip == null) {
                 enabled = false;
                 return;
             }
 
+            animation.clip = ac;
             animation.playAutomatically = false;
-            _name = animation.clip.name;
+            _name = ac.name;
             _state = animation[_name];
         }
 

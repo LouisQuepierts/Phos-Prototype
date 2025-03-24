@@ -1,4 +1,4 @@
-﻿Shader "Phos/OceanWater"
+﻿Shader "Phos/Background/OceanWater"
 {
     // Waves from https://blog.csdn.net/u012740992/article/details/104181969
     Properties

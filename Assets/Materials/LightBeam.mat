@@ -18,7 +18,7 @@ Material:
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
+  m_CustomRenderQueue: 3100
   stringTagMap:
     RenderType: Transparent
   disabledShaderPasses: []
@@ -98,7 +98,7 @@ Material:
     - _ZWrite: 0
     m_Colors:
     - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}
-    - _Color: {r: 1, g: 0.9882212, b: 0.81509435, a: 0.49019608}
+    - _Color: {r: 1, g: 0.9882212, b: 0.81509435, a: 0.39607844}
     - _ColorAddSubDiff: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0.8113208, g: 0.78933305, b: 0.5694553, a: 1}
     - _SoftParticleFadeParams: {r: 0, g: 0, b: 0, a: 0}

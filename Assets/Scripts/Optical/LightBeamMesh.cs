@@ -24,6 +24,14 @@ namespace Phos.Optical {
             GetComponent<MeshRenderer>().material = material;
         }
 
+        public void Reset() {
+            _vertices.Clear();
+            _triangles.Clear();
+            _uvs.Clear();
+            _colors.Clear();
+            _mesh.Clear();
+        }
+
         public void UpdatePath(List<LightPath> paths) {
             GenerateMesh(paths);
             UpdateMesh();

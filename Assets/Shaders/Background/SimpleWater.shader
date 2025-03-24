@@ -1,15 +1,16 @@
-﻿Shader "Phos/SimpleWater"
+﻿Shader "Phos/Background/SimpleWater"
 {
     Properties
     {
     	_FoamNoiseTex ("Foam Noise Tex", 2D) = "white" {}
     	_SurfaceColor ("Surface Color", Color) = (1,1,1,1)
     	_DeepColor ("Deep Color", Color) = (1,1,1,1)
-    	_DeepAmplifier ("Deep Amplifier", Range(0, 1)) = 0.5
+	    
+    	[Toggle(GRADIENT)] _ToggleGradient ("Toggle Gradient", Float) = 0
     	
     	_ScreenHigherAmbient ("Screen Higher Ambient", Color) = (1,1,1,1)
     	_ScreenLowerAmbient ("Screen Lower Ambient", Color) = (1,1,1,1)
-    	_ScreenOffset ("Screen Offset", Range(0, 1)) = 0
+    	_ScreenOffset ("Screen Offset", Range(-1, 1)) = 0
     	
     	_FoamColor ("Foam Color", Color) = (1,1,1,1)
     	_FoamWidth ("Foam Width", Range(0, 1)) = 0.3
@@ -35,6 +36,7 @@
             #pragma fragment frag
             // make fog work
             #pragma multi_compile_fog
+            #pragma shader_feature GRADIENT
 
             #include "UnityCG.cginc"
             #include "Lighting.cginc"
@@ -77,11 +79,12 @@
 
             fixed4 _SurfaceColor;
             fixed4 _DeepColor;
-            float _DeepAmplifier;
 
+            #if defined(GRADIENT)
             fixed4 _ScreenHigherAmbient;
             fixed4 _ScreenLowerAmbient;
             fixed _ScreenOffset;
+            #endif
             
             fixed4 _FoamColor;
             float _FoamWidth;
@@ -149,17 +152,23 @@
 
             fixed4 frag(v2f i) : SV_Target
             {
-                fixed3 ambient = lerp(_ScreenLowerAmbient, _ScreenHigherAmbient, saturate(i.screenPos.y + _ScreenOffset));
-
+                
             	float4 view_pos = mul(UNITY_MATRIX_V, i.worldPos);
             	
             	float4 world_pos = depth_2_world_pos(view_pos.xy, calculate_depth(i.screenPos.xy));
-            	float height = saturate((i.worldPos.y - world_pos.y) * _DeepFactor);
+            	float height = smoothstep(0, 10 * _DeepFactor, i.worldPos.y - world_pos.y);
 
             	float foamNoise = tex2D(_FoamNoiseTex, world_pos.xz * _FoamNoiseScale + _Time.y * _FoamNoiseSpeed);
             	float foam = step(height + foamNoise * _FoamNoiseAmplifier, _FoamWidth);
 
-            	fixed3 color = ambient * lerp(_DeepColor, _SurfaceColor, height);
+            	fixed3 color = lerp(_DeepColor, _SurfaceColor, height);
+
+            	#if defined(GRADIENT)
+            	fixed3 ambient = lerp(_ScreenLowerAmbient, _ScreenHigherAmbient, saturate(i.screenPos.y + _ScreenOffset));
+            	color *= ambient;
+            	#endif
+            	
+            	
             	fixed3 surface = lerp(color, _FoamColor, foam);
             	// color = refract_height;
             	

@@ -356,16 +356,31 @@ namespace PhosEditor {
             Quaternion quaternion = Quaternion.Euler(35.264f, 45f, 0f);
 
             Camera camera = Camera.main;
-            if (camera != null) {
-                camera.transform.rotation = quaternion;
-                camera.orthographic = true;
-                camera.nearClipPlane = 0.3f;
-                camera.farClipPlane = 1000.0f;
-                camera.orthographicSize = 10f;
+            if (!camera) return;
+            camera.transform.rotation = quaternion;
+            camera.orthographic = true;
+            camera.nearClipPlane = 0.3f;
+            camera.farClipPlane = 1000.0f;
+            camera.orthographicSize = 10f;
 
-                if (!camera.GetComponent<MultiLayerCamera>())
-                    camera.AddComponent<MultiLayerCamera>();
-            }
+            if (!camera.GetComponent<MultiLayerCamera>())
+                camera.AddComponent<MultiLayerCamera>();
+        }
+        
+        [MenuItem("Tool/Editor Camera To Scene Camera")]
+        static void MoveEditorCamera() {
+            Quaternion quaternion = Quaternion.Euler(35.264f, 45f, 0f);
+
+            SceneView view = SceneView.lastActiveSceneView;
+            Camera camera = Camera.main;
+            
+            if (!view || !camera) return;
+
+            var cameraTransform = camera.transform;
+            view.pivot = cameraTransform.position;
+            view.rotation = cameraTransform.rotation;
+            view.orthographic = true;
+            view.size = camera.orthographicSize;
         }
 
         [MenuItem("Tool/Setup Editor Camera")]
