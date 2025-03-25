@@ -11,37 +11,38 @@ namespace Phos.UI {
         private bool _animating;
         
         public void Awake() {
-            _animation = InitAnimation();
+            if (clip)
+                _animation = InitAnimation();
         }
         
         public void Update() {
-            if (_animation.isPlaying || !_animating) return;
+            if (!clip || _animation.isPlaying || !_animating) return;
             _animating = false;
 
             if (!_show) {
-                enabled = false;
+                gameObject.SetActive(false);
             }
         }
 
         public void Toggle(bool enable) {
             if (_show == enable) return;
-            
-            _animation ??= InitAnimation();
-
-            _animating = false;
             _show = enable;
-                
-            var state = _animation[clip.name];
-            state.speed = _show ? 1f : -1f;
             
-            if (!_animation.isPlaying) {
-                state.time = _show ? 0f : clip.length;
-                _animation.Play(clip.name);
+            if (clip) {
+                _animation ??= InitAnimation();
+
+                _animating = false;
+                var state = _animation[clip.name];
+                state.speed = _show ? 1f : -1f;
+                
+                if (!_animation.isPlaying) {
+                    state.time = _show ? 0f : clip.length;
+                    _animation.Play(clip.name);
+                }
             }
 
-            Debug.Log("Toggle");
-            if (_show && !enable) {
-                enabled = true;
+            if (_show) {
+                gameObject.SetActive(true);
             }
             else {
                 _animating = true;

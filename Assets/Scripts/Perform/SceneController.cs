@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Phos.Navigate;
 using Phos.Utils;
 using Unity.VisualScripting;
@@ -25,6 +26,8 @@ namespace Phos.Perform {
         [Header("Scene Ambient")] 
         public Material[] materials;
 
+        public MultiLayerCamera sceneCamera;
+
         public static SceneController Instance { get; private set; }
 
         private const float MaxRaycastDistance = 64f;
@@ -33,13 +36,21 @@ namespace Phos.Perform {
         
         private ClickHighlight _clickHighlight;
         private NavigateNode _clickedNode;
+
+        private CameraPoint _cameraFollow;
         
         private int _layerMask;
 
         // search in saves
         private int _progress = 0;
         
-        private void OnEnable() {
+        private Queue<Action> _actions = new Queue<Action>();
+
+        public SceneController() {
+            Instance = this;
+        }
+        
+        private void Awake() {
             HandleMouseInput();
             _progress = PlayerPrefs.GetInt($"{sceneName}.progress", 0);
 
@@ -59,14 +70,20 @@ namespace Phos.Perform {
             if (!Player) {
                 throw new Exception("No player found");
             }
-
-            archives[_progress].LoadArchive(Player);
             
             var clickHighlightObj = PrefabUtility.InstantiatePrefab(clickHighlight.gameObject);
             _clickHighlight = clickHighlightObj.GetComponent<ClickHighlight>();
 
-            Instance = this;
             _layerMask = 0 | 1 << LayerMask.NameToLayer("Node");
+        }
+
+        private void Start() {
+            LoadArchive();
+        }
+
+        private void LoadArchive() {
+            Debug.Log($"Loading archive {_progress}");
+            archives[_progress].LoadArchive(Player, sceneCamera);
         }
 
         private void OnDestroy() {
@@ -75,6 +92,13 @@ namespace Phos.Perform {
 
         private void Update() {
             HandleMouseInput();
+
+            if (_cameraFollow) {
+                sceneCamera.transform.position = _cameraFollow.transform.position;
+                
+                if (sceneCamera.size != _cameraFollow.size)
+                    sceneCamera.SetSize(_cameraFollow.size);
+            }
         }
         
         private void HandleMouseInput() {
@@ -93,6 +117,10 @@ namespace Phos.Perform {
             }
         }
 
+        public void CameraFollow(CameraPoint point) {
+            _cameraFollow = point;
+        }
+
         public void Toggle(bool enable) {
             active = enable;
         }
@@ -104,6 +132,23 @@ namespace Phos.Perform {
             }
             _progress = archiveID;
             PlayerPrefs.SetInt($"{sceneName}.progress", _progress);
+        }
+
+        public void AddAction(Action action) {
+            _actions.Enqueue(action);
+        }
+
+        public bool NextAction() {
+            if (_actions.Count == 0) {
+                return false;
+            }
+            
+            _actions.Dequeue().Invoke();
+            return true;
+        }
+
+        public void ClearActions() {
+            _actions.Clear();
         }
     }
 }

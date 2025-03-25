@@ -1,16 +1,27 @@
-﻿using Phos.Navigate;
+﻿using System;
+using Phos.Navigate;
+using Phos.Operation;
 using UnityEngine;
 
 namespace Phos.Perform {
     public class SpawnPoint : MonoBehaviour {
-        private BaseNode _node;
+        public GameObject operationGroup;
 
-        private void Awake() {
-            _node = GetComponent<BaseNode>();
+        public void Spawn(PlayerController player) {
+            player.Spawn(GetPosition());
+            BaseBiOperation[] operations = (operationGroup ? operationGroup : gameObject).GetComponents<BaseBiOperation>();
+            foreach (var operation in operations) {
+                operation.Execute(true);
+            }
         }
 
-        public Vector3 GetPosition() {
-            return _node ? _node.GetNodePosition() : transform.position;
+        private Vector3 GetPosition() {
+            if (TryGetComponent(out NavigateNode node)) {
+                Debug.Log($"SpawnPoint: {node}");
+                return node.GetNodePosition();
+            }
+
+            return transform.position;
         }
     }
 }

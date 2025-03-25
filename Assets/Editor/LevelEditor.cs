@@ -1,9 +1,12 @@
 using Phos.Navigate;
 using System;
 using Phos.Perform;
+using Phos.UI;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using Object = UnityEngine.Object;
 
 namespace PhosEditor {
@@ -349,6 +352,36 @@ namespace PhosEditor {
             
             if (!Object.FindFirstObjectByType(typeof(PathManager)))
                 ctrl.AddComponent<PathManager>();
+            
+            if (!Object.FindFirstObjectByType(typeof(MenuManager)))
+                ctrl.AddComponent<MenuManager>();
+            
+            // setup canvas
+            if (!Object.FindFirstObjectByType(typeof(Canvas))) {
+                var canvas = new GameObject("Canvas");
+                var cCanvas = canvas.AddComponent<Canvas>();
+                cCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
+                var scaler = canvas.AddComponent<CanvasScaler>();
+                scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+                canvas.AddComponent<GraphicRaycaster>();
+                canvas.layer = LayerMask.NameToLayer("UI");
+                
+                var eventsystem = new GameObject("EventSystem");
+                eventsystem.AddComponent<EventSystem>();
+                eventsystem.AddComponent<StandaloneInputModule>();
+
+                var overlay = new GameObject("MenuOverlay");
+                var transform = overlay.AddComponent<RectTransform>();
+                transform.SetParent(canvas.transform);
+                transform.offsetMin = Vector2.zero;
+                transform.offsetMax = Vector2.zero;
+                transform.localPosition = Vector3.zero;
+                transform.anchorMin = new Vector2(0.0f, 0.0f);
+                transform.anchorMax = new Vector2(1.0f, 1.0f);
+                transform.pivot = new Vector2(0.5f, 0.5f);
+                overlay.tag = "MenuOverlay";
+                overlay.layer = LayerMask.NameToLayer("UI");
+            }
         }
 
         [MenuItem("Tool/Setup Camera")]

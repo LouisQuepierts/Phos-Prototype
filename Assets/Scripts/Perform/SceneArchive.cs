@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Phos.Interact;
+using Phos.Navigate;
 using UnityEngine;
 
 namespace Phos.Perform {
@@ -10,8 +11,12 @@ namespace Phos.Perform {
         
         public List<GameObjectStatus> gameObjectStatus;
         public List<InteractionControlStatus> interactionControlStatus;
+        public List<NavigatePathStatus> navigatePathStatus;
 
-        public void LoadArchive(PlayerController player) {
+        private bool _loaded = false;
+        private PlayerController _player;
+
+        public void LoadArchive(PlayerController player, MultiLayerCamera camera) {
             foreach (var status in gameObjectStatus) {
                 status.Load();
             }
@@ -19,12 +24,18 @@ namespace Phos.Perform {
                 status.Load();
             }
             
-            player.Spawn(spawnPoint.GetPosition());
-            var camera = Camera.main;
+            spawnPoint.Spawn(player);
             if (camera) {
                 camera.transform.position = cameraPoint.transform.position;
                 camera.transform.rotation = cameraPoint.transform.rotation;
-                camera.orthographicSize = cameraPoint.size;
+                camera.SetSize(cameraPoint.size);
+            }
+        }
+
+        private void Update() {
+            if (_loaded) {
+                
+                _loaded = false;
             }
         }
     }
@@ -35,12 +46,6 @@ namespace Phos.Perform {
         public bool enable;
         public Vector3 position;
         public Quaternion rotation;
-        
-        public void Save() {
-            enable = gameObject.activeSelf;
-            position = gameObject.transform.position;
-            rotation = gameObject.transform.rotation;
-        }
         
         public void Load() {
             gameObject.SetActive(enable);
@@ -55,14 +60,25 @@ namespace Phos.Perform {
         public bool active;
         public int segment;
         
-        public void Save() {
-            active = control.active;
-            segment = Mathf.RoundToInt(control.Segment);
-        }
-        
         public void Load() {
             control.active = active;
             control.SetSegment(segment);
+        }
+    }
+
+    [Serializable]
+    public class NavigatePathStatus {
+        public NavigateNode nodeA;
+        public NavigateNode nodeB;
+
+        public bool active;
+
+        public void Load() {
+            var path = nodeA.Paths[nodeB];
+
+            if (path != null) {
+                path.active = active;
+            }
         }
     }
 }

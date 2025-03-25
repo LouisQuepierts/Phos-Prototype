@@ -93,7 +93,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clip: {fileID: 7400000, guid: c8ae536f541c016429e025d508b8dc16, type: 2}
-  show: 0
+  _show: 0
 --- !u!111 &5404627705705776661
 Animation:
   m_ObjectHideFlags: 0
@@ -107,7 +107,7 @@ Animation:
   m_Animations:
   - {fileID: 7400000, guid: c8ae536f541c016429e025d508b8dc16, type: 2}
   m_WrapMode: 0
-  m_PlayAutomatically: 1
+  m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
 --- !u!114 &5469561421740537471
