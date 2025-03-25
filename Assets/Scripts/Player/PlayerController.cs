@@ -5,6 +5,8 @@ using UnityEngine;
 
 namespace Phos {
     public class PlayerController : MonoBehaviour {
+        public float speed = 0.05f;
+        
         public NavigateNode current;
 
         private NavigatePath _path = NavigatePath.Empty;
@@ -27,9 +29,20 @@ namespace Phos {
             }
         }
 
+        public void Stop() {
+            if (_path == NavigatePath.Empty) return;
+            _path.Free();
+            _path = NavigatePath.Empty;
+
+            Vector3 up = current.transform.up;
+            Vector3 forward = Vector3.ProjectOnPlane(transform.forward, up);
+            transform.position = current.GetNodePosition();
+            transform.rotation = Quaternion.LookRotation(forward, up);
+        }
+
         private void Awake() {
             _layerMask = 0 | 1 << LayerMask.NameToLayer("Node");
-            Debug.Log(Convert.ToString(_layerMask, 2).PadLeft(32, '0'));
+            // Debug.Log(Convert.ToString(_layerMask, 2).PadLeft(32, '0'));
         }
 
         private void FixedUpdate() {
@@ -53,6 +66,7 @@ namespace Phos {
             
             if (_path.Arrive(transform)) {
                 transform.position = _path.Destination().GetNodePosition();
+                current.OnArrive(transform);
                 _path.Free();
                 _path = NavigatePath.Empty;
                 return;

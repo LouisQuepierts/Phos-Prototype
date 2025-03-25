@@ -49,11 +49,14 @@
      <Compile Include="Assets\Editor\Inspectors\CurveHelperInspector.cs" />
      <Compile Include="Assets\Editor\Inspectors\InteractionControlInspector.cs" />
      <Compile Include="Assets\Editor\NavigateNodeContextMenu.cs" />
+     <Compile Include="Assets\Editor\PropertyDrawers\InteractionControlStatusPropertyDrawer.cs" />
      <Compile Include="Assets\Editor\Inspectors\NavigateNodeInspector.cs" />
      <Compile Include="Assets\Editor\LevelEditor.cs" />
      <Compile Include="Assets\Editor\TemplateCreator.cs" />
+     <Compile Include="Assets\Editor\PropertyDrawers\NavigatePathStatusPropertyDrawer.cs" />
      <Compile Include="Assets\Editor\LevelEditorWindow.cs" />
      <Compile Include="Assets\Editor\NavigateNodeOperations.cs" />
+     <Compile Include="Assets\Editor\PropertyDrawers\GameObjectStatusPropertyDrawer.cs" />
      <None Include="Assets\Editor\Templates\ScriptableObject.cs.txt" />
      <Folder Include="Assets\Editor\Templates" />
      <Folder Include="Assets\Editor\Prefabs" />
@@ -62,6 +65,7 @@
      <None Include="Assets\Editor\Templates\Predicate.cs.txt" />
      <Folder Include="Assets\Editor" />
      <None Include="Assets\Editor\Templates\MonoBehaviour.cs.txt" />
+     <Folder Include="Assets\Editor\PropertyDrawers" />
      <Folder Include="Assets\Editor\Inspectors" />
      <Reference Include="UnityEngine">
      <HintPath>D:\Program Files\Unity\Hub\Editor\2022.2.21f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>

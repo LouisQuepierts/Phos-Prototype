@@ -12,6 +12,10 @@ namespace Phos.UI {
 
         private GameObject _canvas;
         private Dictionary<string, MenuController> _menus;
+
+        public MenuManager() {
+            Instance = this;
+        }
         private void Awake() {
             _canvas = GameObject.FindWithTag("MenuOverlay");
             if (_canvas == null) {
@@ -27,22 +31,24 @@ namespace Phos.UI {
                 }
                 _menus.Add(entry.name, entry.menu);
             }
-            
-            Instance = this;
         }
 
-        public void ToggleMenu(string menuName, bool enable) {
+        private void OnDisable() {
+            Instance = null;
+        }
+
+        public void ToggleMenu(string menuName, bool enable, float speed) {
             if (!_menus.TryGetValue(menuName, out var menu)) return;
             
             if (PrefabUtility.IsPartOfPrefabAsset(menu)) {
                 Debug.Log($"Menu {menuName} is part of prefab, instantiating...");
                 var instance = PrefabUtility.InstantiatePrefab(menu.gameObject, _canvas.transform);
                 menu = instance.GetComponent<MenuController>();
-                menu.enabled = true;
+                menu.gameObject.SetActive(true);
                 _menus[menuName] = menu;
             }
                 
-            menu.Toggle(enable);
+            menu.Toggle(enable, speed);
         }
 
         [Serializable]

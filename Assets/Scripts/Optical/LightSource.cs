@@ -38,6 +38,14 @@ namespace Phos.Optical {
             UpdateLightPaths();
         }
 
+        protected override void OnDisable() {
+            base.OnDisable();
+            if (line) {
+                line.Reset();
+                DestroyImmediate(line.gameObject);
+            }
+        }
+
         private LightBeamMesh CreateLightBeam() {
             var obj = new GameObject("LightBeam");
             var mesh = obj.AddComponent<LightBeamMesh>();
@@ -74,7 +82,7 @@ namespace Phos.Optical {
         }
 
         private void OnDrawGizmos() {
-            if (!Manager.debug) return;
+            if (!Manager || !Manager.debug) return;
             
             if (!_updated) UpdateLightPaths();
             

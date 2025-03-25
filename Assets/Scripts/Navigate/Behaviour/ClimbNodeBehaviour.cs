@@ -23,6 +23,10 @@ namespace Phos.Navigate.Behaviour {
             throw new System.NotImplementedException();
         }
 
+        public Vector3 GetNodeNormal(Transform transform) {
+            throw new System.NotImplementedException();
+        }
+
         public Vector3 GetRelativeConnectPoint(Transform transform, Direction direction, float offset = 0) {
             throw new System.NotImplementedException();
         }

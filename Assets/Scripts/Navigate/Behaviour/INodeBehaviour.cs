@@ -8,6 +8,10 @@ namespace Phos.Navigate {
         Vector3 GetLocalOffset(float offset = 0.0f);
 
         Vector3 GetNodePoint(Transform transform, float offset = 0.0f);
+        
+        Vector3 GetNodeNormal(Transform transform) {
+            return transform.up;
+        }
 
         Vector3 GetRelativeConnectPoint(Transform transform, Direction direction, float offset = 0.0f);
 
@@ -21,7 +25,7 @@ namespace Phos.Navigate {
             if (magnitude < 1e-6) {
                 transform.position = target;
             } else {
-                float length = Mathf.Min(magnitude, operation.Speed);
+                float length = Mathf.Min(magnitude, controller.speed);
                 transform.position += delta * (length / magnitude);
             }
 
@@ -47,5 +51,5 @@ namespace Phos.Navigate {
         }
 
         IReadOnlyList<Direction> GetAvailableDirections();
-	}
+    }
 }

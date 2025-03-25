@@ -54,6 +54,8 @@ namespace Phos.Interact {
         private Animation _animation;
         private AnimationClip _clip;
 
+        private float _mouseScroll;
+
         public float Segment => _segment.Value;
 
         protected abstract bool Raycast(Ray ray, out float enter, bool update);
@@ -61,6 +63,8 @@ namespace Phos.Interact {
         protected abstract bool ShouldOvershoot();
 
         protected abstract void PerformDrag(Vector3 start, Vector3 current);
+
+        protected abstract void PerformScroll(float scrollY);
 
         protected abstract bool PerformAlign();
 
@@ -76,7 +80,7 @@ namespace Phos.Interact {
             _hovered = false;
 
             if (!_animation || !_animation.clip) return;
-            Debug.Log($"Toggle {enable}");
+            // Debug.Log($"Toggle {enable}");
             var clip = _animation.clip;
             var state = _animation[clip.name];
             state.speed = enable ? 1 : -1;
@@ -124,7 +128,23 @@ namespace Phos.Interact {
 
                 _start = current;
             }
+        }
 
+        private void MouseScroll() {
+            if (!_pressed) {
+                return;
+            }
+
+            var delta = Input.mouseScrollDelta.y;
+            _mouseScroll += delta * 2;
+
+            if (Mathf.Abs(_mouseScroll) < 1e-2f) {
+                _mouseScroll = 0f;
+                return;
+            }
+            
+            PerformScroll(_mouseScroll);
+            _mouseScroll *= 0.9f;
         }
 
         /// <summary>
@@ -141,6 +161,10 @@ namespace Phos.Interact {
             if (delta == 0) return;
             _aligning = true;
             MoveTo(Mathf.RoundToInt(_segment.Value) + delta);
+        }
+
+        public void SetSegment(int segment) {
+            MoveTo(segment);
         }
 
         private void InteractFinished() {
@@ -186,7 +210,7 @@ namespace Phos.Interact {
             controller.UpdateAccessable(player.current);
         }
 
-        public void AddHandle(DragHandle handle) {
+        private void AddHandle(DragHandle handle) {
             _handles.Add(handle);
             handle.Bind(this, _highlight);
         }
@@ -223,6 +247,7 @@ namespace Phos.Interact {
         }
 
         private void Update() {
+            MouseScroll();
             float highlightValue = (_hovered || _pressed) ? 1f : -1f;
             float value = _highlight.Value;
             _highlight.Value = Mathf.Clamp(value + highlightValue * Time.deltaTime * 5f, 0f, 1f);

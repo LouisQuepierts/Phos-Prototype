@@ -32,6 +32,10 @@ namespace Phos.Navigate.Behaviour {
             return transform.position + transform.up * (offset + 0.5f);
         }
 
+        public Vector3 GetNodeNormal(Transform transform) {
+            return transform.up;
+        }
+
         public Vector3 GetRelativeConnectPoint(Transform transform, Direction direction, float offset = 0) {
             float mul = (BaseNode.BLOCK_SCALE + offset);
             return direction switch {

@@ -104,24 +104,26 @@ namespace Phos.Navigate {
                 foreach (var path in m_nodePaths[current]) {
                     if (path.active && !visited.Contains(path.GetOther(current))) {
                         NavigateNode next = path.GetOther(current);
-                        queue.Enqueue(next);
                         visited.Add(next);
                         prev.Add(next, path);
 
-                        if (next == dst) {
-                            List<NodePath> result = new();
-                            current = dst;
+                        bool unarrive = next != dst;
+                        if (unarrive && next.type == NodeType.DOOR) continue;
+                        queue.Enqueue(next);
 
-                            while (current != src) {
-                                NodePath vpath = prev[current];
-                                result.Add(vpath);
-                                current = vpath.GetOther(current);
-                            }
+                        if (unarrive) continue;
+                        List<NodePath> result = new();
+                        current = dst;
 
-                            result.Reverse();
-                            naviPath = new NavigatePath(result, src, dst);
-                            return true;
+                        while (current != src) {
+                            NodePath vpath = prev[current];
+                            result.Add(vpath);
+                            current = vpath.GetOther(current);
                         }
+
+                        result.Reverse();
+                        naviPath = new NavigatePath(result, src, dst);
+                        return true;
                     }
                 }
             }

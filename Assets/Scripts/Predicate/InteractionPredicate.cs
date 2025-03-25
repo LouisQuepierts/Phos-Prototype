@@ -1,15 +1,14 @@
 ﻿using Phos.Interact;
 using Phos.Utils;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Phos.Predicate {
-    public class InteractionPredicate : BasePredicate {
+    public class InteractionPredicate : BaseComparePredicate {
         public BaseInteractionControl control;
-        public MathComparater comparater;
-        public float value;
-
-        public override bool Evaluate(bool source = false) {
-            return comparater.Compare(value, control.Segment);
+        
+        protected override float GetValue() {
+            return control.Segment;
         }
     }
 }

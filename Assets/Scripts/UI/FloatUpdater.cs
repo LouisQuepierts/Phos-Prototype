@@ -17,10 +17,9 @@ namespace Phos.UI {
         }
 
         private void Update() {
-            if (_value != value) {
-                _value = value;
-                material.SetFloat(uniform, value);
-            }
+            if (Mathf.Approximately(_value, value)) return;
+            _value = value;
+            material.SetFloat(uniform, value);
         }
     }
 }

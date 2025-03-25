@@ -1,49 +1,64 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
 namespace Phos.UI {
     public class MenuController : MonoBehaviour {
         public AnimationClip clip;
-        public bool _show;
+        public bool init;
+        public bool show;
+        private bool _show;
         
         private Animation _animation;
         private bool _animating;
         
         public void Awake() {
-            _animation = InitAnimation();
+            if (clip)
+                _animation = InitAnimation();
         }
-        
+
+        private void Start() {
+            if (init) {
+                Toggle(show, 1, false);
+            }
+        }
+
         public void Update() {
-            if (_animation.isPlaying || !_animating) return;
+            if (!clip || _animation.isPlaying || !_animating) return;
             _animating = false;
 
             if (!_show) {
-                enabled = false;
+                gameObject.SetActive(false);
             }
         }
 
-        public void Toggle(bool enable) {
+        public void Toggle(bool enable, float speed = 1, bool animate = true) {
             if (_show == enable) return;
-            
-            _animation ??= InitAnimation();
-
-            _animating = false;
             _show = enable;
-                
-            var state = _animation[clip.name];
-            state.speed = _show ? 1f : -1f;
             
-            if (!_animation.isPlaying) {
-                state.time = _show ? 0f : clip.length;
-                _animation.Play(clip.name);
+            if (clip) {
+                _animation ??= InitAnimation();
+
+                _animating = false;
+                var state = _animation[clip.name];
+                state.speed = (_show ? 1f : -1f) * speed;
+                if (animate) {
+                    state.time = _show ? 0f : clip.length;
+                }
+                else {
+                    state.time = _show ? clip.length : 0f;
+                }
+                
+                if (!_animation.IsPlaying(clip.name)) {
+                    _animation.Play(clip.name);
+                }
             }
 
-            Debug.Log("Toggle");
-            if (_show && !enable) {
-                enabled = true;
+            if (_show) {
+                gameObject.SetActive(true);
             }
-            else {
+            else if (clip && animate) {
                 _animating = true;
             }
         }

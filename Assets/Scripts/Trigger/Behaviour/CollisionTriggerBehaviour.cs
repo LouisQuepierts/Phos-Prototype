@@ -10,7 +10,6 @@ namespace Phos.Trigger {
         
         private void Start() {
             _trigger = GetComponent<TriggerController>();
-            Debug.Log("Try Register Listeners");
         }
 
         private void OnTriggerEnter(Collider other) {

@@ -50,6 +50,12 @@ namespace Phos.Interact {
             _displacement = Mathf.Clamp(displace, _minDisplacement, _maxDisplacement);
             transform.localPosition = _origin + _direction * _displacement;
         }
+        
+        protected override void PerformScroll(float scrollY) {
+            float displace = scrollY + _displacement;
+            _displacement = Mathf.Clamp(displace, _minDisplacement, _maxDisplacement);
+            transform.localPosition = _origin + _direction * _displacement;
+        }
 
         protected override bool PerformOvershoot() {
             float displace = Mathf.SmoothDamp(
