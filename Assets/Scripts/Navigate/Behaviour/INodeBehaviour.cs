@@ -25,7 +25,7 @@ namespace Phos.Navigate {
             if (magnitude < 1e-6) {
                 transform.position = target;
             } else {
-                float length = Mathf.Min(magnitude, operation.Speed);
+                float length = Mathf.Min(magnitude, controller.speed);
                 transform.position += delta * (length / magnitude);
             }
 

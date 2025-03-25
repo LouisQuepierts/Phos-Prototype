@@ -5,6 +5,8 @@ using UnityEngine;
 
 namespace Phos {
     public class PlayerController : MonoBehaviour {
+        public float speed = 0.05f;
+        
         public NavigateNode current;
 
         private NavigatePath _path = NavigatePath.Empty;

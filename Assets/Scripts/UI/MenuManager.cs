@@ -37,7 +37,7 @@ namespace Phos.UI {
             Instance = null;
         }
 
-        public void ToggleMenu(string menuName, bool enable) {
+        public void ToggleMenu(string menuName, bool enable, float speed) {
             if (!_menus.TryGetValue(menuName, out var menu)) return;
             
             if (PrefabUtility.IsPartOfPrefabAsset(menu)) {
@@ -48,7 +48,7 @@ namespace Phos.UI {
                 _menus[menuName] = menu;
             }
                 
-            menu.Toggle(enable);
+            menu.Toggle(enable, speed);
         }
 
         [Serializable]

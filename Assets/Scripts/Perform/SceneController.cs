@@ -77,11 +77,7 @@ namespace Phos.Perform {
             _layerMask = 0 | 1 << LayerMask.NameToLayer("Node");
         }
 
-        private void Start() {
-            LoadArchive();
-        }
-
-        private void LoadArchive() {
+        public void LoadArchive() {
             Debug.Log($"Loading archive {_progress}");
             archives[_progress].LoadArchive(Player, sceneCamera);
         }
